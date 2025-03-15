@@ -80,15 +80,18 @@
 
 ## 1.1. Знакомство со средой Node.JS, пакетным менеджером npm
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/TSfYVqi3wardhw)
 
-## 1.2. Знакомство с микрофреймворком Express
+**Можно почитать:**
 
-*Материалы находятся в разработке.*
+- Документация по командам npm: https://docs.npmjs.com/cli/v11/commands
+- Установка nvm на Linux/MacOS: https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
+- Установка nvm на Windows: https://github.com/coreybutler/nvm-windows?tab=readme-ov-file#installation--upgrades
+- Скачать node.js без nvm: https://nodejs.org/en
 
-## 1.3. Typescript: основы языка
+## 1.2. Typescript: основы языка
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/ZAwmFRq2blfXDA)
 
 **Можно почитать:**
 
@@ -96,16 +99,24 @@
 - Карманная книжка по TypeScript: https://www.typescriptlang.org/docs/handbook/intro.html
 - Статья по основам синтаксиса: https://nuancesprog.ru/p/14210/
 
+## 1.3. Знакомство с микрофреймворком Express
+
+[Презентация](https://disk.yandex.ru/i/NLR1xyl_c-zh8w)
+
+**Можно почитать:**
+
+- Официальная документация: https://expressjs.com/en/starter/installing.html
+- Пример с эндпоинтами: https://github.com/kantegory/mentoring/tree/master/28_express_endpoints
+
 ## 1.4. Знакомство с TypeORM
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/Exa487aUBTdsIQ)
 
 **Можно почитать:**
 
 - Документация typeorm: https://typeorm.io/
-- Документация expressjs: https://expressjs.com/en/starter/installing.html
+- Пример реализации приложения на Express + TypeORM: https://orkhan.gitbook.io/typeorm/docs/example-with-express
 - Документация jsonwebtoken: https://github.com/auth0/node-jsonwebtoken#readme
-- Пример реализации приложения на express + typeorm: https://orkhan.gitbook.io/typeorm/docs/example-with-express
 
 ### ДЗ2: Работа с TypeORM
 
