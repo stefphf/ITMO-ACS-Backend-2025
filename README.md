@@ -146,7 +146,7 @@
 
 Необходимо сделать отчёт по [шаблону](https://docs.google.com/document/d/1aAUawxv6_5k_Na7bLqrfUFANodyl89uPHXY4IKXS8WE/edit?usp=sharing)
 
-Пример: *в данный момент дорабатывается*
+Пример: [express-typeorm-boilerplate](https://github.com/kantegory/express-typeorm-boilerplate)
 
 # 2. Тестирование, разработка и документирование RESTful API
 
