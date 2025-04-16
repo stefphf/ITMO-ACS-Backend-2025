@@ -2,8 +2,13 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true
-  }
+    "esModuleInterop": true,  // Включение интероперабельности между CommonJS и ES модулями
+    "skipLibCheck": true,     // Пропуск проверки типов в библиотеках
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,           // Включение строгой проверки типов
+    "outDir": "./dist"        // Папка для выходных файлов
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

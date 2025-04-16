@@ -1,12 +1,36 @@
-import express from "express";
-import cors from "cors";
-import userRoutes from "./routes/userRoutes";
+import express from 'express';
+import bodyParser from 'body-parser';
+import userRoutes from './routes/userRoutes';
+import resumeRoutes from './routes/resumeRoutes';
+import workExperienceRoutes from './routes/workExperienceRoutes';
+import skillRoutes from './routes/skillRoutes';
+import resumeSkillRoutes from './routes/resumeSkillRoutes';
+import educationRoutes from './routes/educationRoutes';
+import companyRoutes from './routes/companyRoutes';
+import vacancyRoutes from './routes/vacancyRoutes';
+import vacancySkillRoutes from './routes/vacancySkillRoutes';
+import applicationRoutes from './routes/applicationRoutes';
+import motivationLetterRoutes from './routes/motivationLetterRoutes';
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const port = 3000;
 
-app.use("/users", userRoutes);
+// Middleware для обработки JSON тела запроса
+app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+// Подключение маршрутов
+app.use('/api', userRoutes);
+app.use('/api', resumeRoutes);
+app.use('/api', workExperienceRoutes);
+app.use('/api', skillRoutes);
+app.use('/api', resumeSkillRoutes);
+app.use('/api', educationRoutes);
+app.use('/api', companyRoutes);
+app.use('/api', vacancyRoutes);
+app.use('/api', vacancySkillRoutes);
+app.use('/api', applicationRoutes);
+app.use('/api', motivationLetterRoutes);
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});

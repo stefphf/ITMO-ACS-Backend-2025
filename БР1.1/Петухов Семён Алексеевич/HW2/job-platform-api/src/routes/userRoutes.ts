@@ -1,11 +1,14 @@
-import { Router } from "express";
-import { getUsers, getUserById, createUser, deleteUser } from "../controllers/userController";
+import express from 'express';
+import { createUser, getUsers, getUserById, updateUser, deleteUser, getUserByEmail  } from '../controllers/userController';
 
-const router = Router();
+const router = express.Router();
 
-router.get("/", getUsers);
-router.get("/:id", getUserById);
-router.post("/", createUser);
-router.delete("/:id", deleteUser);
+// Роуты для пользователей
+router.post('/users', createUser); // создание пользователя
+router.get('/users', getUsers); // получение всех пользователей
+router.get('/users/:id', getUserById); // получение пользователя по ID
+router.get('/users/email/search', getUserByEmail); // получение пользователя по email
+router.put('/users/:id', updateUser); // обновление пользователя
+router.delete('/users/:id', deleteUser); // удаление пользователя
 
 export default router;
