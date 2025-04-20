@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -11,13 +12,22 @@
   "description": "",
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "class-validator": "^0.14.1",
     "express": "^4.21.2",
-    "typeorm": "^0.3.22"
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.14.1",
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.22",
+    "typeorm-naming-strategies": "^4.1.0"
   }
 }
