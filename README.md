@@ -154,9 +154,13 @@
 
 [Презентация](https://disk.yandex.ru/i/MuL7VmFKmXSM9A)
 
+**Можно почитать:**
+
+- Сайт, посвящённый REST и RESTful: https://restfulapi.net/
+
 ### ЛР2: Реализация REST API на основе boilerplate
 
-**Срок:** *в данный момент не определён*
+**Срок:** 12.05.2025
 
 **Задание:**
 
@@ -166,11 +170,20 @@
 
 ## 2.2 Документирование API
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/-lpIh8uTMn7BPw)
+
+**Можно почитать:**
+
+- Документация tsoa: https://tsoa-community.github.io/docs/getting-started.html
+- Документация routing-controllers-openapi: https://github.com/epiphone/routing-controllers-openapi
+- Документация swagger-jsdoc: https://github.com/Surnet/swagger-jsdoc
+- Пример автодокументирования с tsoa: https://github.com/kantegory/mentoring/tree/master/30_express_swagger_tsoa_example
+- Пример автодокументирования с routing-controllers: https://github.com/kantegory/mentoring/tree/master/29_express_swagger_routing_controllers_example
+- Пример автодокументирования с swagger-jsdoc: https://github.com/kantegory/mentoring/tree/master/16_express_swagger_example
 
 ### ДЗ3: Документирование API средствами swagger и Postman
 
-**Срок:** *в данный момент не определён*
+**Срок:** 12.05.2025
 
 **Задание:**
 
