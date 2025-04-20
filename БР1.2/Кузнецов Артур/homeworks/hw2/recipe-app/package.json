@@ -5,12 +5,12 @@
   "main": "app.js",
   "scripts": {
     "dev": "tsx src/app.ts",
+    "build": "tsc",
     "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "Artur Kuznetsov",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.0",
