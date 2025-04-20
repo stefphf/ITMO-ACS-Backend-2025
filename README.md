@@ -152,7 +152,7 @@
 
 ## 2.1 REST, RESTful
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/MuL7VmFKmXSM9A)
 
 ### ЛР2: Реализация REST API на основе boilerplate
 
@@ -164,7 +164,7 @@
 
 Необходимо сделать отчёт по [шаблону](https://docs.google.com/document/d/1aAUawxv6_5k_Na7bLqrfUFANodyl89uPHXY4IKXS8WE/edit?usp=sharing)
 
-## 2.2 Тестирование, документация
+## 2.2 Документирование API
 
 *Материалы находятся в разработке.*
 
@@ -178,6 +178,8 @@
 - реализовать документацию API средствами Postman.
 
 Необходимо сделать отчёт по [шаблону](https://docs.google.com/document/d/1aAUawxv6_5k_Na7bLqrfUFANodyl89uPHXY4IKXS8WE/edit?usp=sharing)
+
+## 2.3 Тестирование API
 
 ### ДЗ4: Тестирование API средствами Postman
 
