@@ -180,6 +180,7 @@
 - Пример автодокументирования с tsoa: https://github.com/kantegory/mentoring/tree/master/30_express_swagger_tsoa_example
 - Пример автодокументирования с routing-controllers: https://github.com/kantegory/mentoring/tree/master/29_express_swagger_routing_controllers_example
 - Пример автодокументирования с swagger-jsdoc: https://github.com/kantegory/mentoring/tree/master/16_express_swagger_example
+- Пример документирования в Postman: https://github.com/kantegory/mentoring/tree/master/24_postman_example
 
 ### ДЗ3: Документирование API средствами swagger и Postman
 
