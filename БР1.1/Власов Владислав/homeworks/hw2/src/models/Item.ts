@@ -13,10 +13,10 @@ export class Item {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'varchar'})
     name: string
 
-    @Column()
+    @Column({type: 'text'})
     description: string
 
     @Column({
@@ -25,10 +25,10 @@ export class Item {
     })
     type: ItemType
 
-    @Column()
+    @Column({type: 'integer'})
     cost: number
 
-    @Column()
+    @Column({type: 'integer'})
     weight: number
 
     @ManyToMany(() => Effect)

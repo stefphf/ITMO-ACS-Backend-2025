@@ -30,13 +30,13 @@ export class Condition {
     })
     targetType: TargetType
 
-    @Column()
+    @Column({type: 'varchar'})
     parameter: string
 
-    @Column()
+    @Column({type: 'varchar'})
     operand: string
 
-    @Column()
+    @Column({type: 'varchar'})
     value: string
 
     @ManyToOne(() => Effect, effect => effect.conditions)

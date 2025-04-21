@@ -7,7 +7,7 @@ export class SkillToCharacter {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'integer'})
     value: number
 
     @ManyToOne(() => Skill)

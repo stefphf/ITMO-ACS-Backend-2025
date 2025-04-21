@@ -7,20 +7,21 @@ export class Effect {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'varchar'})
     name: string
 
-    @Column()
+    @Column({type: 'text'})
     description: string
 
-    @Column()
+    @Column({type: 'boolean'})
     isPassive: boolean
 
-    @Column()
+    @Column({type: 'boolean'})
     isTemp: boolean
 
     @Column({
-        default: 0
+        default: 0,
+        type: 'integer'
     })
     ActionTime: number
 

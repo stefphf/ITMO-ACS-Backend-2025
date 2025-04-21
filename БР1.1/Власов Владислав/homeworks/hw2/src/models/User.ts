@@ -12,14 +12,15 @@ export class User {
 
     @Column({
         unique: true,
+        type: 'varchar'
     })
     @IsEmail()
     email: string
 
-    @Column()
+    @Column({type: 'varchar'})
     name: string
 
-    @Column()
+    @Column({type: 'varchar'})
     password: string
 
     @CreateDateColumn()

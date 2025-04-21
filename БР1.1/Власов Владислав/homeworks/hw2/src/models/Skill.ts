@@ -14,7 +14,7 @@ export class Skill {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'varchar'})
     name: string
 
     @Column({

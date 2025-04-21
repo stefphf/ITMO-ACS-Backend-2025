@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm"
-import { Character } from "./Character";
 
 @Entity()
 export class CharacterDescription {
@@ -7,21 +6,21 @@ export class CharacterDescription {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'text'})
     background: string
 
-    @Column()
+    @Column({type: 'text'})
     description: string
 
-    @Column()
+    @Column({type: 'varchar'})
     gender: string
 
-    @Column()
+    @Column({type: 'varchar'})
     age: string
 
-    @Column()
+    @Column({type: 'integer'})
     height: number
 
-    @Column()
+    @Column({type: 'text'})
     notes: string
 }

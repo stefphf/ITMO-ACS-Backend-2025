@@ -28,88 +28,88 @@ export class Character {
     @CreateDateColumn()
     createDate: Date
 
-    @Column()
+    @Column({type: 'varchar'})
     name: string
 
-    @Column()
+    @Column({type: 'integer'})
     weight: number
 
     // Характеристики:
     
     // Ловкость
-    @Column()
+    @Column({type: 'integer'})
     agility: number
 
     // Смекалка
-    @Column()
+    @Column({type: 'integer'})
     smarts: number
     
     // Характер
-    @Column()
+    @Column({type: 'integer'})
     spirit: number
 
     // Сила
-    @Column()
+    @Column({type: 'integer'})
     strenght: number
 
     // Выносливость
-    @Column()
+    @Column({type: 'integer'})
     vigor: number
 
     // Саб статы:
 
     // Шаг
-    @Column()
+    @Column({type: 'integer'})
     pace: number
 
     // Кость бега
-    @Column()
+    @Column({type: 'integer'})
     run: number
 
     // Защита
-    @Column()
+    @Column({type: 'integer'})
     parry: number
 
     // Стойкость
-    @Column()
+    @Column({type: 'integer'})
     toughness: number
 
     // Броня
-    @Column()
+    @Column({type: 'integer'})
     armor: number
 
     // Хиты (обычно 3 или 1)
-    @Column()
+    @Column({type: 'integer'})
     hp: number
 
     // Раны
-    @Column()
+    @Column({type: 'integer'})
     wounds: number
 
     // Усталость
-    @Column()
+    @Column({type: 'integer'})
     fatigue: number
 
     // Состояния:
 
-    @Column()
+    @Column({type: 'boolean'})
     isShaken: boolean
 
-    @Column()
+    @Column({type: 'boolean'})
     isDead: boolean
 
     // Прочее
 
-    @Column()
+    @Column({type: 'integer'})
     maxWeight: number
 
-    @Column()
+    @Column({type: 'boolean'})
     isWildCard: boolean
 
-    @Column()
+    @Column({type: 'integer'})
     wildDice: number
 
-    @Column()
+    @Column({type: 'integer'})
     advance: number
 
     @Column({
@@ -121,7 +121,7 @@ export class Character {
 
     // Пользовательские настройки
 
-    @Column()
+    @Column({type: 'boolean'})
     isVisible: boolean
 
     // Арт пока не предусмотрен

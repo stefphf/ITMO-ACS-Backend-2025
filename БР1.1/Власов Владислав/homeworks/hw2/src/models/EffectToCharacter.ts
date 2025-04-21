@@ -7,7 +7,7 @@ export class EffectToCharacter {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'integer'})
     value: number
 
     @CreateDateColumn()

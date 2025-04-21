@@ -7,10 +7,10 @@ export class Race {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'varchar'})
     name: string
 
-    @Column()
+    @Column({type: 'text'})
     description: string
 
     @ManyToMany(() => Edge)

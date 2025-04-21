@@ -10,13 +10,13 @@ export class Roll {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: 'integer'})
     diceResult: number
 
-    @Column()
+    @Column({type: 'integer'})
     WildDiceResult: number
 
-    @Column()
+    @Column({type: 'varchar'})
     ability: string
 
     @ManyToOne(() => User, user => user.messages)
