@@ -33,10 +33,6 @@ const router = Router();
  */
 router.post("/login", login);
 router.post("/register", register);
-router.post(
-  "/change-password",
-  checkJwt,
-  changePassword
-);
+router.post("/change-password", checkJwt, changePassword);
 
 export default router;

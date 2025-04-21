@@ -1,12 +1,12 @@
 import express from "express";
-import routes from './routes';
+import routes from "./routes";
 import PostgresDataSource from "./orm/db";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
 const app = express();
 
-app.use('/', routes);
+app.use("/", routes);
 
 const swaggerDefinition = {
   openapi: "3.0.0",
