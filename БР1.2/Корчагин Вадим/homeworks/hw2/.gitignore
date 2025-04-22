@@ -19,7 +19,6 @@ build/
 .env.local
 
 # DB migrations & seeds (если не нужны в гите)
-src/migrations/
 src/seeds/
 
 # Swagger auto-generated file
