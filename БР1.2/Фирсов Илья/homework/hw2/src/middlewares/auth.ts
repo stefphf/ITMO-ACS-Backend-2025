@@ -14,14 +14,12 @@ export async function expressAuthentication(
 
     const auth = request.headers.authorization;
     if (!auth || !auth.startsWith('Bearer ')) {
-        // TSOA will send a 401 if this error has `.status=401`
         throw new Unauthorized('No Bearer token provided');
     }
 
     const token = auth.slice(7);
     try {
         const payload = jwt.verify(token, SETTINGS.JWT_SECRET_KEY) as JwtPayload;
-        // attach to request for controllers
         (request as any).user = payload;
         return payload;
     } catch {

@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import express, {
     Application,
     ErrorRequestHandler,
-    RequestHandler,
 } from 'express';
 import cors from 'cors';
 
@@ -11,7 +10,6 @@ import SETTINGS from './config/settings';
 import dataSource from './config/data-source';
 import { RegisterRoutes } from './routes';
 import { useSwagger } from './common/swagger';
-// import { authenticateJWT } from './middlewares/auth';
 
 export class App {
     public readonly app: Application;

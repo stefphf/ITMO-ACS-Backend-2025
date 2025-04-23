@@ -5,9 +5,6 @@ import SETTINGS from '../config/settings';
 import dataSource from '../config/data-source';
 import { User } from '../models/User';
 
-/**
- * Service responsible for user authentication: registration and login
- */
 export class AuthService {
     private readonly userRepo: Repository<User>;
 
@@ -15,9 +12,6 @@ export class AuthService {
         this.userRepo = dataSource.getRepository(User);
     }
 
-    /**
-     * Register a new user
-     */
     public async register(
         email: string,
         username: string,
@@ -40,9 +34,7 @@ export class AuthService {
         return this.userRepo.save(user);
     }
 
-    /**
-     * Validate credentials and issue a JWT
-     */
+
     public async login(
         email: string,
         password: string
