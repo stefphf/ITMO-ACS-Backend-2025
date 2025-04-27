@@ -14,7 +14,7 @@ export class ApiError extends Error{
     }
 
     static forbidden(message?: string) {
-        return new ApiError(401, message || 'dfs')
+        return new ApiError(401, message ?? errorMessages.forbidden)
     }
 
     static internal(message?: string) {

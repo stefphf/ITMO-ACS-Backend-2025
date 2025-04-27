@@ -1,17 +1,17 @@
 import {User} from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import 'dotenv/config'
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {RequestHandler} from "express";
 import {dataSource} from "../config/dataSource";
+import {SETTINGS} from "../config/settings";
 
 const userRepo = dataSource.getRepository(User);
 
 const generateAccessToken = (id: number, email: string) => {
     const payload = { id, email }
-    return jwt.sign(payload, process.env.SECRET_KEY ?? '123', {expiresIn: "30d"} )
+    return jwt.sign(payload, SETTINGS.JWT_SECRET_KEY, {expiresIn: "30d"} )
 }
 
 class AuthController {
