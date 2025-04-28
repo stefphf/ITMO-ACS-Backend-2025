@@ -1,7 +1,7 @@
 import { User } from "../models/UserModel"
 import { CreateUserDto, LoginDto, ResponseUserDto } from "../dtos/UserDtos";
 import { UserMapper } from "../mappers/UserMapper";
-import { Repository } from "typeorm";
+import { Repository, FindManyOptions } from "typeorm";
 import { NotFoundError } from "../errors/NotFoundError"
 import { CreationError } from "../errors/CreationError"
 import { UserAlreadyExistsError } from "../errors/UserAlreadyExistsError";
@@ -11,6 +11,8 @@ import { BaseService } from "./BaseService";
 export interface IUserService {
     register(registerInfo: CreateUserDto): Promise<ResponseUserDto>;
     login(loginInfo: LoginDto): Promise<void>;
+    findAll(options?: FindManyOptions<User>): Promise<ResponseUserDto[]>
+    findById(id: number, relations: string[]): Promise<ResponseUserDto | null>
 }
 
 

@@ -11,6 +11,10 @@ export class ResponseRentDto {
     endDate?: Date
     rentingId!: number
     propertyId!: number
+
+    constructor(init?: Partial<ResponseRentDto>) {
+        Object.assign(this, init);
+    }
 }
 
 export class CreateRentDto {
@@ -24,7 +28,13 @@ export class CreateRentDto {
     propertyId!: number
 }
 
-export class ChangeRentStatusDto {
+export class ChangeRentDto {
     id!: number
-    status!: RentStatus
+    status?: RentStatus
+    price?: number
+    endDate?: Date
+
+    constructor(init?: Partial<ChangeRentDto>) {
+        Object.assign(this, init);
+    }
 }

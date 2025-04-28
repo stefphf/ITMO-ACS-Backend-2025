@@ -1,22 +1,14 @@
 import { Request, Response } from 'express';
-import { UserService } from '../services/UserService';
+import { IUserService } from '../services/UserService';
 import { BaseHandler, HttpCodes } from './BaseHandler';
 import { ResponseUserDto } from '../dtos/UserDtos';
-import { User } from '../models/UserModel';
 import { UserAlreadyExistsError } from '../errors/UserAlreadyExistsError';
-
-// export interface IUserHandler {
-//     getUserById(req: Request, res: Response)
-//     getUserList(req: Request, res: Response)
-//     createUser(req: Request, res: Response)
-//     updateUser(req: Request, res: Response)
-// }
 
 
 export class UserHandler extends BaseHandler {
-    private readonly service : UserService
+    private readonly service : IUserService
 
-    constructor(service : UserService) {
+    constructor(service : IUserService) {
         super()
         this.service = service
     }

@@ -6,7 +6,8 @@ export enum RentStatus {
     PAID = "paid",
     NOT_PAID = "not paid",
     IN_PROGRESS = "in progress",
-    FUTURE = "future"
+    FUTURE = "future",
+    UNDEFINED = "undefined"
 }
 
 @Entity()

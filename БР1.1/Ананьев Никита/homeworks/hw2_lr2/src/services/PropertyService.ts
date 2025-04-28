@@ -6,10 +6,13 @@ import { FindManyOptions } from "typeorm"
 import { NotFoundError } from "../errors/NotFoundError"
 import { BaseService } from "./BaseService"
 import { Repository } from "typeorm"
+import { CreationError } from "../errors/CreationError"
 
 
 export interface IPropertyService {
-    register(propertyData: CreatePropertyDto): Promise<void>
+    register(propertyData: CreatePropertyDto): Promise<ResponsePropertyDto>
+    findAll(options?: FindManyOptions<Property>): Promise<ResponsePropertyDto[]>
+    findById(id: number, relations: string[]): Promise<ResponsePropertyDto | null>
 }
 
 
@@ -22,12 +25,14 @@ export class PropertyService extends BaseService<Property, ResponsePropertyDto> 
         return PropertyMapper.toDto(model)
     }
 
-    async register(propertyData: CreatePropertyDto): Promise<void> {
-        const property: Property = PropertyMapper.toModel(propertyData)
+    async register(propertyData: CreatePropertyDto): Promise<ResponsePropertyDto> {
+        let property: Property = PropertyMapper.toModel(propertyData)
         try {
-            await this.repository.save(property)
+            property = await this.repository.save(property)
+            return this.toDto(property)
         } catch (error: any) {
             console.log(error)
+            throw new CreationError("Property creation failed")
         }
     }
 
