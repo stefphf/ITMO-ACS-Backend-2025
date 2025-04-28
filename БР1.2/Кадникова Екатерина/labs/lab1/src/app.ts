@@ -1,5 +1,4 @@
 import express from "express";
-import { AppDataSource } from "./data-source";
 import { logRequestMiddleware } from "./middlewares/logMiddleware";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 import { checkEnvVariables } from "./middlewares/envMiddleware";
