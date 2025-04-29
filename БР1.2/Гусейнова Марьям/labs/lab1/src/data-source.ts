@@ -1,6 +1,8 @@
+import { config } from "dotenv";
 import { DataSource } from "typeorm";
 import { User } from "./models/User";
 
+config();
 export const AppDataSource = new DataSource({
   type: process.env.DATABASE_TYPE as any,
   host: process.env.DATABASE_HOST,
@@ -8,7 +10,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  synchronize: false, // Для миграций
+  synchronize: true, // Для миграций надо поставить false
   logging: process.env.DATABASE_LOGGING === 'true' || false,
   entities: [User],
   migrations: [],
