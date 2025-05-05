@@ -6,14 +6,14 @@ import {
     updateUser,
     deleteUser
 } from "../controllers/userController";
-import { asyncHandler } from "../utils/asyncHandler";
+import { authenticateToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/", asyncHandler(getAllUsers));
-router.get("/find", asyncHandler(getUserByUsernameOrEmail)); // через query ?username=... или ?email=...
-router.get("/:id", asyncHandler(getUserById));
-router.put("/:id", asyncHandler(updateUser));
-router.delete("/:id", asyncHandler(deleteUser));
+router.get("/", getAllUsers);
+router.get("/find", getUserByUsernameOrEmail);
+router.get("/:id", getUserById);
+router.put("/:id", authenticateToken, updateUser);
+router.delete("/:id", authenticateToken, deleteUser);
 
 export default router;

@@ -1,20 +1,16 @@
-import express from "express";
-import { AppDataSource } from "./data-source";
-import userRouter from "./routes/userRoutes";
-import * as dotenv from "dotenv";
+import "dotenv-safe/config";
 
+import * as dotenv from "dotenv";
 dotenv.config();
 
-const app = express();
-const port = process.env.PORT || 3000;
+import { AppDataSource } from "./data-source";
+import app from "./app";
 
-app.use(express.json());
+const port = process.env.PORT || 3000;
 
 AppDataSource.initialize()
     .then(() => {
         console.log("Data Source has been initialized!");
-
-        app.use("/api/users", userRouter);
 
         app.listen(port, () => {
             console.log(`Server running on port ${port}`);
