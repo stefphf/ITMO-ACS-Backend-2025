@@ -64,7 +64,7 @@ export class ApplicationController {
 
   @Delete(':id')
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Удалить заявку' }) // Описание операции
+  @ApiOperation({ summary: 'Удалить заявку' })
   @ApiResponse({ status: 200, description: 'Заявка успешно удалена' })
   @ApiResponse({ status: 404, description: 'Заявка не найдена' })
   @ApiParam({ name: 'id', type: 'number', description: 'ID заявки' })
