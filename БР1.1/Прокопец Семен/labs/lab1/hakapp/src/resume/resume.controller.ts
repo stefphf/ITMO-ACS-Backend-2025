@@ -16,24 +16,24 @@ import { ResumeService } from './resume.service';
 import { ParseIntPipe } from '../conception/pipe';
 import { CreateResumesDto, TUpdateResumesDto } from './resume.dto';
 
-@ApiTags('Resumes') // Группировка маршрутов по тегу "Resumes"
+@ApiTags('Resumes')
 @Controller('resumes')
 export class ResumeController {
   constructor(private readonly resumesService: ResumeService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Получить все резюме' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Список резюме успешно получен' }) // Описание успешного ответа
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Получить все резюме' })
+  @ApiResponse({ status: 200, description: 'Список резюме успешно получен' })
+  @ApiBearerAuth()
   findAll() {
     return this.resumesService.resumeFindAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Получить резюме по ID' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Резюме успешно получено' }) // Описание успешного ответа
-  @ApiResponse({ status: 404, description: 'Резюме не найдено' }) // Описание ошибки
-  @ApiParam({ name: 'id', type: 'number', description: 'ID резюме' }) // Описание параметра пути
+  @ApiOperation({ summary: 'Получить резюме по ID' })
+  @ApiResponse({ status: 200, description: 'Резюме успешно получено' })
+  @ApiResponse({ status: 404, description: 'Резюме не найдено' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID резюме' })
   getResume(@Param('id', ParseIntPipe) id: number) {
     return this.resumesService.resumeGetById(id);
   }
@@ -41,23 +41,23 @@ export class ResumeController {
   @Post()
   @UsePipes(new ValidationPipe())
 
-  @ApiOperation({ summary: 'Создать новое резюме' }) // Описание операции
-  @ApiResponse({ status: 201, description: 'Резюме успешно создано' }) // Описание успешного ответа
-  @ApiResponse({ status: 400, description: 'Неверные данные' }) // Описание ошибки
-  @ApiBody({ type: CreateResumesDto }) // Описание тела запроса
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Создать новое резюме' })
+  @ApiResponse({ status: 201, description: 'Резюме успешно создано' })
+  @ApiResponse({ status: 400, description: 'Неверные данные' })
+  @ApiBody({ type: CreateResumesDto })
+  @ApiBearerAuth()
   create(@Body() dto: CreateResumesDto) {
     return this.resumesService.resumeCreate(dto);
   }
 
   @Put(':id')
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Обновить резюме' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Резюме успешно обновлено' }) // Описание успешного ответа
-  @ApiResponse({ status: 400, description: 'Неверные данные' }) // Описание ошибки
-  @ApiResponse({ status: 404, description: 'Резюме не найдено' }) // Описание ошибки
-  @ApiParam({ name: 'id', type: 'number', description: 'ID резюме' }) // Описание параметра пути
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Обновить резюме' })
+  @ApiResponse({ status: 200, description: 'Резюме успешно обновлено' })
+  @ApiResponse({ status: 400, description: 'Неверные данные' })
+  @ApiResponse({ status: 404, description: 'Резюме не найдено' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID резюме' })
+  @ApiBearerAuth()
   update(
       @Param('id', ParseIntPipe) id: number,
       @Body() dto: TUpdateResumesDto,
@@ -67,11 +67,11 @@ export class ResumeController {
 
   @Delete(':id')
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Удалить резюме' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Резюме успешно удалено' }) // Описание успешного ответа
-  @ApiResponse({ status: 404, description: 'Резюме не найдено' }) // Описание ошибки
-  @ApiParam({ name: 'id', type: 'number', description: 'ID резюме' }) // Описание параметра пути
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Удалить резюме' })
+  @ApiResponse({ status: 200, description: 'Резюме успешно удалено' })
+  @ApiResponse({ status: 404, description: 'Резюме не найдено' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID резюме' })
+  @ApiBearerAuth()
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.resumesService.resumeDelete(id);
   }

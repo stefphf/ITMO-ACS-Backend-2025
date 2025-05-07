@@ -16,47 +16,47 @@ import { VacancyService } from './vacancy.service';
 import { ParseIntPipe } from '../conception/pipe';
 import { CreateVacancysDto, TUpdateVacancysDto } from './vacancy.dto';
 
-@ApiTags('Vacancies') // Группировка маршрутов по тегу "Vacancies"
+@ApiTags('Vacancies')
 @Controller('vacancys')
 export class VacancyController {
   constructor(private readonly vacancysService: VacancyService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Получить все вакансии' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Список вакансий успешно получен' }) // Описание успешного ответа
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Получить все вакансии' })
+  @ApiResponse({ status: 200, description: 'Список вакансий успешно получен' })
+  @ApiBearerAuth()
   findAll() {
     return this.vacancysService.vacancyFindAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Получить вакансию по ID' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Вакансия успешно получена' }) // Описание успешного ответа
-  @ApiResponse({ status: 404, description: 'Вакансия не найдена' }) // Описание ошибки
-  @ApiParam({ name: 'id', type: 'number', description: 'ID вакансии' }) // Описание параметра пути
+  @ApiOperation({ summary: 'Получить вакансию по ID' })
+  @ApiResponse({ status: 200, description: 'Вакансия успешно получена' })
+  @ApiResponse({ status: 404, description: 'Вакансия не найдена' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID вакансии' })
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.vacancysService.vacancyGetById(id);
   }
 
   @Post()
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Создать новую вакансию' }) // Описание операции
-  @ApiResponse({ status: 201, description: 'Вакансия успешно создана' }) // Описание успешного ответа
-  @ApiResponse({ status: 400, description: 'Неверные данные' }) // Описание ошибки
-  @ApiBody({ type: CreateVacancysDto }) // Описание тела запроса
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Создать новую вакансию' })
+  @ApiResponse({ status: 201, description: 'Вакансия успешно создана' })
+  @ApiResponse({ status: 400, description: 'Неверные данные' })
+  @ApiBody({ type: CreateVacancysDto })
+  @ApiBearerAuth()
   create(@Body() dto: CreateVacancysDto) {
     return this.vacancysService.vacancyCreate(dto);
   }
 
   @Put(':id')
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Обновить вакансию' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Вакансия успешно обновлена' }) // Описание успешного ответа
-  @ApiResponse({ status: 400, description: 'Неверные данные' }) // Описание ошибки
-  @ApiResponse({ status: 404, description: 'Вакансия не найдена' }) // Описание ошибки
-  @ApiParam({ name: 'id', type: 'number', description: 'ID вакансии' }) // Описание параметра пути
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Обновить вакансию' })
+  @ApiResponse({ status: 200, description: 'Вакансия успешно обновлена' })
+  @ApiResponse({ status: 400, description: 'Неверные данные' })
+  @ApiResponse({ status: 404, description: 'Вакансия не найдена' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID вакансии' })
+  @ApiBearerAuth()
   update(
       @Param('id', ParseIntPipe) id: number,
       @Body() dto: TUpdateVacancysDto,
@@ -66,11 +66,11 @@ export class VacancyController {
 
   @Delete(':id')
   @UsePipes(new ValidationPipe())
-  @ApiOperation({ summary: 'Удалить вакансию' }) // Описание операции
-  @ApiResponse({ status: 200, description: 'Вакансия успешно удалена' }) // Описание успешного ответа
-  @ApiResponse({ status: 404, description: 'Вакансия не найдена' }) // Описание ошибки
-  @ApiParam({ name: 'id', type: 'number', description: 'ID вакансии' }) // Описание параметра пути
-  @ApiBearerAuth() // Указываем, что маршрут требует JWT
+  @ApiOperation({ summary: 'Удалить вакансию' })
+  @ApiResponse({ status: 200, description: 'Вакансия успешно удалена' })
+  @ApiResponse({ status: 404, description: 'Вакансия не найдена' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID вакансии' })
+  @ApiBearerAuth()
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.vacancysService.userDelete(id);
   }

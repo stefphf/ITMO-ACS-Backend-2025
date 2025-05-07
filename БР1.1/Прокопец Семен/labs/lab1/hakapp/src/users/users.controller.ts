@@ -18,7 +18,7 @@ import { CreateUsersDto, TUpdateUsersDto } from './users.dto';
 import {LoginDto} from "./login.dto";
 
 
-@ApiTags('Users') // Группировка маршрутов по тегу "Users"
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
