@@ -1,39 +1,40 @@
 import "reflect-metadata";
-import express, { Request, Response } from "express";
-import { AppDataSource } from "./AppDataSource"
-import postRouter from "./routers/PostRouter";
-import progressRouter from "./routers/ProgressRouter";
-import trainingPlanRouter from "./routers/TrainingPlanRouter";
-import userDetaisRouter from "./routers/UserDetailsRouter";
-import userRouter from "./routers/UserRouter";
-import workoutRouter from "./routers/WorkoutRouter";
+import { createExpressServer } from "routing-controllers";
+import { AppDataSource } from "./AppDataSource";
+import dotenv from "dotenv";
 
-const app = express();
-const PORT = 3000;
+dotenv.config();
 
-const handler = (request: Request, response: Response) => {
-  response.status(200).send({
-      message: "Hello, world!",
-  });
-};
+import { AuthController } from "./controllers/AuthController";
+import { PostController } from "./controllers/PostController";
+import { UserController } from "./controllers/UserController";
+import { WorkoutController } from "./controllers/WorkoutController";
+import { TrainingPlanController } from "./controllers/TrainingPlanController";
+import { ProgressController } from "./controllers/ProgressController";
+import { UserDetailsController } from "./controllers/UserDetailsController";
 
-app.use(express.json());
-app.get("/", handler);
-app.use("/posts", postRouter);
-app.use("/progresses", progressRouter);
-app.use("/training_plans", trainingPlanRouter);
-app.use("/userDetails", userDetaisRouter);
-app.use("/users", userRouter);
-app.use("/workouts", workoutRouter);
+const PORT = process.env.PORT || 3000;
 
+const app = createExpressServer({
+  controllers: [
+    AuthController,
+    PostController,
+    UserController,
+    WorkoutController,
+    TrainingPlanController,
+    ProgressController,
+    UserDetailsController,
+  ],
+  routePrefix: "/api",
+  cors: true,
+});
 
-AppDataSource
-.initialize()
-.then(() => {
+AppDataSource.initialize()
+  .then(() => {
     console.log("Database connected");
 
     app.listen(PORT, () => {
-        console.log("Server is running on port: " + PORT);
+      console.log(`Server is running on port ${PORT}`);
     });
-})
-.catch((error) => console.log(error));
+  })
+  .catch((error) => console.error("Database connection error:", error));

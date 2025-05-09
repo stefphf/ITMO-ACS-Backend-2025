@@ -1,64 +1,67 @@
-import { Request, Response } from "express";
+import {
+  JsonController,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpCode,
+  UseBefore
+} from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 import { Progress } from "../models/Progress";
 
 const progressRepo = AppDataSource.getRepository(Progress);
 
-export const createProgress = async (req: Request, res: Response) => {
-  try {
-    const progressData = req.body;
+@JsonController("/progresses")
+@UseBefore(AuthMiddleware)
+export class ProgressController {
+  @Post()
+  @HttpCode(201)
+  async create(@Body() progressData: any) {
     const progress = progressRepo.create(progressData);
-    const savedProgress = await progressRepo.save(progress);
-    res.status(201).json(savedProgress);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return await progressRepo.save(progress);
   }
-};
 
-export const getAllProgress = async (req: Request, res: Response) => {
-  try {
-    const progressList = await progressRepo.find();
-    res.json(progressList);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  @Get()
+  async getAll() {
+    return await progressRepo.find();
   }
-};
 
-export const getProgressById = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const progress = await progressRepo.findOne({ where: { id: req.params.id }, relations: ["user"] });
+  @Get("/:id")
+  async getOne(@Param("id") id: string) {
+    const progress = await progressRepo.findOne({
+      where: { id },
+      relations: ["user"],
+    });
+
     if (!progress) {
-      return res.status(404).json({ message: "Progress not found" });
-    }
-    res.json(progress);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const updateProgress = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const progress = await progressRepo.findOne({ where: { id: req.params.id } });
-    if (!progress) {
-      return res.status(404).json({ message: "Progress not found" });
+      return { status: 404, message: "Progress not found" };
     }
 
-    progressRepo.merge(progress, req.body);
-    const updatedProgress = await progressRepo.save(progress);
-    res.json(updatedProgress);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return progress;
   }
-};
 
-export const deleteProgress = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const result = await progressRepo.delete(req.params.id);
+  @Put("/:id")
+  async update(@Param("id") id: string, @Body() data: any) {
+    const progress = await progressRepo.findOne({ where: { id } });
+    if (!progress) {
+      return { status: 404, message: "Progress not found" };
+    }
+
+    progressRepo.merge(progress, data);
+    return await progressRepo.save(progress);
+  }
+
+  @Delete("/:id")
+  async delete(@Param("id") id: string) {
+    const result = await progressRepo.delete(id);
     if (result.affected === 0) {
-      return res.status(404).json({ message: "Progress not found" });
+      return { status: 404, message: "Progress not found" };
     }
-    res.json({ message: "Progress deleted successfully" });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+
+    return { message: "Progress deleted successfully" };
   }
-};
+}

@@ -1,86 +1,78 @@
-import { Request, Response } from "express";
+import {
+  JsonController,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  QueryParam,
+  NotFoundError,
+  UseBefore
+} from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
 import { User } from "../models/User";
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 
-const userRepo = AppDataSource.getRepository(User);
 
-export const createUser = async (req: Request, res: Response) => {
-  try {
-    const userData = req.body;
-    const user = userRepo.create(userData);
-    const savedUser = await userRepo.save(user);
-    res.status(201).json(savedUser);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+@JsonController("/users")
+@UseBefore(AuthMiddleware)
+export class UserController {
+  private userRepo = AppDataSource.getRepository(User);
+
+  @Post("/")
+  async createUser(@Body() userData: Partial<User>) {
+    const user = this.userRepo.create(userData);
+    return await this.userRepo.save(user);
   }
-};
 
-export const getAllUsers = async (req: Request, res: Response) => {
-  try {
-    const users = await userRepo.find();
-    res.json(users);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  @Get("/")
+  async getAllUsers() {
+    return await this.userRepo.find();
   }
-};
 
-export const getUserById = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const user = await userRepo.findOne({ where: { id: req.params.id } });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(user);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const updateUser = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const user = await userRepo.findOne({ where: { id: req.params.id } });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    userRepo.merge(user, req.body);
-    const updatedUser = await userRepo.save(user);
-    res.json(updatedUser);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const deleteUser = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const result = await userRepo.delete(req.params.id);
-    if (result.affected === 0) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json({ message: "User deleted successfully" });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const getUserByEmail = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { email } = req.query;
-
+  @Get("/by-email")
+  async getUserByEmail(@QueryParam("email") email: string) {
     if (!email) {
-      return res.status(400).json({ message: "Email is required" });
+      throw new NotFoundError("Email is required");
     }
 
-    const user = await userRepo.findOne({
-      where: { email: email as string }    
-    });
-
+    const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new NotFoundError("User not found");
     }
 
-    res.json(user);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return user;
   }
-};
+
+  @Get("/:id")
+  async getUserById(@Param("id") id: number) {
+    const user = await this.userRepo.findOne({ where: { id: id.toString() } });
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    return user;
+  }
+
+  @Put("/:id")
+  async updateUser(@Param("id") id: number, @Body() updateData: Partial<User>) {
+    const user = await this.userRepo.findOne({ where: { id: id.toString() } });
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    this.userRepo.merge(user, updateData);
+    return await this.userRepo.save(user);
+  }
+
+  @Delete("/:id")
+  async deleteUser(@Param("id") id: number) {
+    const result = await this.userRepo.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundError("User not found");
+    }
+
+    return { message: "User deleted successfully" };
+  }
+}
