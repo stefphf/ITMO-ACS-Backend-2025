@@ -12,10 +12,10 @@ import { authenticateToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 
+router.get("/my-discussions", authenticateToken, getUsersDiscussions);
 router.get("/", authenticateToken, getAllMessages);
 router.get("/:id", authenticateToken, getMessageById);
 router.post("/", authenticateToken, sendMessage);
-router.get("/my-discussions", authenticateToken, getUsersDiscussions);
 router.get("/property/:propertyId", authenticateToken, getPropertyMessages);
 router.put("/:id", authenticateToken, updateMessage);
 router.delete("/:id", authenticateToken, deleteMessage);

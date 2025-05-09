@@ -8,23 +8,20 @@ export const getAllProperties = async (req: Request, res: Response) => {
     try {
         const properties = await propertyService.getAllProperties();
         res.json(properties);
-    } catch {
-        res.status(500).json({ message: "Error fetching properties" });
+    } catch (err: unknown) {
+        const error = err as Error;
+        res.status(500).json({ message: error.message || "Error fetching properties" });
     }
 };
 
 export const getPropertyById = async (req: Request, res: Response) => {
-    const propertyId = Number(req.params.id);
-
     try {
-        const property = await propertyService.getPropertyById(propertyId);
-        if (!property) {
-            res.status(404).json({ message: "Property not found" });
-            return;
-        }
+        const property = await propertyService.getPropertyById(Number(req.params.id));
         res.json(property);
-    } catch {
-        res.status(500).json({ message: "Error fetching property" });
+    } catch (err: unknown) {
+        const error = err as Error;
+        const status = error.message === "Property not found" ? 404 : 500;
+        res.status(status).json({ message: error.message });
     }
 };
 
@@ -41,7 +38,8 @@ export const createProperty = async (req: Request, res: Response) => {
     try {
         const property = await propertyService.createProperty(dto, userId);
         res.status(201).json(property);
-    } catch (error: any) {
+    } catch (err: unknown) {
+        const error = err as Error;
         res.status(400).json({ message: error.message });
     }
 };
@@ -51,41 +49,46 @@ export const updateProperty = async (req: Request, res: Response) => {
     if (!dto) return;
 
     const userId = req.user?.id;
-    const roleRaw = req.user?.role;
-
-    if (!userId || !roleRaw || !Object.values(Role).includes(roleRaw as Role)) {
-        res.status(401).json({ message: "Unauthorized or invalid role" });
+    if (!userId) {
+        res.status(401).json({ message: "Unauthorized" });
         return;
     }
 
-    const role = roleRaw as Role;
-    const propertyId = Number(req.params.id);
-
     try {
-        const property = await propertyService.updateProperty(propertyId, dto, userId, role);
+        const property = await propertyService.updateProperty(
+            Number(req.params.id),
+            dto,
+            userId,
+            req.user?.role as Role
+        );
         res.json(property);
-    } catch (error: any) {
-        res.status(500).json({ message: error.message || "Error updating property" });
+    } catch (err: unknown) {
+        const error = err as Error;
+        const status = error.message === "Forbidden" ? 403 :
+            error.message === "Property not found" ? 404 : 500;
+        res.status(status).json({ message: error.message });
     }
 };
 
 export const deleteProperty = async (req: Request, res: Response) => {
     const userId = req.user?.id;
-    const roleRaw = req.user?.role;
-
-    if (!userId || !roleRaw || !Object.values(Role).includes(roleRaw as Role)) {
-        res.status(401).json({ message: "Unauthorized or invalid role" });
+    if (!userId) {
+        res.status(401).json({ message: "Unauthorized" });
         return;
     }
 
-    const role = roleRaw as Role;
-    const propertyId = Number(req.params.id);
-
     try {
-        const result = await propertyService.deleteProperty(propertyId, userId, role);
+        const result = await propertyService.deleteProperty(
+            Number(req.params.id),
+            userId,
+            req.user?.role as Role
+        );
         res.json(result);
-    } catch (error: any) {
-        res.status(500).json({ message: error.message || "Error deleting property" });
+    } catch (err: unknown) {
+        const error = err as Error;
+        const status = error.message === "Forbidden" ? 403 :
+            error.message === "Property not found" ? 404 : 500;
+        res.status(status).json({ message: error.message });
     }
 };
 
@@ -96,7 +99,8 @@ export const searchProperties = async (req: Request, res: Response) => {
     try {
         const properties = await propertyService.searchProperties(dto);
         res.json(properties);
-    } catch {
-        res.status(500).json({ message: "Error searching properties" });
+    } catch (err: unknown) {
+        const error = err as Error;
+        res.status(500).json({ message: error.message || "Error searching properties" });
     }
 };

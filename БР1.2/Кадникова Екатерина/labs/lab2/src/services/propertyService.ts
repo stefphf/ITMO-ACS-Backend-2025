@@ -17,16 +17,28 @@ class PropertyService {
             where: { id },
             relations: ["owner"]
         });
+        if (!property) {
+            throw new Error("Property not found");
+        }
         return property;
     }
 
     async createProperty(dto: CreatePropertyDto, userId: number) {
+        if (typeof dto.price !== 'number' || isNaN(dto.price)) {
+            throw new Error('Price must be a valid number');
+        }
+
         const owner = await userRepository.findOneBy({ id: userId });
         if (!owner) {
             throw new Error("User not found");
         }
 
-        const property = propertyRepository.create({ ...dto, owner });
+        const property = propertyRepository.create({
+            ...dto,
+            price: dto.price,
+            owner
+        });
+
         await propertyRepository.save(property);
 
         return propertyRepository.findOne({

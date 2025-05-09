@@ -17,11 +17,24 @@ class RentalService {
         });
     }
 
-    async getRentalById(id: number) {
-        return rentalRepository.findOne({
+    async getRentalById(id: number, userId?: number, isAdmin: boolean = false) {
+        const rental = await rentalRepository.findOne({
             where: { id },
-            relations: ['property', 'tenant', 'property.owner']
+            relations: ['tenant', 'property', 'property.owner']
         });
+
+        if (!rental) throw new Error("Rental not found");
+
+        if (userId) {
+            const isTenant = rental.tenant.id === userId;
+            const isOwner = rental.property.owner.id === userId;
+
+            if (!isTenant && !isOwner && !isAdmin) {
+                throw new Error("Forbidden");
+            }
+        }
+
+        return rental;
     }
 
     async getUserRentals(userId: number) {
@@ -32,31 +45,23 @@ class RentalService {
         });
     }
 
-    async createRental(createRentalDto: CreateRentalDto, userId: number) {
-        const { propertyId, started_at, ended_at } = createRentalDto;
-        const startDate = new Date(started_at);
-        const endDate = new Date(ended_at);
+    async createRental(dto: CreateRentalDto, userId: number) {
+        const startDate = new Date(dto.started_at);
+        const endDate = new Date(dto.ended_at);
 
         if (startDate >= endDate) {
             throw new Error("End date must be after start date");
         }
 
-        const [property, tenant] = await Promise.all([
-            propertyRepository.findOneBy({ id: propertyId }),
-            userRepository.findOneBy({ id: userId })
-        ]);
+        const property = await propertyRepository.findOneBy({ id: dto.propertyId });
+        const tenant = await userRepository.findOneBy({ id: userId });
 
-        if (!property) {
-            throw new Error("Property not found");
-        }
-
-        if (!tenant) {
-            throw new Error("User not found");
-        }
+        if (!property) throw new Error("Property not found");
+        if (!tenant) throw new Error("User not found");
 
         const conflictingRental = await rentalRepository
             .createQueryBuilder('rental')
-            .where('rental.propertyId = :propertyId', { propertyId })
+            .where('rental.propertyId = :propertyId', { propertyId: dto.propertyId })
             .andWhere('rental.status = :status', { status: RentalStatus.ACTIVE })
             .andWhere('(rental.started_at <= :ended AND rental.ended_at >= :started)', {
                 started: startDate,
@@ -77,70 +82,42 @@ class RentalService {
         });
 
         await rentalRepository.save(rental);
-        return rental;
+        return this.getRentalById(rental.id, userId);
     }
 
-    async updateRentalStatus(rentalId: number, status: RentalStatus, userId: number, isAdmin: boolean) {
-        const rental = await rentalRepository.findOne({
-            where: { id: rentalId },
-            relations: ['tenant', 'property', 'property.owner']
-        });
-
-        if (!rental) {
-            throw new Error("Rental not found");
+    async updateRentalStatus(rentalId: number, status: string, userId: number, isAdmin: boolean) {
+        if (!Object.values(RentalStatus).includes(status as RentalStatus)) {
+            throw new Error("Invalid status value");
         }
 
-        const isTenant = rental.tenant.id === userId;
-        const isOwner = rental.property.owner.id === userId;
+        const rental = await this.getRentalById(rentalId, userId, isAdmin);
+        rental.status = status as RentalStatus;
 
-        if (!isTenant && !isOwner && !isAdmin) {
-            throw new Error("Forbidden");
-        }
-
-        rental.status = status;
         await rentalRepository.save(rental);
-
         return rental;
     }
 
-    async updateRental(rentalId: number, updateRentalDto: UpdateRentalDto, userId: number, isAdmin: boolean) {
-        const rental = await rentalRepository.findOne({
-            where: { id: rentalId },
-            relations: ['tenant', 'property', 'property.owner']
-        });
+    async updateRental(rentalId: number, dto: UpdateRentalDto, userId: number, isAdmin: boolean) {
+        const rental = await this.getRentalById(rentalId, userId, isAdmin);
 
-        if (!rental) {
-            throw new Error("Rental not found");
-        }
-
-        const isTenant = rental.tenant.id === userId;
-        const isOwner = rental.property.owner.id === userId;
-
-        if (!isTenant && !isOwner && !isAdmin) {
-            throw new Error("Forbidden");
-        }
-
-        if (updateRentalDto.started_at) rental.started_at = new Date(updateRentalDto.started_at);
-        if (updateRentalDto.ended_at) rental.ended_at = new Date(updateRentalDto.ended_at);
-        if (updateRentalDto.status && Object.values(RentalStatus).includes(updateRentalDto.status)) {
-            rental.status = updateRentalDto.status;
-        }
+        if (dto.started_at) rental.started_at = new Date(dto.started_at);
+        if (dto.ended_at) rental.ended_at = new Date(dto.ended_at);
 
         if (rental.started_at >= rental.ended_at) {
-            throw new Error("End date must be after start date");
+            throw new Error("Invalid dates: End date must be after start date");
+        }
+
+        if (dto.status && Object.values(RentalStatus).includes(dto.status)) {
+            rental.status = dto.status;
         }
 
         await rentalRepository.save(rental);
-
         return rental;
     }
 
     async deleteRental(rentalId: number) {
         const rental = await rentalRepository.findOneBy({ id: rentalId });
-
-        if (!rental) {
-            throw new Error("Rental not found");
-        }
+        if (!rental) throw new Error("Rental not found");
 
         await rentalRepository.remove(rental);
     }

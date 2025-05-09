@@ -10,22 +10,27 @@ const propertyRepo = AppDataSource.getRepository(Property);
 const userRepo = AppDataSource.getRepository(User);
 
 class MessageService {
-    async getAllMessages() {
-        return await messageRepo.find({
+    async getAllMessages(userId?: number) {
+        if (!userId) throw new Error("Unauthorized");
+        const user = await userRepo.findOneBy({ id: userId });
+        if (!user || user.role !== Role.ADMIN) throw new Error("Forbidden");
+
+        return messageRepo.find({
             relations: ['sender', 'receiver', 'property'],
             order: { sent_at: 'DESC' }
         });
     }
 
-    async getMessageById(id: number, userId: number) {
+    async getMessageById(id: number, userId?: number) {
+        if (!userId) throw new Error("Unauthorized");
+
         const message = await messageRepo.findOne({
             where: { id },
             relations: ['sender', 'receiver', 'property']
         });
+        if (!message) throw new Error("Not found");
 
-        if (!message) return null;
-
-        const user = await userRepo.findOne({ where: { id: userId } });
+        const user = await userRepo.findOneBy({ id: userId });
         if (!user) throw new Error("User not found");
 
         const isParticipant = message.sender.id === userId || message.receiver.id === userId;
@@ -34,12 +39,12 @@ class MessageService {
         return message;
     }
 
-    async sendMessage(dto: SendMessageDto, senderId: number) {
-        const [property, receiver, sender] = await Promise.all([
-            propertyRepo.findOneBy({ id: dto.propertyId }),
-            userRepo.findOneBy({ id: dto.receiverId }),
-            userRepo.findOneBy({ id: senderId })
-        ]);
+    async sendMessage(dto: SendMessageDto, senderId?: number) {
+        if (!senderId) throw new Error("Unauthorized");
+
+        const property = await propertyRepo.findOneBy({ id: dto.propertyId });
+        const receiver = await userRepo.findOneBy({ id: dto.receiverId });
+        const sender = await userRepo.findOneBy({ id: senderId });
 
         if (!property || !receiver || !sender) {
             throw new Error("Missing required entities");
@@ -54,17 +59,12 @@ class MessageService {
         });
 
         await messageRepo.save(message);
-
-        return await messageRepo.findOne({
-            where: { id: message.id },
-            relations: ['sender', 'receiver', 'property']
-        });
+        return this.getMessageById(message.id, senderId);
     }
 
-    async getUserDiscussions(userId: number) {
-        if (isNaN(userId)) {
-            throw new Error("Invalid user ID");
-        }
+    async getUserDiscussions(userId?: number) {
+        if (!userId) throw new Error("Unauthorized");
+        if (isNaN(userId)) throw new Error("Invalid user ID");
 
         const messages = await messageRepo.find({
             where: [
@@ -101,7 +101,8 @@ class MessageService {
                     totalMessages: 1
                 });
             } else {
-                discussionsMap.get(key).totalMessages++;
+                const discussion = discussionsMap.get(key);
+                discussion.totalMessages++;
             }
         });
 
@@ -109,40 +110,50 @@ class MessageService {
             .sort((a, b) => b.lastMessage.sent_at.getTime() - a.lastMessage.sent_at.getTime());
     }
 
-    async getPropertyMessages(propertyId: number, userId: number) {
-        const [messages, property] = await Promise.all([
-            messageRepo.find({
-                where: { property: { id: propertyId } },
-                relations: ['sender', 'receiver', 'property']
-            }),
-            propertyRepo.findOne({ where: { id: propertyId }, relations: ['owner'] })
-        ]);
+    async getPropertyMessages(propertyId: number, userId?: number) {
+        if (!userId) throw new Error("Unauthorized");
+        if (isNaN(propertyId)) throw new Error("Invalid property ID");
+
+        const messages = await messageRepo.find({
+            where: { property: { id: propertyId } },
+            relations: ['sender', 'receiver', 'property']
+        });
+
+        const property = await propertyRepo.findOne({
+            where: { id: propertyId },
+            relations: ['owner']
+        });
 
         if (!property) throw new Error("Property not found");
 
-        const user = await userRepo.findOne({ where: { id: userId } });
+        const user = await userRepo.findOneBy({ id: userId });
         if (!user) throw new Error("User not found");
 
         const isOwner = property.owner.id === userId;
         const isParticipant = messages.some(m => m.sender.id === userId || m.receiver.id === userId);
 
-        if (!isOwner && !isParticipant) throw new Error("Forbidden");
+        if (!isOwner && !isParticipant && user.role !== Role.ADMIN) {
+            throw new Error("Forbidden");
+        }
 
         return messages;
     }
 
-    async updateMessage(id: number, dto: UpdateMessageDto, userId: number) {
+    async updateMessage(id: number, dto: UpdateMessageDto, userId?: number) {
+        if (!userId) throw new Error("Unauthorized");
+
         const message = await messageRepo.findOne({
             where: { id },
             relations: ['sender']
         });
-
         if (!message) throw new Error("Message not found");
 
-        const user = await userRepo.findOne({ where: { id: userId } });
+        const user = await userRepo.findOneBy({ id: userId });
         if (!user) throw new Error("User not found");
 
-        if (message.sender.id !== userId) throw new Error("Forbidden");
+        if (message.sender.id !== userId && user.role !== Role.ADMIN) {
+            throw new Error("Forbidden");
+        }
 
         const now = new Date();
         const sentAt = new Date(message.sent_at);
@@ -152,22 +163,19 @@ class MessageService {
 
         message.content = dto.content;
         await messageRepo.save(message);
-
-        return await messageRepo.findOne({
-            where: { id },
-            relations: ['sender', 'receiver', 'property']
-        });
+        return this.getMessageById(id, userId);
     }
 
-    async deleteMessage(id: number, userId: number) {
+    async deleteMessage(id: number, userId?: number) {
+        if (!userId) throw new Error("Unauthorized");
+
         const message = await messageRepo.findOne({
             where: { id },
             relations: ['sender', 'receiver']
         });
-
         if (!message) throw new Error("Message not found");
 
-        const user = await userRepo.findOne({ where: { id: userId } });
+        const user = await userRepo.findOneBy({ id: userId });
         if (!user) throw new Error("User not found");
 
         const isSender = message.sender.id === userId;
@@ -178,7 +186,6 @@ class MessageService {
         }
 
         await messageRepo.remove(message);
-        return true;
     }
 }
 

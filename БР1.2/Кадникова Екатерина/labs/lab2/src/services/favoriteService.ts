@@ -1,10 +1,12 @@
 import { AppDataSource } from "../data-source";
 import { Favorite } from "../models/favorite";
 import { Property } from "../models/property";
+import { User } from "../models/user";
 import { CreateFavoriteDto, UpdateFavoriteDto } from "../dto/favoriteDto";
 
 const favoriteRepository = AppDataSource.getRepository(Favorite);
 const propertyRepository = AppDataSource.getRepository(Property);
+const userRepository = AppDataSource.getRepository(User);
 
 class FavoriteService {
     async getAllFavorites(userId: number) {
@@ -15,17 +17,24 @@ class FavoriteService {
         });
     }
 
-    async getFavoriteById(favoriteId: number, userId: number) {
+    async getFavoriteById(favoriteId: number, userId?: number) {
+        if (!userId) {
+            throw new Error("User not found");
+        }
+
         const favorite = await favoriteRepository.findOne({
             where: { id: favoriteId, user: { id: userId } },
             relations: ['property', 'property.owner']
         });
+
+        if (!favorite) {
+            throw new Error("Favorite not found");
+        }
         return favorite;
     }
 
     async addFavorite(userId: number, dto: CreateFavoriteDto) {
-        const { propertyId } = dto;
-        const property = await propertyRepository.findOneBy({ id: propertyId });
+        const property = await propertyRepository.findOneBy({ id: dto.propertyId });
         if (!property) {
             throw new Error("Property not found");
         }
@@ -33,7 +42,7 @@ class FavoriteService {
         const existingFavorite = await favoriteRepository.findOne({
             where: {
                 user: { id: userId },
-                property: { id: propertyId }
+                property: { id: dto.propertyId }
             }
         });
 
@@ -43,22 +52,15 @@ class FavoriteService {
 
         const favorite = favoriteRepository.create({
             user: { id: userId },
-            property: { id: propertyId }
+            property: { id: dto.propertyId }
         });
 
         await favoriteRepository.save(favorite);
-        return favorite;
+        return this.getFavoriteById(favorite.id, userId);
     }
 
     async updateFavorite(userId: number, favoriteId: number, dto: UpdateFavoriteDto) {
-        const favorite = await favoriteRepository.findOne({
-            where: { id: favoriteId, user: { id: userId } },
-            relations: ['property']
-        });
-
-        if (!favorite) {
-            throw new Error("Favorite not found");
-        }
+        const favorite = await this.getFavoriteById(favoriteId, userId);
 
         if (dto.propertyId) {
             const property = await propertyRepository.findOneBy({ id: dto.propertyId });
@@ -69,27 +71,44 @@ class FavoriteService {
         }
 
         await favoriteRepository.save(favorite);
-        return favorite;
+        return this.getFavoriteById(favoriteId, userId);
     }
 
     async removeFavorite(userId: number, favoriteId: number) {
-        const favorite = await favoriteRepository.findOne({
-            where: { id: favoriteId, user: { id: userId } }
-        });
-
-        if (!favorite) {
-            throw new Error("Favorite not found");
-        }
-
+        const favorite = await this.getFavoriteById(favoriteId, userId);
         await favoriteRepository.remove(favorite);
         return { message: "Favorite removed successfully" };
     }
 
     async getUserFavorites(userId: number) {
+        const userExists = await userRepository.exist({
+            where: { id: userId }
+        });
+
+        if (!userExists) {
+            throw new Error("User not found");
+        }
+
         return favoriteRepository.find({
             where: { user: { id: userId } },
-            relations: ['property', 'property.owner'],
-            order: { created_at: 'DESC' }
+            relations: {
+                property: {
+                    owner: true
+                }
+            },
+            order: { created_at: "DESC" },
+            select: {
+                id: true,
+                created_at: true,
+                property: {
+                    id: true,
+                    title: true,
+                    owner: {
+                        id: true,
+                        email: true
+                    }
+                }
+            }
         });
     }
 }
