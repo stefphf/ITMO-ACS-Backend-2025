@@ -1,64 +1,68 @@
-import { Request, Response } from "express";
+import {
+  JsonController,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpCode,
+  UseBefore
+} from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
 import { UserDetails } from "../models/UserDetails";
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
+
 
 const userDetailsRepo = AppDataSource.getRepository(UserDetails);
 
-export const createUserDetails = async (req: Request, res: Response) => {
-  try {
-    const userDetailsData = req.body;
+@JsonController("/userDetails")
+@UseBefore(AuthMiddleware)
+export class UserDetailsController {
+  @Post()
+  @HttpCode(201)
+  async create(@Body() userDetailsData: any) {
     const userDetails = userDetailsRepo.create(userDetailsData);
-    const savedUserDetails = await userDetailsRepo.save(userDetails);
-    res.status(201).json(savedUserDetails);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return await userDetailsRepo.save(userDetails);
   }
-};
 
-export const getAllUserDetails = async (req: Request, res: Response) => {
-  try {
-    const userDetails = await userDetailsRepo.find();
-    res.json(userDetails);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  @Get()
+  async getAll() {
+    return await userDetailsRepo.find();
   }
-};
 
-export const getUserDetailsById = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const userDetails = await userDetailsRepo.findOne({ where: { id: req.params.id }, relations: ["user"] });
+  @Get("/:id")
+  async getOne(@Param("id") id: string) {
+    const userDetails = await userDetailsRepo.findOne({
+      where: { id },
+      relations: ["user"],
+    });
+
     if (!userDetails) {
-      return res.status(404).json({ message: "User details not found" });
-    }
-    res.json(userDetails);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const updateUserDetails = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const userDetails = await userDetailsRepo.findOne({ where: { id: req.params.id } });
-    if (!userDetails) {
-      return res.status(404).json({ message: "User details not found" });
+      return { status: 404, message: "User details not found" };
     }
 
-    userDetailsRepo.merge(userDetails, req.body);
-    const updatedUserDetails = await userDetailsRepo.save(userDetails);
-    res.json(updatedUserDetails);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return userDetails;
   }
-};
 
-export const deleteUserDetails = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const result = await userDetailsRepo.delete(req.params.id);
+  @Put("/:id")
+  async update(@Param("id") id: string, @Body() data: any) {
+    const userDetails = await userDetailsRepo.findOne({ where: { id } });
+    if (!userDetails) {
+      return { status: 404, message: "User details not found" };
+    }
+
+    userDetailsRepo.merge(userDetails, data);
+    return await userDetailsRepo.save(userDetails);
+  }
+
+  @Delete("/:id")
+  async delete(@Param("id") id: string) {
+    const result = await userDetailsRepo.delete(id);
     if (result.affected === 0) {
-      return res.status(404).json({ message: "User details not found" });
+      return { status: 404, message: "User details not found" };
     }
-    res.json({ message: "User details deleted successfully" });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+
+    return { message: "User details deleted successfully" };
   }
-};
+}

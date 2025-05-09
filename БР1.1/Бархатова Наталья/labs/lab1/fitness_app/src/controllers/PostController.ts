@@ -1,63 +1,66 @@
-import { Request, Response } from "express";
+import {
+  JsonController,
+  Get,
+  Post as HttpPost,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpCode,
+  OnUndefined,
+  UseBefore 
+} from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
-import { Post } from "../models/Post";
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
+import { Post as PostEntity } from "../models/Post";
 
-const postRepo = AppDataSource.getRepository(Post);
+const postRepo = AppDataSource.getRepository(PostEntity);
 
-export const createPost = async (req: Request, res: Response) => {
-  try {
-    const postData = req.body;
+@JsonController("/posts")
+@UseBefore(AuthMiddleware)
+export class PostController {
+  @HttpPost()
+  @HttpCode(201)
+  async createPost(@Body() postData: Partial<PostEntity>) {
     const post = postRepo.create(postData);
     const savedPost = await postRepo.save(post);
-    res.status(201).json(savedPost);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return savedPost;
   }
-};
 
-export const getAllPosts = async (req: Request, res: Response) => {
-  try {
-    const posts = await postRepo.find();
-    res.json(posts);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  @Get()
+  async getAllPosts() {
+    return await postRepo.find();
   }
-};
 
-export const getPostById = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const post = await postRepo.findOne({ where: { id: req.params.id }, relations: ["user"] });
+  @Get("/:id")
+  @OnUndefined(404)
+  async getPostById(@Param("id") id: number) {
+    const post = await postRepo.findOne({ where: { id: id.toString() }, relations: ["user"] });
     if (!post) {
-      res.status(404).json({ message: "Post not found" });
+      return { message: "Post not found" };
     }
-    res.json(post);
-  } catch (error: any) {
-      res.status(500).json({ message: error.message });
+    return post;
   }
-};
 
-export const updatePost = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const post = await postRepo.findOne({ where: { id: req.params.id } });
+  @Put("/:id")
+  @OnUndefined(404)
+  async updatePost(@Param("id") id: number, @Body() body: Partial<PostEntity>) {
+    const post = await postRepo.findOne({ where: { id: id.toString() } });
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return { message: "Post not found" };
     }
-    postRepo.merge(post, req.body);
+    postRepo.merge(post, body);
     const updatedPost = await postRepo.save(post);
-    res.json(updatedPost);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return updatedPost;
   }
-};
 
-export const deletePost = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const result = await postRepo.delete(req.params.id);
+  @Delete("/:id")
+  @OnUndefined(404)
+  async deletePost(@Param("id") id: number) {
+    const result = await postRepo.delete(id);
     if (result.affected === 0) {
-      return res.status(404).json({ message: "Post not found" });
+      return { message: "Post not found" };
     }
-    res.json({ message: "Post deleted successfully" });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    return { message: "Post deleted successfully" };
   }
-};
+}
