@@ -13,7 +13,7 @@ export class Rating {
     @ManyToOne(() => Recipe, recipe => recipe.ratings)
     recipe!: Recipe;
 
-    @Column()
+    @Column("int")
     rating_value!: number;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

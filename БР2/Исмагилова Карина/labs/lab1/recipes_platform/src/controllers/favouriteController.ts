@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../app-data-source";
+import AppDataSource from "../app-data-source";
 import { Favourite } from "../entities/Favourite";
-import {File} from "../entities/File";
 
 export const favouriteController = {
   async getAllFavourites(req: Request, res: Response): Promise<void> {
