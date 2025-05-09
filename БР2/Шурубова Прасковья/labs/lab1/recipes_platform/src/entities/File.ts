@@ -8,7 +8,7 @@ export class File {
     @PrimaryGeneratedColumn()
     file_id!: number;
 
-    @Column()
+    @Column("varchar")
     file_path!: string;
 
     @ManyToOne(() => User, user => user.files)

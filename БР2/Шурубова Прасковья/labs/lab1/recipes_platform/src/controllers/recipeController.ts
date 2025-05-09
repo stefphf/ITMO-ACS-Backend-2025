@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../app-data-source";
+import AppDataSource from "../app-data-source";
 import { Recipe } from "../entities/Recipe";
 
 export const recipeController = {

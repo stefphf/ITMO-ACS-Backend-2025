@@ -6,7 +6,7 @@ export class Category {
     @PrimaryGeneratedColumn()
     category_id!: number;
 
-    @Column()
+    @Column("varchar")
     category_name!: string;
 
     @ManyToOne(() => Recipe, recipe => recipe.categories)

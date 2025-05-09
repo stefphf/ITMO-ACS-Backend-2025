@@ -10,7 +10,7 @@ export class Collection {
     @ManyToOne(() => User, user => user.collections)
     user!: User;
 
-    @Column()
+    @Column("varchar")
     collection_name!: string;
 
     @ManyToMany(() => Recipe)

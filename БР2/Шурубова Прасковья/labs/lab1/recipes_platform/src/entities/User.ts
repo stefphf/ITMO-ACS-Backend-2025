@@ -12,17 +12,17 @@ export class User {
   @PrimaryGeneratedColumn()
   user_id!: number;
 
-  @Column()
+  @Column("varchar")
   username!: string;
 
-  @Column()
+  @Column("varchar")
   email!: string;
 
-  @Column()
-  password_hash!: string;
+  @Column("varchar")
+  password!: string;
 
-  @Column({ nullable: true })
-  bio!: string;
+  @Column("text", { nullable: true })
+  bio!: string | null;
 
   @OneToMany(() => Recipe, recipe => recipe.user)
   recipes!: Recipe[];

@@ -10,7 +10,7 @@ export class Article {
     @ManyToOne(() => User, user => user.articles)
     user!: User;
 
-    @Column()
+    @Column("varchar")
     title!: string;
 
     @Column("text")

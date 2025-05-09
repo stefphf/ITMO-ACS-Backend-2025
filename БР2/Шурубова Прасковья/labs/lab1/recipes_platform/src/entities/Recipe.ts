@@ -15,7 +15,7 @@ export class Recipe {
     @ManyToOne(() => User, user => user.recipes)
     user!: User;
 
-    @Column()
+    @Column("varchar")
     title!: string;
 
     @Column("text")
@@ -27,10 +27,10 @@ export class Recipe {
     @Column("text")
     instructions!: string;
 
-    @Column()
+    @Column("varchar")
     difficulty_level!: string;
 
-    @Column()
+    @Column("int")
     preparation_time!: number;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
