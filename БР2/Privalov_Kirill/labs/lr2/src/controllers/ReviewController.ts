@@ -1,6 +1,9 @@
 import { AppDataSource } from '../config/databaseConfig';
 import { Review } from '../entities/Review';
-import { BookingRequest } from '../entities/BookingRequest';
+import {
+  BookingRequest,
+  BookingRequestStatus,
+} from '../entities/BookingRequest';
 import { BaseController } from './BaseController';
 
 export const ReviewController = new BaseController(
@@ -22,7 +25,7 @@ ReviewController.create = async (req, res) => {
       where: {
         tenant: { id: user.userId },
         property: { id: propertyId },
-        status: 'approved',
+        status: BookingRequestStatus.ACCEPTED,
       },
     });
 

@@ -11,6 +11,14 @@ import { Property } from './Property';
 import { Message } from './Message';
 import { Chat } from './Chat';
 
+export enum RentalStatus {
+  CREATED = 'created',
+  INSPECTING = 'inspecting',
+  PUBLISHED = 'published',
+  HIDDEN = 'hidden',
+  CANCELED = 'canceled',
+}
+
 @Entity()
 export class Rental {
   @PrimaryGeneratedColumn({ name: 'rental_id' })
@@ -31,7 +39,7 @@ export class Rental {
   endDate: Date;
 
   @Column()
-  status: string;
+  status: RentalStatus;
 
   @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

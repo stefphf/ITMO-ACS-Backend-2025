@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { BookingRequestController } from '../controllers/BookingRequestController';
 import { checkJwt, checkOwnership, checkRole } from '../middleware/checkJwt';
 import { UserRole } from '../entities/User';
+import { validatorBookingRequest } from '../middleware/validator/validatorBookingRequest';
 
 const router = Router();
 
@@ -11,12 +12,14 @@ router.post(
   '/',
   checkJwt,
   checkRole(UserRole.TENANT),
+  validatorBookingRequest,
   BookingRequestController.create,
 );
 router.put(
   '/:id',
   checkJwt,
   checkOwnership('booking_request', 'tenant'),
+  validatorBookingRequest,
   BookingRequestController.update,
 );
 router.delete(

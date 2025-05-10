@@ -15,12 +15,6 @@ router.post(
   checkRole(UserRole.TENANT),
   ComplaintController.create,
 );
-router.put(
-  '/:id',
-  checkJwt,
-  checkOwnership('complaint', 'user'),
-  ComplaintController.update,
-);
 router.delete(
   '/:id',
   checkJwt,

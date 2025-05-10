@@ -6,6 +6,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { Request, Response } from 'express';
+import { randomUUID } from 'crypto';
 
 export const PropertyImageController = new BaseController(
   AppDataSource.getRepository(PropertyImage),
@@ -17,7 +18,8 @@ if (!fs.existsSync(uploadDir)) {
 }
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadDir),
-  filename: (_req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
+  filename: (_req, file, cb) =>
+    cb(null, randomUUID() + path.extname(file.originalname)),
 });
 export const upload = multer({ storage });
 

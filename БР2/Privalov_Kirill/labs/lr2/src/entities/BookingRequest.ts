@@ -9,6 +9,13 @@ import {
 import { User } from './User';
 import { Property } from './Property';
 
+export enum BookingRequestStatus {
+  CREATED = 'created',
+  ACTIVE = 'active',
+  CANCELED = 'canceled',
+  ACCEPTED = 'accepted',
+}
+
 @Entity()
 export class BookingRequest {
   @PrimaryGeneratedColumn({ name: 'request_id' })
@@ -29,7 +36,7 @@ export class BookingRequest {
   requestedEndDate: Date;
 
   @Column('varchar')
-  status: string;
+  status: BookingRequestStatus;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

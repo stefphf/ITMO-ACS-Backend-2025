@@ -1,5 +1,6 @@
 import { check, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
+import { BookingRequestStatus } from '../../entities/BookingRequest';
 
 export const validatorBookingRequest = [
   check('propertyId')
@@ -20,7 +21,11 @@ export const validatorBookingRequest = [
   check('status')
     .optional()
     .isString()
-    .withMessage('status must be a string'),
+    .withMessage('status must be a string')
+    .isIn(Object.values(BookingRequestStatus))
+    .withMessage(
+      `status must be one of: ${Object.values(BookingRequestStatus).join(', ')}`,
+    ),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

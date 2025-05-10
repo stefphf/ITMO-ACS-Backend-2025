@@ -9,6 +9,13 @@ import {
 import { User } from './User';
 import { Property } from './Property';
 
+export enum ComplaintStatus {
+  CREATED = 'created',
+  INSPECTING = 'inspecting',
+  RESOLVED = 'resolved',
+  DENIED = 'denied',
+}
+
 @Entity()
 export class Complaint {
   @PrimaryGeneratedColumn({ name: 'complaint_id' })
@@ -26,7 +33,7 @@ export class Complaint {
   message: string;
 
   @Column()
-  status: string;
+  status: ComplaintStatus;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
