@@ -1,5 +1,6 @@
 import { AppDataSource } from '../config/databaseConfig';
 import { Property } from '../entities/Property';
+import { UserRole } from '../entities/User';
 import { BaseController } from './BaseController';
 
 export const PropertyController = new BaseController(
@@ -16,7 +17,7 @@ PropertyController.getAll = async (req, res) => {
     }
 
     let properties;
-    if (user.role === 'landlord') {
+    if (user.role === UserRole.LANDLORD) {
       properties = await propertyRepo.find({
         where: { owner: { id: user.userId } },
         relations: ['owner'],
@@ -53,7 +54,7 @@ PropertyController.getById = async (req, res) => {
       return;
     }
 
-    if (user.role === 'landlord' && property.owner.id !== user.userId) {
+    if (user.role === UserRole.LANDLORD && property.owner.id !== user.userId) {
       res.status(403).json({ error: 'Access denied' });
       return;
     }

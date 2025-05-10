@@ -137,10 +137,10 @@ ChatController.createMessage = async (req, res) => {
     }
 
     let receiver;
-    if (user.role === 'tenant' && chat.rental.tenant.id === user.userId) {
+    if (user.role === UserRole.TENANT && chat.rental.tenant.id === user.userId) {
       receiver = chat.rental.property.owner;
     } else if (
-      user.role === 'landlord' &&
+      user.role === UserRole.LANDLORD &&
       chat.rental.property.owner.id === user.userId
     ) {
       receiver = chat.rental.tenant;
