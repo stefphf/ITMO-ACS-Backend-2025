@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import userRoutes from './userRoutes';
+import userRoutes from './users';
 import propertyRoutes from './properties';
 import rentalRoutes from './rentals';
 import chatRoutes from './chats';
 import favoriteRoutes from './favorites';
 import bookingRequestRoutes from './booking-requests';
-import reviewRoutes from './reviewRoutes';
+import reviewRoutes from './reviews';
 import complaintRoutes from './complaints';
 import propertyImageRoutes from './property-images';
 

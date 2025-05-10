@@ -1,5 +1,5 @@
-import { validatorLogin } from './../middleware/validator/validatorLogin';
-import { validatorRegister } from './../middleware/validator/validatorRegister';
+import { validatorLogin } from '../middleware/validator/validatorLogin';
+import { validatorRegister } from '../middleware/validator/validatorRegister';
 import { Router } from 'express';
 import { UserController } from '../controllers/UserController';
 import { checkJwt, checkOwnership, checkRole } from '../middleware/checkJwt';
