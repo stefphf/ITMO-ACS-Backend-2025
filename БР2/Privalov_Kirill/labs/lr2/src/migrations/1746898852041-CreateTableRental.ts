@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTableRental1746713583650 implements MigrationInterface {
+export class CreateTableRental1746898852041 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS rental (
@@ -9,7 +9,7 @@ export class CreateTableRental1746713583650 implements MigrationInterface {
         property_id INT NOT NULL REFERENCES property(property_id) ON DELETE CASCADE,
         start_date DATE NOT NULL,
         end_date DATE NOT NULL,
-        status VARCHAR(50) NOT NULL,
+        status RentalStatus NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )`);
   }

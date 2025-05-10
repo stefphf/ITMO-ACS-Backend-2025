@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTableUser1746713583648 implements MigrationInterface {
+export class CreateTableUser1746898840634 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
             CREATE TABLE IF NOT EXISTS "user" (
@@ -10,10 +10,9 @@ export class CreateTableUser1746713583648 implements MigrationInterface {
                 birth_date DATE NOT NULL,
                 phone TEXT NOT NULL UNIQUE,
                 email TEXT NOT NULL UNIQUE,
-                role TEXT NOT NULL DEFAULT 'tenant',
+                role UserRole NOT NULL DEFAULT 'tenant',
                 password TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                CONSTRAINT check_user_role CHECK (role IN ('tenant', 'landlord', 'admin'))
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );`);
   }
 

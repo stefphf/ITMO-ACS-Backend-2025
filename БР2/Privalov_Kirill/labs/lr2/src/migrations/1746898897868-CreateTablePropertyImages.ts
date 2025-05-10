@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTablePropertyImages1746713658251
+export class CreateTablePropertyImages1746898897868
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {

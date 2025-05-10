@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTableBookingRequest1746713622137
+export class CreateTableBookingRequest1746898873399
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -11,7 +11,7 @@ export class CreateTableBookingRequest1746713622137
         property_id INTEGER NOT NULL REFERENCES property(property_id),
         requested_start_date DATE NOT NULL,
         requested_end_date DATE NOT NULL,
-        status VARCHAR(50) NOT NULL,
+        status BookingRequestStatus NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
