@@ -25,59 +25,13 @@
           "tags": [
             "Companies"
           ],
-          "summary": "Get all companies",
-          "responses": {
-            "200": {
-              "description": "A list of companies.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/CompanyOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "List all companies"
         },
         "post": {
           "tags": [
             "Companies"
           ],
-          "summary": "Create a new company",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateCompanyDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Company created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/CompanyOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "Create company"
         }
       },
       "/api/companies/employer/{employerId}": {
@@ -95,28 +49,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "A list of companies for the given employer.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/CompanyOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/companies/{id}": {
@@ -124,7 +57,7 @@
           "tags": [
             "Companies"
           ],
-          "summary": "Get a company by ID",
+          "summary": "Get company details",
           "parameters": [
             {
               "in": "path",
@@ -134,31 +67,13 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Company details.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/CompanyOutput"
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Companies"
           ],
-          "summary": "Update an existing company",
+          "summary": "Update company",
           "parameters": [
             {
               "in": "path",
@@ -168,44 +83,13 @@
                 "type": "string"
               }
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateCompanyDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Company updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/CompanyOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Companies"
           ],
-          "summary": "Delete a company",
+          "summary": "Delete company",
           "parameters": [
             {
               "in": "path",
@@ -215,18 +99,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Company deleted successfully."
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/employee-cabinets": {
@@ -234,59 +107,13 @@
           "tags": [
             "Employee Cabinets"
           ],
-          "summary": "Get all employee cabinets",
-          "responses": {
-            "200": {
-              "description": "A list of employee cabinets.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/EmployeeCabinetOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "List all employee cabinets"
         },
         "post": {
           "tags": [
             "Employee Cabinets"
           ],
-          "summary": "Create a new employee cabinet",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateEmployeeCabinetDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Employee cabinet created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployeeCabinetOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "Create employee cabinet"
         }
       },
       "/api/employee-cabinets/user/{userId}": {
@@ -304,25 +131,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "The employee cabinet for the given user.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployeeCabinetOutput"
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/employee-cabinets/{id}": {
@@ -330,7 +139,7 @@
           "tags": [
             "Employee Cabinets"
           ],
-          "summary": "Get employee cabinet by ID",
+          "summary": "Get employee cabinet details",
           "parameters": [
             {
               "in": "path",
@@ -340,31 +149,13 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Employee cabinet details.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployeeCabinetOutput"
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Employee Cabinets"
           ],
-          "summary": "Update an existing employee cabinet",
+          "summary": "Update employee cabinet",
           "parameters": [
             {
               "in": "path",
@@ -374,44 +165,13 @@
                 "type": "string"
               }
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateEmployeeCabinetDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Employee cabinet updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployeeCabinetOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Employee Cabinets"
           ],
-          "summary": "Delete an employee cabinet",
+          "summary": "Delete employee cabinet",
           "parameters": [
             {
               "in": "path",
@@ -421,18 +181,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Employee cabinet deleted successfully."
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/employer-cabinets": {
@@ -440,59 +189,13 @@
           "tags": [
             "Employer Cabinets"
           ],
-          "summary": "Get all employer cabinets",
-          "responses": {
-            "200": {
-              "description": "A list of employer cabinets.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/EmployerCabinetOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "List all employer cabinets"
         },
         "post": {
           "tags": [
             "Employer Cabinets"
           ],
-          "summary": "Create a new employer cabinet",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateEmployerCabinetDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Employer cabinet created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployerCabinetOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "Create employer cabinet"
         }
       },
       "/api/employer-cabinets/user/{userId}": {
@@ -510,25 +213,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "The employer cabinet for the given user.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployerCabinetOutput"
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/employer-cabinets/{id}": {
@@ -536,7 +221,7 @@
           "tags": [
             "Employer Cabinets"
           ],
-          "summary": "Get employer cabinet by ID",
+          "summary": "Get employer cabinet details",
           "parameters": [
             {
               "in": "path",
@@ -546,31 +231,13 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Employer cabinet details.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployerCabinetOutput"
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Employer Cabinets"
           ],
-          "summary": "Update an existing employer cabinet",
+          "summary": "Update employer cabinet",
           "parameters": [
             {
               "in": "path",
@@ -580,44 +247,13 @@
                 "type": "string"
               }
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateEmployerCabinetDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Employer cabinet updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/EmployerCabinetOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Employer Cabinets"
           ],
-          "summary": "Delete an employer cabinet",
+          "summary": "Delete employer cabinet",
           "parameters": [
             {
               "in": "path",
@@ -627,18 +263,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Employer cabinet deleted successfully."
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/job-categories": {
@@ -646,59 +271,13 @@
           "tags": [
             "Job Categories"
           ],
-          "summary": "Get all job categories",
-          "responses": {
-            "200": {
-              "description": "A list of job categories.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/JobCategoryOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "List all job categories"
         },
         "post": {
           "tags": [
             "Job Categories"
           ],
-          "summary": "Create a new job category",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateJobCategoryDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Job category created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/JobCategoryOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          "summary": "Create job category"
         }
       },
       "/api/job-categories/{id}": {
@@ -706,7 +285,7 @@
           "tags": [
             "Job Categories"
           ],
-          "summary": "Get a job category by ID",
+          "summary": "Get job category details",
           "parameters": [
             {
               "in": "path",
@@ -716,31 +295,13 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Job category details.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/JobCategoryOutput"
-                  }
-                }
-              }
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Job Categories"
           ],
-          "summary": "Update an existing job category",
+          "summary": "Update job category",
           "parameters": [
             {
               "in": "path",
@@ -750,44 +311,13 @@
                 "type": "string"
               }
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateJobCategoryDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Job category updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/JobCategoryOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "$ref": "#/components/responses/BadRequest"
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Job Categories"
           ],
-          "summary": "Delete a job category",
+          "summary": "Delete job category",
           "parameters": [
             {
               "in": "path",
@@ -797,18 +327,7 @@
                 "type": "string"
               }
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Job category deleted successfully."
-            },
-            "404": {
-              "$ref": "#/components/responses/NotFound"
-            },
-            "500": {
-              "$ref": "#/components/responses/InternalServerError"
-            }
-          }
+          ]
         }
       },
       "/api/job-offers": {
@@ -816,90 +335,13 @@
           "tags": [
             "Job Offers"
           ],
-          "summary": "Get all job offers",
-          "responses": {
-            "200": {
-              "description": "A list of job offers.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/JobOfferOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "List all job offers"
         },
         "post": {
           "tags": [
             "Job Offers"
           ],
-          "summary": "Create a new job offer",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateJobOfferDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Job offer created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/JobOfferOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, missing fields, invalid IDs).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Referenced entity (e.g., Company, Category, Skill) not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "Create job offer"
         }
       },
       "/api/job-offers/company/{companyId}": {
@@ -918,52 +360,7 @@
               },
               "description": "The ID of the company"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "A list of job offers for the given company.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/JobOfferOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid Company ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "No job offers found for this company or company not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         }
       },
       "/api/job-offers/category/{categoryId}": {
@@ -982,52 +379,7 @@
               },
               "description": "The ID of the job category"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "A list of job offers for the given category.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/JobOfferOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid Job Category ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "No job offers found for this category or category not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         }
       },
       "/api/job-offers/{id}": {
@@ -1035,7 +387,7 @@
           "tags": [
             "Job Offers"
           ],
-          "summary": "Get a job offer by ID",
+          "summary": "Get job offer details",
           "parameters": [
             {
               "in": "path",
@@ -1046,55 +398,13 @@
               },
               "description": "The ID of the job offer"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Job offer details.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/JobOfferOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid job offer ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Job offer not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Job Offers"
           ],
-          "summary": "Update an existing job offer",
+          "summary": "Update job offer",
           "parameters": [
             {
               "in": "path",
@@ -1105,65 +415,13 @@
               },
               "description": "The ID of the job offer to update"
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateJobOfferDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Job offer updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/JobOfferOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, invalid ID format).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Job offer not found or referenced entity (e.g., Skill) not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Job Offers"
           ],
-          "summary": "Delete a job offer",
+          "summary": "Delete job offer",
           "parameters": [
             {
               "in": "path",
@@ -1174,42 +432,7 @@
               },
               "description": "The ID of the job offer to delete"
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Job offer deleted successfully."
-            },
-            "400": {
-              "description": "Invalid job offer ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Job offer not found for deletion.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         }
       },
       "/api/resumes": {
@@ -1217,90 +440,13 @@
           "tags": [
             "Resumes"
           ],
-          "summary": "Get all resumes",
-          "responses": {
-            "200": {
-              "description": "A list of resumes.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ResumeOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "List all resumes"
         },
         "post": {
           "tags": [
             "Resumes"
           ],
-          "summary": "Create a new resume",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateResumeDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Resume created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ResumeOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, missing fields).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "EmployeeCabinet not found for the provided employeeId.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "Create resume"
         }
       },
       "/api/resumes/employee/{employeeId}": {
@@ -1308,7 +454,7 @@
           "tags": [
             "Resumes"
           ],
-          "summary": "Get all resumes for a specific employee",
+          "summary": "Get resumes by employee ID",
           "parameters": [
             {
               "in": "path",
@@ -1319,52 +465,7 @@
               },
               "description": "The ID of the employee"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "A list of resumes for the specified employee.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ResumeOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid Employee ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "No resumes found for this employee.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         }
       },
       "/api/resumes/{id}": {
@@ -1372,7 +473,7 @@
           "tags": [
             "Resumes"
           ],
-          "summary": "Get a specific resume by its ID",
+          "summary": "Get resume details",
           "parameters": [
             {
               "in": "path",
@@ -1383,55 +484,13 @@
               },
               "description": "The ID of the resume"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "The requested resume.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ResumeOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid resume ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Resume not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Resumes"
           ],
-          "summary": "Update an existing resume",
+          "summary": "Update resume",
           "parameters": [
             {
               "in": "path",
@@ -1442,65 +501,13 @@
               },
               "description": "The ID of the resume to update"
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateResumeDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Resume updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ResumeOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, invalid ID format).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Resume not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Resumes"
           ],
-          "summary": "Delete a resume",
+          "summary": "Delete resume",
           "parameters": [
             {
               "in": "path",
@@ -1511,42 +518,7 @@
               },
               "description": "The ID of the resume to delete"
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Resume deleted successfully."
-            },
-            "400": {
-              "description": "Invalid resume ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Resume not found for deletion.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         }
       },
       "/api/skills": {
@@ -1554,80 +526,13 @@
           "tags": [
             "Skills"
           ],
-          "summary": "Get all skills",
-          "responses": {
-            "200": {
-              "description": "A list of skills.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/SkillOutput"
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "List all skills"
         },
         "post": {
           "tags": [
             "Skills"
           ],
-          "summary": "Create a new skill",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateSkillDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Skill created successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/SkillOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, missing fields).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "Create skill"
         }
       },
       "/api/skills/{id}": {
@@ -1635,7 +540,7 @@
           "tags": [
             "Skills"
           ],
-          "summary": "Get a skill by ID",
+          "summary": "Get skill details",
           "parameters": [
             {
               "in": "path",
@@ -1646,55 +551,13 @@
               },
               "description": "The ID of the skill"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Skill details.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/SkillOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid skill ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Skill not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         },
         "put": {
           "tags": [
             "Skills"
           ],
-          "summary": "Update an existing skill",
+          "summary": "Update skill",
           "parameters": [
             {
               "in": "path",
@@ -1705,65 +568,13 @@
               },
               "description": "The ID of the skill to update"
             }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateSkillDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Skill updated successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/SkillOutput"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, invalid ID format).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Skill not found.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         },
         "delete": {
           "tags": [
             "Skills"
           ],
-          "summary": "Delete a skill",
+          "summary": "Delete skill",
           "parameters": [
             {
               "in": "path",
@@ -1774,42 +585,7 @@
               },
               "description": "The ID of the skill to delete"
             }
-          ],
-          "responses": {
-            "204": {
-              "description": "Skill deleted successfully."
-            },
-            "400": {
-              "description": "Invalid skill ID format.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Skill not found for deletion.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          ]
         }
       },
       "/api/users/register": {
@@ -1817,59 +593,7 @@
           "tags": [
             "Users"
           ],
-          "summary": "Register a new user",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegisterUserDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "User registered successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/RegisterSuccessResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, missing fields).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "409": {
-              "description": "Conflict - Email already in use.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "Register new user"
         }
       },
       "/api/users/login": {
@@ -1877,698 +601,7 @@
           "tags": [
             "Users"
           ],
-          "summary": "Log in an existing user",
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginUserDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "User logged in successfully.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/LoginSuccessResponse"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid input (e.g., validation error, missing fields).",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Unauthorized - Invalid email or password.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal server error.",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "components": {
-      "schemas": {
-        "CompanyOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "name": {
-              "type": "string"
-            },
-            "employerId": {
-              "type": "integer",
-              "example": 1
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateCompanyDto": {
-          "type": "object",
-          "required": [
-            "name",
-            "employerId"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "New Company Ltd."
-            },
-            "employerId": {
-              "type": "integer",
-              "example": 1
-            },
-            "description": {
-              "type": "string",
-              "nullable": true,
-              "example": "A great place to work."
-            }
-          }
-        },
-        "UpdateCompanyDto": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "Updated Company Name"
-            },
-            "description": {
-              "type": "string",
-              "nullable": true,
-              "example": "An even better place to work."
-            }
-          }
-        },
-        "EmployeeCabinetOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "userId": {
-              "type": "integer",
-              "example": 456
-            },
-            "profileInfo": {
-              "type": "string",
-              "example": "Detail-oriented software developer with 5 years of experience."
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateEmployeeCabinetDto": {
-          "type": "object",
-          "required": [
-            "userId",
-            "profileInfo",
-            "firstName",
-            "lastName"
-          ],
-          "properties": {
-            "userId": {
-              "type": "integer",
-              "description": "The ID of the user associated with this employee cabinet.",
-              "example": 456
-            },
-            "profileInfo": {
-              "type": "string",
-              "description": "Professional summary or profile information for the employee.",
-              "example": "Experienced Full-Stack Developer seeking new opportunities."
-            },
-            "firstName": {
-              "type": "string",
-              "description": "Employee's first name.",
-              "example": "John"
-            },
-            "lastName": {
-              "type": "string",
-              "description": "Employee's last name.",
-              "example": "Doe"
-            }
-          }
-        },
-        "UpdateEmployeeCabinetDto": {
-          "type": "object",
-          "properties": {
-            "profileInfo": {
-              "type": "string",
-              "nullable": true,
-              "description": "Updated professional summary or profile information (optional).",
-              "example": "Senior Full-Stack Developer with expertise in cloud technologies."
-            },
-            "firstName": {
-              "type": "string",
-              "nullable": true,
-              "description": "Updated first name (optional).",
-              "example": "Jonathan"
-            },
-            "lastName": {
-              "type": "string",
-              "nullable": true,
-              "description": "Updated last name (optional).",
-              "example": "Doer"
-            }
-          }
-        },
-        "EmployerCabinetOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "userId": {
-              "type": "integer",
-              "example": 123
-            },
-            "companyName": {
-              "type": "string",
-              "example": "Tech Solutions Inc."
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateEmployerCabinetDto": {
-          "type": "object",
-          "required": [
-            "userId"
-          ],
-          "properties": {
-            "userId": {
-              "type": "integer",
-              "description": "The ID of the user associated with this employer cabinet.",
-              "example": 123
-            }
-          }
-        },
-        "UpdateEmployerCabinetDto": {
-          "type": "object",
-          "properties": {
-            "companyName": {
-              "type": "string",
-              "description": "The updated name of the company (optional).",
-              "example": "Innovate Global Ltd."
-            }
-          }
-        },
-        "JobCategoryOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "name": {
-              "type": "string",
-              "example": "Software Engineering"
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateJobCategoryDto": {
-          "type": "object",
-          "required": [
-            "name"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "Marketing"
-            }
-          }
-        },
-        "UpdateJobCategoryDto": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "Digital Marketing"
-            }
-          }
-        },
-        "JobOfferOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "title": {
-              "type": "string",
-              "example": "Senior Software Engineer"
-            },
-            "description": {
-              "type": "string",
-              "example": "Looking for an experienced software engineer..."
-            },
-            "companyId": {
-              "type": "integer",
-              "example": 1
-            },
-            "categoryId": {
-              "type": "integer",
-              "example": 1
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateJobOfferDto": {
-          "type": "object",
-          "required": [
-            "title",
-            "description",
-            "companyId",
-            "categoryId"
-          ],
-          "properties": {
-            "title": {
-              "type": "string",
-              "example": "Frontend Developer"
-            },
-            "description": {
-              "type": "string",
-              "example": "We need a skilled frontend developer for our team."
-            },
-            "companyId": {
-              "type": "integer",
-              "example": 1
-            },
-            "categoryId": {
-              "type": "integer",
-              "example": 1
-            },
-            "requirements": {
-              "type": "string",
-              "nullable": true,
-              "example": "BSc in Computer Science"
-            },
-            "required_experience_months": {
-              "type": "integer",
-              "nullable": true,
-              "example": 24
-            },
-            "salary_from_rub": {
-              "type": "integer",
-              "nullable": true,
-              "example": 100000
-            },
-            "salary_to_rub": {
-              "type": "integer",
-              "nullable": true,
-              "example": 150000
-            },
-            "skillIds": {
-              "type": "array",
-              "items": {
-                "type": "integer"
-              },
-              "nullable": true,
-              "description": "Optional. List of skill IDs to associate with the job offer.",
-              "example": [1, 2, 3]
-            }
-          }
-        },
-        "UpdateJobOfferDto": {
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string",
-              "example": "Senior Frontend Developer"
-            },
-            "description": {
-              "type": "string",
-              "example": "Updated job description for senior frontend developer."
-            },
-            "requirements": {
-              "type": "string",
-              "nullable": true,
-              "example": "MSc in Computer Science"
-            },
-            "required_experience_months": {
-              "type": "integer",
-              "nullable": true,
-              "example": 36
-            },
-            "salary_from_rub": {
-              "type": "integer",
-              "nullable": true,
-              "example": 120000
-            },
-            "salary_to_rub": {
-              "type": "integer",
-              "nullable": true,
-              "example": 180000
-            },
-            "is_active": {
-              "type": "boolean",
-              "nullable": true,
-              "example": false
-            },
-            "skillIds": {
-              "type": "array",
-              "items": {
-                "type": "integer"
-              },
-              "nullable": true,
-              "description": "Optional. List of skill IDs to associate with the job offer. Will replace existing skills.",
-              "example": [3, 4]
-            }
-          }
-        },
-        "ResumeOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "employeeId": {
-              "type": "integer",
-              "example": 1
-            },
-            "content": {
-              "type": "string",
-              "example": "Experienced professional with a background in..."
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateResumeDto": {
-          "type": "object",
-          "required": [
-            "employeeId",
-            "content"
-          ],
-          "properties": {
-            "employeeId": {
-              "type": "integer",
-              "example": 1
-            },
-            "content": {
-              "type": "string",
-              "example": "My resume content detailing skills and experience."
-            },
-            "skillIds": {
-              "type": "array",
-              "items": {
-                "type": "integer"
-              },
-              "nullable": true,
-              "description": "Optional. List of skill IDs to associate with the resume.",
-              "example": [1, 2, 3]
-            }
-          }
-        },
-        "UpdateResumeDto": {
-          "type": "object",
-          "properties": {
-            "content": {
-              "type": "string",
-              "example": "Updated resume content."
-            },
-            "skillIds": {
-              "type": "array",
-              "items": {
-                "type": "integer"
-              },
-              "nullable": true,
-              "description": "Optional. List of skill IDs to associate with the resume. Will replace existing skills.",
-              "example": [3, 4]
-            }
-          }
-        },
-        "SkillOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "name": {
-              "type": "string",
-              "example": "TypeScript"
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "CreateSkillDto": {
-          "type": "object",
-          "required": [
-            "name"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "JavaScript"
-            }
-          }
-        },
-        "UpdateSkillDto": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "Node.js"
-            }
-          }
-        },
-        "UserOutput": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "description": "User ID.",
-              "example": 1
-            },
-            "email": {
-              "type": "string",
-              "format": "email",
-              "description": "User's email address.",
-              "example": "user@example.com"
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time",
-              "description": "Timestamp of user creation."
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time",
-              "description": "Timestamp of last user update."
-            }
-          }
-        },
-        "RegisterUserDto": {
-          "type": "object",
-          "required": [
-            "email",
-            "password"
-          ],
-          "properties": {
-            "email": {
-              "type": "string",
-              "format": "email",
-              "description": "User's email address for registration.",
-              "example": "newuser@example.com"
-            },
-            "password": {
-              "type": "string",
-              "format": "password",
-              "minLength": 8,
-              "description": "User's password (at least 8 characters).",
-              "example": "strongP@ssw0rd"
-            }
-          }
-        },
-        "LoginUserDto": {
-          "type": "object",
-          "required": [
-            "email",
-            "password"
-          ],
-          "properties": {
-            "email": {
-              "type": "string",
-              "format": "email",
-              "description": "User's email address for login.",
-              "example": "user@example.com"
-            },
-            "password": {
-              "type": "string",
-              "format": "password",
-              "description": "User's password.",
-              "example": "stringP@ssw0rd"
-            }
-          }
-        },
-        "UpdateUserDto": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "format": "email",
-              "description": "New email address (optional).",
-              "example": "updateduser@example.com"
-            },
-            "password": {
-              "type": "string",
-              "format": "password",
-              "minLength": 8,
-              "description": "New password (optional, at least 8 characters).",
-              "example": "newStrongP@ssw0rd"
-            }
-          }
-        },
-        "RegisterSuccessResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "User registered successfully"
-            },
-            "user": {
-              "$ref": "#/components/schemas/UserOutput"
-            },
-            "token": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-            },
-            "tokenType": {
-              "type": "string",
-              "example": "Bearer"
-            }
-          }
-        },
-        "LoginSuccessResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "Login successful"
-            },
-            "user": {
-              "$ref": "#/components/schemas/UserOutput"
-            },
-            "token": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-            },
-            "tokenType": {
-              "type": "string",
-              "example": "Bearer"
-            }
-          }
-        },
-        "ErrorResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "Error message.",
-              "example": "Invalid input."
-            },
-            "errors": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "property": {
-                    "type": "string",
-                    "example": "email"
-                  },
-                  "constraints": {
-                    "type": "object",
-                    "example": {
-                      "isEmail": "Please provide a valid email address"
-                    }
-                  },
-                  "value": {
-                    "type": "string",
-                    "example": "not-an-email"
-                  }
-                }
-              }
-            }
-          }
+          "summary": "Login user"
         }
       }
     },
