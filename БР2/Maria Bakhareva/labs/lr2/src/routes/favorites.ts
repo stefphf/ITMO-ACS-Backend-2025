@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { FavoriteController } from '../controllers/FavoriteController';
 import { checkJwt, checkOwnership, checkRole } from '../middleware/checkJwt';
 import { UserRole } from '../entities/User';
+
 const router = Router();
 
 /**
@@ -25,10 +26,21 @@ const router = Router();
  *         required: true
  *         description: Favorite ID
  *         schema:
- *           type: string
+ *           type: integer
  *     responses:
  *       200:
  *         description: Favorite found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 user:
+ *                   type: object
+ *                 property:
+ *                   type: object
  *       404:
  *         description: Favorite not found
  */
@@ -44,13 +56,26 @@ router.get(
  * @swagger
  * /api/favorites:
  *   get:
- *     summary: Get all favorites
+ *     summary: Get all favorites for current user
  *     tags: [Favorites]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: A list of favorites
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   user:
+ *                     type: object
+ *                   property:
+ *                     type: object
  */
 router.get(
   '/',
@@ -63,13 +88,33 @@ router.get(
  * @swagger
  * /api/favorites:
  *   post:
- *     summary: Create a new favorite
+ *     summary: Add a property to favorites
  *     tags: [Favorites]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - propertyId
+ *             properties:
+ *               propertyId:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Favorite created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 property:
+ *                   type: object
  *       400:
  *         description: Validation error
  *       403:
@@ -87,7 +132,7 @@ router.post(
  * @swagger
  * /api/favorites/{id}:
  *   put:
- *     summary: Update a favorite
+ *     summary: Update a favorite (if needed, e.g., notes or tags)
  *     tags: [Favorites]
  *     security:
  *       - bearerAuth: []
@@ -97,7 +142,17 @@ router.post(
  *         required: true
  *         description: Favorite ID
  *         schema:
- *           type: string
+ *           type: integer
+ *     requestBody:
+ *       description: Optional updated data
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               notes:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Favorite updated
@@ -118,7 +173,7 @@ router.put(
  * @swagger
  * /api/favorites/{id}:
  *   delete:
- *     summary: Delete a favorite
+ *     summary: Remove a property from favorites
  *     tags: [Favorites]
  *     security:
  *       - bearerAuth: []
@@ -128,7 +183,7 @@ router.put(
  *         required: true
  *         description: Favorite ID
  *         schema:
- *           type: string
+ *           type: integer
  *     responses:
  *       204:
  *         description: Favorite deleted

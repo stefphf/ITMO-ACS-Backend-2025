@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const validatorLogin_1 = require("./../middleware/validator/validatorLogin");
-const validatorRegister_1 = require("./../middleware/validator/validatorRegister");
 const express_1 = require("express");
 const UserController_1 = require("../controllers/UserController");
 const checkJwt_1 = require("../middleware/checkJwt");
 const User_1 = require("../entities/User");
 const validatorChangePassword_1 = require("../middleware/validator/validatorChangePassword");
 const validatorUpdateUser_1 = require("../middleware/validator/validatorUpdateUser");
+const validatorLogin_1 = require("../middleware/validator/validatorLogin");
+const validatorRegister_1 = require("../middleware/validator/validatorRegister");
 const router = (0, express_1.Router)();
 /**
  * @swagger
@@ -80,6 +80,14 @@ router.get('/:id', checkJwt_1.checkJwt, UserController_1.UserController.getById)
  *                 type: string
  *               lastName:
  *                 type: string
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *               phone:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [tenant, landlord, admin]
  *     responses:
  *       200:
  *         description: User updated
@@ -195,6 +203,8 @@ router.post('/login', validatorLogin_1.validatorLogin, UserController_1.UserCont
  *               - password
  *               - firstName
  *               - lastName
+ *               - birthDate
+ *               - phone
  *             properties:
  *               email:
  *                 type: string
@@ -204,6 +214,14 @@ router.post('/login', validatorLogin_1.validatorLogin, UserController_1.UserCont
  *                 type: string
  *               lastName:
  *                 type: string
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *               phone:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [tenant, landlord, admin]
  *     responses:
  *       201:
  *         description: User registered

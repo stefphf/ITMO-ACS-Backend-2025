@@ -19,6 +19,29 @@ const router = Router();
  *     responses:
  *       200:
  *         description: A list of rentals
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   propertyId:
+ *                     type: integer
+ *                   tenantId:
+ *                     type: integer
+ *                   startDate:
+ *                     type: string
+ *                     format: date
+ *                   endDate:
+ *                     type: string
+ *                     format: date
+ *                   status:
+ *                     type: string
+ *       500:
+ *         description: Internal server error
  */
 router.get('/', RentalController.getAll);
 
@@ -38,8 +61,29 @@ router.get('/', RentalController.getAll);
  *     responses:
  *       200:
  *         description: Rental found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 propertyId:
+ *                   type: integer
+ *                 tenantId:
+ *                   type: integer
+ *                 startDate:
+ *                   type: string
+ *                   format: date
+ *                 endDate:
+ *                   type: string
+ *                   format: date
+ *                 status:
+ *                   type: string
  *       404:
  *         description: Rental not found
+ *       500:
+ *         description: Internal server error
  */
 router.get('/:id', RentalController.getById);
 
@@ -62,20 +106,30 @@ router.get('/:id', RentalController.getById);
  *               - endDate
  *             properties:
  *               propertyId:
- *                 type: string
+ *                 type: integer
+ *                 description: ID of the property being rented
  *               tenantId:
- *                 type: string
+ *                 type: integer
+ *                 description: ID of the tenant
  *               startDate:
  *                 type: string
  *                 format: date
+ *                 description: The start date of the rental
  *               endDate:
  *                 type: string
  *                 format: date
+ *                 description: The end date of the rental
+ *               status:
+ *                 type: string
+ *                 description: Current status of the rental
+ *                 enum: [PENDING, ACTIVE, COMPLETED, CANCELLED]
  *     responses:
  *       201:
  *         description: Rental created
  *       400:
  *         description: Validation error
+ *       500:
+ *         description: Internal server error
  */
 router.post('/', RentalController.create);
 
@@ -100,20 +154,25 @@ router.post('/', RentalController.create);
  *             type: object
  *             properties:
  *               propertyId:
- *                 type: string
+ *                 type: integer
  *               tenantId:
- *                 type: string
+ *                 type: integer
  *               startDate:
  *                 type: string
  *                 format: date
  *               endDate:
  *                 type: string
  *                 format: date
+ *               status:
+ *                 type: string
+ *                 enum: [PENDING, ACTIVE, COMPLETED, CANCELLED]
  *     responses:
  *       200:
  *         description: Rental updated
  *       404:
  *         description: Rental not found
+ *       500:
+ *         description: Internal server error
  */
 router.put('/:id', RentalController.update);
 
@@ -135,6 +194,8 @@ router.put('/:id', RentalController.update);
  *         description: Rental deleted
  *       404:
  *         description: Rental not found
+ *       500:
+ *         description: Internal server error
  */
 router.delete('/:id', RentalController.delete);
 
