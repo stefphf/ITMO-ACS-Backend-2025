@@ -9,12 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Rental = void 0;
+exports.Rental = exports.RentalStatus = void 0;
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
 const Property_1 = require("./Property");
 const Message_1 = require("./Message");
 const Chat_1 = require("./Chat");
+var RentalStatus;
+(function (RentalStatus) {
+    RentalStatus["CREATED"] = "created";
+    RentalStatus["INSPECTING"] = "inspecting";
+    RentalStatus["PUBLISHED"] = "published";
+    RentalStatus["HIDDEN"] = "hidden";
+    RentalStatus["CANCELED"] = "canceled";
+})(RentalStatus || (exports.RentalStatus = RentalStatus = {}));
 let Rental = class Rental {
 };
 exports.Rental = Rental;
