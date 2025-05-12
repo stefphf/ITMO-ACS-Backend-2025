@@ -17,8 +17,7 @@
       "migration:create": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:create src/migrations/Init",
       "migration:revert": "ts-node --transpile-only node_modules/typeorm/cli.js migration:revert -d src/data-source.ts",
       "swagger:gen": "ts-node src/swagger.ts",
-      "seed": "ts-node src/seeds/seed.ts",
-      "prestart": "pnpm swagger:gen && pnpm seed"
+      "prestart": "pnpm swagger:gen"
    },
    "devDependencies": {
       "@types/express": "^5.0.1",
