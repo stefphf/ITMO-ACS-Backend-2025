@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { WorkoutInPlan } from './workout-in-plan.model';
-import { ExerciseWorkout } from './exercise-workout.model';
+import { WorkoutInPlan } from './WorkoutInPlan';
+import { ExerciseWorkout } from './ExerciseWorkout';
+import { Level } from '../enums/Level';
+import { WorkoutType } from '../enums/WorkoutType';
 
 @Entity()
 export class Workout {
@@ -13,8 +15,19 @@ export class Workout {
   @Column({ type: 'text'})
   description!: string;
 
-  @Column()
-  type!: string; // Например, 'cardio', 'strength', 'yoga'
+  @Column({
+      type: 'enum',
+      enum: Level,
+      nullable: false
+    })
+    level!: Level;
+
+  @Column({
+      type: 'enum',
+      enum: WorkoutType,
+      nullable: false
+    })
+    type!: WorkoutType;  
 
   @Column()
   duration!: number;

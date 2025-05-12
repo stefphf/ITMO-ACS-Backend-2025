@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { User } from './user.model';
+import { User } from './User';
+import { Level } from '../enums/Level';
 
 @Entity()
 export class CurrentProgress {
@@ -22,8 +23,12 @@ export class CurrentProgress {
   @Column({ nullable: true })
   goal?: string; // 'lose weight', 'gain weight'
 
-  @Column({ nullable: true })
-  activity_level?: string;
+  @Column({
+    type: 'enum',
+    enum: Level,
+    nullable: true
+  })
+  activity_level?: Level;
 
   @Column({ type: 'date', default: () => 'CURRENT_TIMESTAMP' })
   update_date!: Date;

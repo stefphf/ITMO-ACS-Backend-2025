@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from './user.model';
-import { Exercise } from './exercise.model';
+import { User } from './User';
+import { Exercise } from './Exercise';
 
 @Entity()
 export class ExerciseProgress {

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { WorkoutPlan } from './workout-plan.model';
-import { Workout } from './workout.model';
+import { WorkoutPlan } from './WorkoutPlan';
+import { Workout } from './Workout';
 
 @Entity()
 export class WorkoutInPlan {

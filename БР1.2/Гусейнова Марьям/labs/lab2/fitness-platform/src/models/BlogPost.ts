@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Theme } from '../enums/Theme';
 
 @Entity()
 export class BlogPost {
@@ -11,8 +12,12 @@ export class BlogPost {
   @Column()
   title!: string;
 
-  @Column()
-  theme!: string;
+  @Column({
+    type: 'enum',
+    enum: Theme,
+    nullable: false
+  })
+  theme!: Theme;
 
   @Column({ type: 'text' })
   content!: string;

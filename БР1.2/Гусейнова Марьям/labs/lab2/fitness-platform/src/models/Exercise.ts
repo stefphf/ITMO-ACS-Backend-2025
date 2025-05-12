@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { ExerciseProgress } from './exercise-progress.model';
-import { ExerciseWorkout } from './exercise-workout.model';
+import { ExerciseProgress } from './ExerciseProgress';
+import { ExerciseWorkout } from './ExerciseWorkout';
+import { MuscleGroup } from '../enums/MuscleGroup';
 
 @Entity()
 export class Exercise {
@@ -13,8 +14,12 @@ export class Exercise {
   @Column({ type: 'text'})
   description!: string;
 
-  @Column()
-  muscle_group!: string; // Например, 'chest', 'legs'
+  @Column({
+      type: 'enum',
+      enum: MuscleGroup, 
+      nullable: false
+    })
+    muscle_group!: MuscleGroup;
 
   @Column({ nullable: true })
   equipment?: string;
