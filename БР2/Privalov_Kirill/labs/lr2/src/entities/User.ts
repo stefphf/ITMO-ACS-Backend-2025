@@ -5,12 +5,12 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Rental } from './Rental';
 import { Property } from './Property';
 import { Favorite } from './Favorite';
 import { BookingRequest } from './BookingRequest';
 import { Complaint } from './Complaint';
 import { Message } from './Message';
+import { Chat } from './Chat';
 
 export enum UserRole {
   TENANT = 'tenant',
@@ -41,7 +41,7 @@ export class User {
   @Column({ nullable: false, default: UserRole.TENANT })
   role: UserRole;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
 
   @CreateDateColumn({
@@ -50,9 +50,6 @@ export class User {
     name: 'created_at',
   })
   createdAt: Date;
-
-  @OneToMany(() => Rental, (rental) => rental.tenant)
-  rentals: Rental[];
 
   @OneToMany(() => Property, (property) => property.owner)
   properties: Property[];
@@ -71,4 +68,10 @@ export class User {
 
   @OneToMany(() => Message, (msg) => msg.receiver)
   receivedMessages: Message[];
+
+  @OneToMany(() => Chat, (chat) => chat.tenant)
+  chats: Chat[];
+
+  @OneToMany(() => Chat, (chat) => chat.landlord)
+  landlordChats: Chat[];
 }

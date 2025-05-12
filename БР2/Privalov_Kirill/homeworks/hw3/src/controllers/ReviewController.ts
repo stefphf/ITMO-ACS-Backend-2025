@@ -2,6 +2,7 @@ import { AppDataSource } from '../config/databaseConfig';
 import { Review } from '../entities/Review';
 import { BookingRequest } from '../entities/BookingRequest';
 import { BaseController } from './BaseController';
+import { UserRole } from '../entities/User';
 
 export const ReviewController = new BaseController(
   AppDataSource.getRepository(Review),
@@ -12,7 +13,7 @@ ReviewController.create = async (req, res) => {
     const user = req.payload;
     const { propertyId, rating, comment } = req.body;
 
-    if (!user || user.role !== 'tenant') {
+    if (!user || user.role !== UserRole.TENANT) {
       res.status(403).json({ error: 'Only tenants can leave reviews' });
       return;
     }
@@ -61,7 +62,7 @@ ReviewController.getAll = async (req, res) => {
 
     const reviews = await reviewRepo.find({
       where,
-      relations: ['tenant', 'property'],
+      relations: ['author', 'property'],
     });
 
     res.status(200).json(reviews);
@@ -78,7 +79,7 @@ ReviewController.getById = async (req, res) => {
 
     const review = await reviewRepo.findOne({
       where: { id: Number(reviewId) },
-      relations: ['tenant', 'property'],
+      relations: ['author', 'property'],
     });
 
     if (!review) {

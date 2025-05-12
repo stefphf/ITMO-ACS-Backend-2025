@@ -63,6 +63,12 @@ export const validatorRegister = [
 
       return true;
     }),
+  check('role')
+    .trim()
+    .exists({ checkFalsy: true })
+    .withMessage('Role is required')
+    .isIn(['tenant', 'landlord'])
+    .withMessage('Role must be either "tenant" or "landlord"'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

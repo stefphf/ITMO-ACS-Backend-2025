@@ -3,6 +3,9 @@ import { Repository, ObjectLiteral } from 'typeorm';
 
 export class BaseController<T extends ObjectLiteral> {
   uploadImages: any[];
+  register: (req: Request, res: Response) => Promise<void>;
+  login: (req: Request, res: Response) => Promise<void>;
+  changePassword: (req: Request, res: Response) => Promise<void>;
   constructor(public repository: Repository<T>) {}
 
   getAll = async (_req: Request, res: Response) => {

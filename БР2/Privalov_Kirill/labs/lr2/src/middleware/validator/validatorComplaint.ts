@@ -15,20 +15,6 @@ export const validatorComplaint = [
     .withMessage('Description must be a string')
     .isLength({ min: 5 })
     .withMessage('Description must be at least 5 characters long'),
-  check('status')
-    .exists({ checkFalsy: true })
-    .withMessage('Status is required')
-    .isString()
-    .withMessage('Status must be a string'),
-  check('status')
-    .exists({ checkFalsy: true })
-    .withMessage('Status is required')
-    .isString()
-    .withMessage('Status must be a string')
-    .isIn(Object.values(ComplaintStatus))
-    .withMessage(
-      `Status must be one of: ${Object.values(ComplaintStatus).join(', ')}`,
-    ),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

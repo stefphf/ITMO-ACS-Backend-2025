@@ -7,6 +7,34 @@ export const BookingRequestController = new BaseController<BookingRequest>(
   AppDataSource.getRepository(BookingRequest),
 );
 
+BookingRequestController.create = async (req, res) => {
+  try {
+    const user = req.payload;
+    const bookingRequestRepo = AppDataSource.getRepository(BookingRequest);
+
+    if (!user) {
+      res.status(403).json({ error: 'User not authenticated' });
+      return;
+    }
+
+    if (user.role !== UserRole.TENANT) {
+      res.status(403).json({ error: 'Access denied' });
+      return;
+    }
+
+    const newBookingRequest = bookingRequestRepo.create({
+      ...req.body,
+      tenant: { id: user.userId },
+    });
+
+    const savedBookingRequest = await bookingRequestRepo.save(newBookingRequest);
+    res.status(201).json(savedBookingRequest);
+  } catch (error) {
+    console.error('Error in create:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 BookingRequestController.getAll = async (req, res) => {
   try {
     if (req.payload) {

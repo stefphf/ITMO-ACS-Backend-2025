@@ -1,10 +1,49 @@
 import { AppDataSource } from '../config/databaseConfig';
 import { Property } from '../entities/Property';
+import { UserRole } from '../entities/User';
 import { BaseController } from './BaseController';
 
 export const PropertyController = new BaseController(
   AppDataSource.getRepository(Property),
 );
+
+PropertyController.create = async (req, res) => {
+  try {
+    const user = req.payload;
+    const propertyRepo = AppDataSource.getRepository(Property);
+
+    if (!user) {
+      res.status(403).json({ error: 'User not authenticated' });
+      return;
+    }
+
+    if (user.role !== UserRole.LANDLORD) {
+      res.status(403).json({ error: 'Access denied' });
+      return;
+    }
+
+    const existingProperty = await propertyRepo.findOne({
+      where: { title: req.body.name, owner: { id: user.userId } },
+    });
+
+    if (existingProperty) {
+      res.status(409).json({ error: 'Property already exists' });
+      return;
+    }
+
+    const newProperty = propertyRepo.create({
+      ...req.body,
+      owner: { id: user.userId },
+    });
+
+    const savedProperty = await propertyRepo.save(newProperty);
+    res.status(201).json(savedProperty);
+  } catch (error) {
+    console.error('Error in create:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 PropertyController.getAll = async (req, res) => {
   try {
     const user = req.payload;

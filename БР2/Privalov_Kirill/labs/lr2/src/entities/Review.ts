@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { User } from './User';
 import { Property } from './Property';
@@ -14,9 +15,11 @@ export class Review {
   id: number;
 
   @ManyToOne(() => User)
+  @JoinColumn({ name: 'author_id' })
   author: User;
 
   @ManyToOne(() => Property)
+  @JoinColumn({ name: 'property_id' })
   property: Property;
 
   @Column()

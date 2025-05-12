@@ -1,78 +1,65 @@
-import { AppDataSource } from '../config/databaseConfig';
-import { BookingRequest } from '../entities/BookingRequest';
-import { UserRole } from '../entities/User';
 import { BaseController } from './BaseController';
+import { BookingRequest } from '../entities/BookingRequest';
+import BookingRequestService from '../services/BookingRequestService';
 
 export const BookingRequestController = new BaseController<BookingRequest>(
-  AppDataSource.getRepository(BookingRequest),
+  BookingRequestService.repo,
 );
+
+BookingRequestController.create = async (req, res) => {
+  try {
+    const result = await BookingRequestService.create(req.body, req.payload);
+    res.status(201).json(result);
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || 500)
+      .json({ error: err.message || 'Internal server error' });
+  }
+};
+
+BookingRequestController.update = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const result = await BookingRequestService.update(
+      id,
+      req.body,
+      req.payload,
+    );
+    res.json(result);
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || 400)
+      .json({ error: err.message || 'Update failed' });
+  }
+};
 
 BookingRequestController.getAll = async (req, res) => {
   try {
-    if (req.payload) {
-      const role = req.payload.role;
-      const userId = req.payload.userId;
-      if (role === UserRole.ADMIN) {
-        const bookingRequests =
-          await BookingRequestController.repository.find();
-        res.json(bookingRequests);
-        return;
-      } else if (role === UserRole.LANDLORD) {
-        const bookingRequests = await BookingRequestController.repository
-          .createQueryBuilder('booking_request')
-          .leftJoinAndSelect('booking_request.property', 'property')
-          .where('property.owner_id = :userId', { userId })
-          .getMany();
-        res.json(bookingRequests);
-        return;
-      } else if (role === UserRole.TENANT) {
-        const bookingRequests = await BookingRequestController.repository.find({
-          where: { tenant: { id: userId } },
-        });
-        res.json(bookingRequests);
-        return;
-      }
-    }
-    res.status(403).json({ message: 'Forbidden' });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err });
+    const list = await BookingRequestService.getAll(req.payload);
+    res.json(list);
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || 500)
+      .json({ error: err.message || 'Server error' });
   }
 };
 
 BookingRequestController.getById = async (req, res) => {
   try {
-    if (req.payload) {
-      const role = req.payload.role;
-      const userId = req.payload.userId;
-      const bookingRequestId = parseInt(req.params.id, 10);
-      if (role === UserRole.ADMIN) {
-        const bookingRequest =
-          await BookingRequestController.repository.findOne({
-            where: { id: bookingRequestId },
-          });
-        res.json(bookingRequest);
-        return;
-      } else if (role === UserRole.LANDLORD) {
-        const bookingRequest = await BookingRequestController.repository
-          .createQueryBuilder('booking_request')
-          .leftJoinAndSelect('booking_request.property', 'property')
-          .where('property.owner_id = :userId', { userId })
-          .andWhere('booking_request.id = :bookingRequestId', {
-            bookingRequestId,
-          })
-          .getOne();
-        res.json(bookingRequest);
-        return;
-      } else if (role === UserRole.TENANT) {
-        const bookingRequest =
-          await BookingRequestController.repository.findOne({
-            where: { id: bookingRequestId, tenant: { id: userId } },
-          });
-        res.json(bookingRequest);
-        return;
-      }
+    const id = parseInt(req.params.id, 10);
+    const item = await BookingRequestService.getById(id, req.payload);
+    if (!item) {
+      res.status(404).json({ error: 'Not found' });
+      return;
     }
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err });
+    res.json(item);
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || 500)
+      .json({ error: err.message || 'Server error' });
   }
 };

@@ -28,7 +28,7 @@ export class BookingRequest {
   @Column('date', { name: 'requested_end_date' })
   requestedEndDate: Date;
 
-  @Column('varchar')
+  @Column('varchar', { default:  })
   status: string;
 
   @CreateDateColumn({ name: 'created_at' })

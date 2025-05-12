@@ -2,11 +2,11 @@ import { check, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
 export const validatorCreateChat = [
-  check('rentalId')
+  check('propertyId')
     .exists({ checkFalsy: true })
-    .withMessage('rentalId is required')
+    .withMessage('propertyId is required')
     .isInt({ min: 1 })
-    .withMessage('rentalId must be a positive integer'),
+    .withMessage('propertyId must be a positive integer'),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -18,7 +18,7 @@ export const validatorCreateChat = [
 ];
 
 export const validatorCreateMessage = [
-  check('message')
+  check('content')
     .exists({ checkFalsy: true })
     .withMessage('Message is required')
     .isString()

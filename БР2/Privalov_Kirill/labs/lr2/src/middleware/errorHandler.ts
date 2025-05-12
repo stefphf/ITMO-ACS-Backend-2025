@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 
 function errorHandler(
   err: any,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
   console.error(err);
   res.status(err.status || 500).json({

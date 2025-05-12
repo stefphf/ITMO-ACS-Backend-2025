@@ -1,97 +1,48 @@
-import { AppDataSource } from '../config/databaseConfig';
-import { Review } from '../entities/Review';
-import {
-  BookingRequest,
-  BookingRequestStatus,
-} from '../entities/BookingRequest';
 import { BaseController } from './BaseController';
+import ReviewService from '../services/ReviewService';
+import { Review } from '../entities/Review';
 
-export const ReviewController = new BaseController(
-  AppDataSource.getRepository(Review),
-);
+export const ReviewController = new BaseController<Review>(ReviewService.repo);
 
 ReviewController.create = async (req, res) => {
   try {
-    const user = req.payload;
     const { propertyId, rating, comment } = req.body;
-
-    if (!user || user.role !== 'tenant') {
-      res.status(403).json({ error: 'Only tenants can leave reviews' });
-      return;
-    }
-
-    const bookingRepo = AppDataSource.getRepository(BookingRequest);
-    const booking = await bookingRepo.findOne({
-      where: {
-        tenant: { id: user.userId },
-        property: { id: propertyId },
-        status: BookingRequestStatus.ACCEPTED,
-      },
-    });
-
-    if (!booking) {
-      res
-        .status(403)
-        .json({ error: 'You can only review properties you have booked' });
-      return;
-    }
-
-    const reviewRepo = AppDataSource.getRepository(Review);
-    const review = reviewRepo.create({
-      author: { id: user.userId },
-      property: { id: propertyId },
+    const review = await ReviewService.create(
+      req.payload,
+      propertyId,
       rating,
       comment,
-    });
-    await reviewRepo.save(review);
-
+    );
     res.status(201).json(review);
-  } catch (error) {
-    console.error('Error in create review:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || 500)
+      .json({ error: err.message || 'Internal server error' });
   }
 };
 
 ReviewController.getAll = async (req, res) => {
   try {
-    const { propertyId } = req.query;
-    const reviewRepo = AppDataSource.getRepository(Review);
-
-    let where = {};
-    if (propertyId) {
-      where = { property: { id: Number(propertyId) } };
-    }
-
-    const reviews = await reviewRepo.find({
-      where,
-      relations: ['tenant', 'property'],
-    });
-
-    res.status(200).json(reviews);
-  } catch (error) {
-    console.error('Error in getAll reviews:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    const pid = req.query.propertyId ? Number(req.query.propertyId) : undefined;
+    const list = await ReviewService.getAll(pid);
+    res.status(200).json(list);
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || 500)
+      .json({ error: err.message || 'Internal server error' });
   }
 };
 
 ReviewController.getById = async (req, res) => {
   try {
-    const reviewId = req.params.id;
-    const reviewRepo = AppDataSource.getRepository(Review);
-
-    const review = await reviewRepo.findOne({
-      where: { id: Number(reviewId) },
-      relations: ['tenant', 'property'],
-    });
-
-    if (!review) {
-      res.status(404).json({ error: 'Review not found' });
-      return;
-    }
-
+    const review = await ReviewService.getById(Number(req.params.id));
     res.status(200).json(review);
-  } catch (error) {
-    console.error('Error in getById review:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err: any) {
+    console.error(err);
+    res
+      .status(err.status || (err.message === 'Review not found' ? 404 : 500))
+      .json({ error: err.message || 'Internal server error' });
   }
 };

@@ -11,8 +11,8 @@ import { User } from './User';
 import { Favorite } from './Favorite';
 import { BookingRequest } from './BookingRequest';
 import { PropertyImage } from './PropertyImage';
-import { Rental } from './Rental';
 import { Complaint } from './Complaint';
+import { Chat } from './Chat';
 
 @Entity()
 export class Property {
@@ -50,9 +50,9 @@ export class Property {
   @OneToMany(() => PropertyImage, (img) => img.property)
   images: PropertyImage[];
 
-  @OneToMany(() => Rental, (rental) => rental.property)
-  rentals: Rental[];
-
   @OneToMany(() => Complaint, (comp) => comp.property)
   complaints: Complaint[];
+
+  @OneToMany(() => Chat, (chat) => chat.property)
+  chats: Chat[];
 }
