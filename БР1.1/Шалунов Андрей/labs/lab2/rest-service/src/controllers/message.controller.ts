@@ -21,9 +21,9 @@ export class MessageController {
         const id = Number(req.params.id);
         const msg = await MessageService.getMessageById(id);
         if (!msg) {
-        const err: any = new Error('Message not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('Message not found');
+            err.status = 404;
+            throw err;
         }
         res.json(msg);
     }

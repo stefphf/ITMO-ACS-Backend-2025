@@ -22,9 +22,9 @@ export class UserController {
         const id = Number(req.params.id);
         const user = await UserService.getUserById(id);
         if (!user) {
-        const err: any = new Error('User not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('User not found');
+            err.status = 404;
+            throw err;
         }
         res.json(user);
     }
@@ -32,30 +32,30 @@ export class UserController {
     static async findByEmail(req: Request, res: Response) {
         const email = req.query.email;
         if (typeof email !== 'string') {
-        const err: any = new Error('Email query parameter required');
-        err.status = 400;
-        throw err;
+            const err: any = new Error('Email query parameter required');
+            err.status = 400;
+            throw err;
         }
         const user = await UserService.getUserByEmail(email);
         if (!user) {
-        const err: any = new Error('User not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('User not found');
+            err.status = 404;
+            throw err;
         }
         res.json(user);
     }
 
     static async findMe(req: AuthRequest, res: Response) {
         if (!req.user) {
-        const err: any = new Error('Unauthorized');
-        err.status = 401;
-        throw err;
+            const err: any = new Error('Unauthorized');
+            err.status = 401;
+            throw err;
         }
         const user = await UserService.getUserById(req.user.userId);
         if (!user) {
-        const err: any = new Error('User not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('User not found');
+            err.status = 404;
+            throw err;
         }
         res.json(user);
     }

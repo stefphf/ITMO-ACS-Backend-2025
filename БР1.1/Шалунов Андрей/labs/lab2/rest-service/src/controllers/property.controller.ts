@@ -21,9 +21,9 @@ export class PropertyController {
         const id = Number(req.params.id);
         const prop = await PropertyService.getPropertyById(id);
         if (!prop) {
-        const err: any = new Error('Property not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('Property not found');
+            err.status = 404;
+            throw err;
         }
         res.json(prop);
     }
