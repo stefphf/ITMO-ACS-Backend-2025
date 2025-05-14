@@ -1,3 +1,4 @@
+import { AppDataSource } from "../appDataSource"
 import { CreatePropertyDto } from "../dtos/PropertyDtos"
 import { ResponsePropertyDto } from "../dtos/PropertyDtos"
 import { Property } from "../models/PropertyModel"
@@ -17,7 +18,7 @@ export interface IPropertyService {
 
 
 export class PropertyService extends BaseService<Property, ResponsePropertyDto> implements IPropertyService{
-    constructor(protected readonly repository: Repository<Property>) {
+    constructor(protected readonly repository: Repository<Property> = AppDataSource.getRepository(Property)) {
         super(repository)
     }
 

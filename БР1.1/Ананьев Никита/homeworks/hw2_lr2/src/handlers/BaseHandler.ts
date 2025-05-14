@@ -18,11 +18,11 @@ export enum HttpCodes {
 
 export abstract class BaseHandler {
     public readonly router: Router = Router()
-    protected abstract initRoutes(): void
+    // protected abstract initRoutes(): void
 
-    constructor(){
-        this.initRoutes()
-    }
+    // constructor(){
+    //     this.initRoutes()
+    // }
 
     protected success(response: Response, data: any, status: HttpCodes) {
         response.status(status).json({

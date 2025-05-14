@@ -1,3 +1,5 @@
+import { AppDataSource } from '../appDataSource';
+import { Service } from 'typedi';
 import { User } from "../models/UserModel"
 import { CreateUserDto, LoginDto, ResponseUserDto } from "../dtos/UserDtos";
 import { UserMapper } from "../mappers/UserMapper";
@@ -16,8 +18,9 @@ export interface IUserService {
 }
 
 
+@Service('user.service')
 export class UserService extends BaseService<User, ResponseUserDto> implements IUserService {
-    constructor(protected readonly repository: Repository<User>) {
+    constructor(protected readonly repository: Repository<User> = AppDataSource.getRepository(User)) {
         super(repository)
     }
 

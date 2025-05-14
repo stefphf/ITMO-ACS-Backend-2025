@@ -1,3 +1,4 @@
+import { AppDataSource } from "../appDataSource"
 import { RentMapper } from "../mappers/RentMapper"
 import { Rent, RentStatus } from "../models/RentModel"
 import { CreateRentDto, ChangeRentDto, ResponseRentDto } from "../dtos/RentDtos"
@@ -14,7 +15,7 @@ export interface IRentService {
 }
 
 export class RentService extends BaseService<Rent, ResponseRentDto> implements IRentService {
-    constructor(protected readonly repository: Repository<Rent>) {
+    constructor(protected readonly repository: Repository<Rent> = AppDataSource.getRepository(Rent)) {
         super(repository)
     }
 

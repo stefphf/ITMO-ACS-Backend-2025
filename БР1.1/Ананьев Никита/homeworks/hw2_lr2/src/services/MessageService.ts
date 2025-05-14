@@ -1,3 +1,4 @@
+import { AppDataSource } from "../appDataSource"
 import { MessageDto } from "../dtos/MessageDtos"
 import { Message } from "../models/MessageModel"
 import { MessageMapper } from "../mappers/MessageMapper"
@@ -14,7 +15,7 @@ export interface IMessageService {
 
 
 export class MessageService extends BaseService<Message, MessageDto> implements IMessageService {
-    constructor(protected readonly repository: Repository<Message>) {
+    constructor(protected readonly repository: Repository<Message> = AppDataSource.getRepository(Message)) {
         super(repository);
     }
 
