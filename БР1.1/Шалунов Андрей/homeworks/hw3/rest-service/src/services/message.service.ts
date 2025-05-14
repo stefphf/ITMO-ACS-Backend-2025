@@ -7,10 +7,10 @@ const messageRepo = AppDataSource.getRepository(Message);
 export class MessageService {
     static createMessage(dto: CreateMessageDto) {
         const entity = messageRepo.create({
-        text: dto.text,
-        sender:    { user_id: dto.sender_id } as any,
-        recipient: { user_id: dto.recipient_id } as any,
-        booking:   { booking_id: dto.booking_id }   as any,
+            text: dto.text,
+            sender:    { user_id: dto.sender_id } as any,
+            recipient: { user_id: dto.recipient_id } as any,
+            booking:   { booking_id: dto.booking_id }   as any,
         });
         return messageRepo.save(entity);
     }
@@ -21,8 +21,8 @@ export class MessageService {
 
     static getMessageById(id: number) {
         return messageRepo.findOne({
-        where: { message_id: id },
-        relations: ['sender', 'recipient', 'booking'],
+            where: { message_id: id },
+            relations: ['sender', 'recipient', 'booking'],
         });
     }
 

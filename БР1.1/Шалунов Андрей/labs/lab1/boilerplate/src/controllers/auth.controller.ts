@@ -15,7 +15,7 @@ export const register = async (request: Request, response: Response) => {
             response.status(400).json({ message: 'User already registered' });
             return;
         }
-        const hashed = await hashPassword(password);
+        const hashed = hashPassword(password);
         const user = userRepository.create({ email, password: hashed, name });
         await userRepository.save(user);
         response

@@ -21,9 +21,9 @@ export class BookingController {
         const id = Number(req.params.id);
         const booking = await BookingService.getBookingById(id);
         if (!booking) { 
-        const err: any = new Error('Booking not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('Booking not found');
+            err.status = 404;
+            throw err;
         }
         res.json(booking);
     }

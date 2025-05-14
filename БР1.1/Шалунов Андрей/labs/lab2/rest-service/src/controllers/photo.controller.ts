@@ -21,9 +21,9 @@ export class PhotoController {
         const id = Number(req.params.id);
         const photo = await PhotoService.getPhotoById(id);
         if (!photo) {
-        const err: any = new Error('Photo not found');
-        err.status = 404;
-        throw err;
+            const err: any = new Error('Photo not found');
+            err.status = 404;
+            throw err;
         }
         res.json(photo);
     }

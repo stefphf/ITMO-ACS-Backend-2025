@@ -7,9 +7,9 @@ const photoRepo = AppDataSource.getRepository(PropertyPhoto);
 export class PhotoService {
     static createPhoto(dto: CreatePhotoDto) {
         const entity = photoRepo.create({
-        photo_url: dto.photo_url,
-        description: dto.description,
-        property: { property_id: dto.property_id } as any,
+            photo_url: dto.photo_url,
+            description: dto.description,
+            property: { property_id: dto.property_id } as any,
         });
         return photoRepo.save(entity);
     }
@@ -20,8 +20,8 @@ export class PhotoService {
 
     static getPhotoById(id: number) {
         return photoRepo.findOne({
-        where: { photo_id: id },
-        relations: ['property'],
+            where: { photo_id: id },
+            relations: ['property'],
         });
     }
 

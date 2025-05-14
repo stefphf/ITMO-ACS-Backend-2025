@@ -7,12 +7,12 @@ const bookingRepo = AppDataSource.getRepository(Booking);
 export class BookingService {
     static createBooking(dto: CreateBookingDto) {
         const entity = bookingRepo.create({
-        property: { property_id: dto.property_id } as any,
-        renter:   { user_id: dto.renter_id } as any,
-        start_at: new Date(dto.start_at),
-        end_at:   new Date(dto.end_at),
-        total_price: dto.total_price,
-        deal_status: dto.deal_status,
+            property: { property_id: dto.property_id } as any,
+            renter:   { user_id: dto.renter_id } as any,
+            start_at: new Date(dto.start_at),
+            end_at:   new Date(dto.end_at),
+            total_price: dto.total_price,
+            deal_status: dto.deal_status,
         });
         return bookingRepo.save(entity);
     }
@@ -23,8 +23,8 @@ export class BookingService {
 
     static getBookingById(id: number) {
         return bookingRepo.findOne({
-        where: { booking_id: id },
-        relations: ['property', 'renter'],
+            where: { booking_id: id },
+            relations: ['property', 'renter'],
         });
     }
 
