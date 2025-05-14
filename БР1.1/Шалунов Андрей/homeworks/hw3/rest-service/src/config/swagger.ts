@@ -37,7 +37,7 @@ export function useSwagger(
         },
         servers: [
             {
-            url: `${SETTINGS.APP_PROTOCOL}://${SETTINGS.APP_HOST}:${SETTINGS.APP_PORT}${SETTINGS.APP_API_PREFIX}`,
+            url: `${SETTINGS.APP_PROTOCOL}://${SETTINGS.APP_HOST}:${SETTINGS.APP_PORT}`,
             },
         ],
         });

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ca42f6c1-a88b-481b-a10f-4326bb156f4f",
+		"_postman_id": "4aa63000-e68c-4f1a-8447-bc706911e597",
 		"name": "RealEstate API",
 		"description": "Автодокументация REST API для проекта RealEstate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -30,9 +30,9 @@
 												"value": "application/json"
 											}
 										],
-										"body": {Я
+										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\",\n  \"name\": \"<string>\"\n}",
+											"raw": "{\n  \"email\": \"hLCPj8sE3Xn@xHhWu.ij\",\n  \"password\": \"ut eu laboris\",\n  \"name\": \"ullamco\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -54,7 +54,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "POST",
 												"header": [
@@ -69,7 +69,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\",\n  \"name\": \"<string>\"\n}",
+													"raw": "{\n  \"email\": \"hLCPj8sE3Xn@xHhWu.ij\",\n  \"password\": \"ut eu laboris\",\n  \"name\": \"ullamco\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -102,7 +102,7 @@
 											"body": "{\n  \"value\": \"reference #/components/schemas/AuthResponse not found in the OpenAPI spec\"\n}"
 										},
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "POST",
 												"header": [
@@ -117,7 +117,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\",\n  \"name\": \"<string>\"\n}",
+													"raw": "{\n  \"email\": \"hLCPj8sE3Xn@xHhWu.ij\",\n  \"password\": \"ut eu laboris\",\n  \"name\": \"ullamco\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -172,7 +172,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+											"raw": "{\n  \"email\": \"f6NrebGh7CLM@khipfPQllbBWJSZykJahca.snym\",\n  \"password\": \"velit Ut fugiat\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -194,7 +194,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "POST",
 												"header": [
@@ -209,7 +209,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+													"raw": "{\n  \"email\": \"f6NrebGh7CLM@khipfPQllbBWJSZykJahca.snym\",\n  \"password\": \"velit Ut fugiat\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -242,7 +242,7 @@
 											"body": "{\n  \"value\": \"reference #/components/schemas/TokenResponse not found in the OpenAPI spec\"\n}"
 										},
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "POST",
 												"header": [
@@ -257,7 +257,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"email\": \"<email>\",\n  \"password\": \"<string>\"\n}",
+													"raw": "{\n  \"email\": \"f6NrebGh7CLM@khipfPQllbBWJSZykJahca.snym\",\n  \"password\": \"velit Ut fugiat\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -325,7 +325,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -396,7 +396,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -452,7 +452,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<email>\",\n  \"phone\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+											"raw": "{\n  \"name\": \"culpa dolore\",\n  \"email\": \"TlaEaPoB2e3@CGPTR.ti\",\n  \"phone\": \"amet tempor commodo\",\n  \"password\": \"sed ani\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -481,7 +481,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "PATCH",
 												"header": [
@@ -496,7 +496,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<email>\",\n  \"phone\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+													"raw": "{\n  \"name\": \"culpa dolore\",\n  \"email\": \"TlaEaPoB2e3@CGPTR.ti\",\n  \"phone\": \"amet tempor commodo\",\n  \"password\": \"sed ani\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -577,7 +577,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/users/by-email?email=<string>",
+											"raw": "{{baseUrl}}/api/users/by-email?email=pariatu",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -589,14 +589,14 @@
 											"query": [
 												{
 													"key": "email",
-													"value": "<string>"
+													"value": "pariatu"
 												}
 											]
 										}
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -606,7 +606,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/users/by-email?email=<string>",
+													"raw": "{{baseUrl}}/api/users/by-email?email=pariatu",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -618,7 +618,7 @@
 													"query": [
 														{
 															"key": "email",
-															"value": "<string>"
+															"value": "pariatu"
 														}
 													]
 												}
@@ -655,7 +655,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<email>\",\n  \"password\": \"<string>\",\n  \"phone\": \"<string>\"\n}",
+									"raw": "{\n  \"name\": \"sunt sed ut\",\n  \"email\": \"yzIxIRH@ywoRhMGbZnetxLhsVs.eiuu\",\n  \"password\": \"in dolore consect\",\n  \"phone\": \"dolor exercitation minim dolore\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -677,7 +677,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -692,7 +692,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<email>\",\n  \"password\": \"<string>\",\n  \"phone\": \"<string>\"\n}",
+											"raw": "{\n  \"name\": \"sunt sed ut\",\n  \"email\": \"yzIxIRH@ywoRhMGbZnetxLhsVs.eiuu\",\n  \"password\": \"in dolore consect\",\n  \"phone\": \"dolor exercitation minim dolore\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -750,7 +750,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -824,7 +824,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -860,7 +860,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"owner_id\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}"
+											"body": "{\n  \"owner_id\": -12877149,\n  \"type\": \"mag\",\n  \"title\": \"sed aliquip id est\",\n  \"description\": \"magna commodo nulla\",\n  \"location\": \"esse culpa et\",\n  \"price_per_day\": -56280132.2680214,\n  \"status\": \"nulla ut\"\n}"
 										}
 									]
 								},
@@ -880,7 +880,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}",
+											"raw": "{\n  \"type\": \"in Ut aliquip id\",\n  \"title\": \"est dolore consequat deserunt\",\n  \"description\": \"dolore irure\",\n  \"location\": \"officia Excepteur adipisicing in\",\n  \"price_per_day\": 10989211.237379149,\n  \"status\": \"velit elit exercitati\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -909,7 +909,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "PUT",
 												"header": [
@@ -924,7 +924,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}",
+													"raw": "{\n  \"type\": \"in Ut aliquip id\",\n  \"title\": \"est dolore consequat deserunt\",\n  \"description\": \"dolore irure\",\n  \"location\": \"officia Excepteur adipisicing in\",\n  \"price_per_day\": 10989211.237379149,\n  \"status\": \"velit elit exercitati\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -959,7 +959,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}"
+											"body": "{\n  \"type\": \"in Ut aliquip id\",\n  \"title\": \"est dolore consequat deserunt\",\n  \"description\": \"dolore irure\",\n  \"location\": \"officia Excepteur adipisicing in\",\n  \"price_per_day\": 10989211.237379149,\n  \"status\": \"velit elit exercitati\"\n}"
 										}
 									]
 								},
@@ -1007,7 +1007,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"owner_id\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}",
+									"raw": "{\n  \"owner_id\": -12877149,\n  \"type\": \"mag\",\n  \"title\": \"sed aliquip id est\",\n  \"description\": \"magna commodo nulla\",\n  \"location\": \"esse culpa et\",\n  \"price_per_day\": -56280132.2680214,\n  \"status\": \"nulla ut\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -1029,7 +1029,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -1044,7 +1044,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"owner_id\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}",
+											"raw": "{\n  \"owner_id\": -12877149,\n  \"type\": \"mag\",\n  \"title\": \"sed aliquip id est\",\n  \"description\": \"magna commodo nulla\",\n  \"location\": \"esse culpa et\",\n  \"price_per_day\": -56280132.2680214,\n  \"status\": \"nulla ut\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1074,7 +1074,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"owner_id\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"location\": \"<string>\",\n  \"price_per_day\": \"<number>\",\n  \"status\": \"<string>\"\n}"
+									"body": "{\n  \"owner_id\": -12877149,\n  \"type\": \"mag\",\n  \"title\": \"sed aliquip id est\",\n  \"description\": \"magna commodo nulla\",\n  \"location\": \"esse culpa et\",\n  \"price_per_day\": -56280132.2680214,\n  \"status\": \"nulla ut\"\n}"
 								}
 							]
 						},
@@ -1102,7 +1102,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -1133,7 +1133,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"owner_id\": \"<integer>\",\n    \"type\": \"<string>\",\n    \"title\": \"<string>\",\n    \"description\": \"<string>\",\n    \"location\": \"<string>\",\n    \"price_per_day\": \"<number>\",\n    \"status\": \"<string>\"\n  },\n  {\n    \"owner_id\": \"<integer>\",\n    \"type\": \"<string>\",\n    \"title\": \"<string>\",\n    \"description\": \"<string>\",\n    \"location\": \"<string>\",\n    \"price_per_day\": \"<number>\",\n    \"status\": \"<string>\"\n  }\n]"
+									"body": "[\n  {\n    \"owner_id\": -47588027,\n    \"type\": \"ullamco magna nostrud eiusmod\",\n    \"title\": \"volup\",\n    \"description\": \"dolore ex commodo Duis irure\",\n    \"location\": \"tempor\",\n    \"price_per_day\": -70034974.20048821,\n    \"status\": \"sunt aliquip eiusmod Duis nulla\"\n  },\n  {\n    \"owner_id\": 60488783,\n    \"type\": \"ea dolore\",\n    \"title\": \"reprehenderit labore\",\n    \"description\": \"velit deserunt\",\n    \"location\": \"laboris ipsum eu in\",\n    \"price_per_day\": -90499260.91243017,\n    \"status\": \"dolore et ut\"\n  }\n]"
 								}
 							]
 						}
@@ -1176,7 +1176,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -1212,7 +1212,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"property_id\": \"<integer>\",\n  \"renter_id\": \"<integer>\",\n  \"start_at\": \"6949-12-03T09:21:54O878\",\n  \"end_at\": \"2580-12-28T28:15:22Z41747288109Z\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"cancelled\"\n}"
+											"body": "{\n  \"property_id\": -79143750,\n  \"renter_id\": 80755415,\n  \"start_at\": \"5505-02-38T07:06:11d5385\",\n  \"end_at\": \"5098-02-06T24:07:07G666168\",\n  \"total_price\": -58935281.5982588,\n  \"deal_status\": \"pending\"\n}"
 										}
 									]
 								},
@@ -1232,7 +1232,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"start_at\": \"3682-19-31T19:26:27*42712378\",\n  \"end_at\": \"8653-02-25T07:53:43C245472\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"pending\"\n}",
+											"raw": "{\n  \"start_at\": \"0938-16-03T07:54:42-4246095762\",\n  \"end_at\": \"3959-00-15T29:08:57M6\",\n  \"total_price\": 64141844.54798636,\n  \"deal_status\": \"cancelled\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1261,7 +1261,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "PUT",
 												"header": [
@@ -1276,7 +1276,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"start_at\": \"3682-19-31T19:26:27*42712378\",\n  \"end_at\": \"8653-02-25T07:53:43C245472\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"pending\"\n}",
+													"raw": "{\n  \"start_at\": \"0938-16-03T07:54:42-4246095762\",\n  \"end_at\": \"3959-00-15T29:08:57M6\",\n  \"total_price\": 64141844.54798636,\n  \"deal_status\": \"cancelled\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -1311,7 +1311,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"start_at\": \"3682-19-31T19:26:27*42712378\",\n  \"end_at\": \"8653-02-25T07:53:43C245472\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"pending\"\n}"
+											"body": "{\n  \"start_at\": \"0938-16-03T07:54:42-4246095762\",\n  \"end_at\": \"3959-00-15T29:08:57M6\",\n  \"total_price\": 64141844.54798636,\n  \"deal_status\": \"cancelled\"\n}"
 										}
 									]
 								},
@@ -1359,7 +1359,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"property_id\": \"<integer>\",\n  \"renter_id\": \"<integer>\",\n  \"start_at\": \"6949-12-03T09:21:54O878\",\n  \"end_at\": \"2580-12-28T28:15:22Z41747288109Z\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"cancelled\"\n}",
+									"raw": "{\n  \"property_id\": -79143750,\n  \"renter_id\": 80755415,\n  \"start_at\": \"5505-02-38T07:06:11d5385\",\n  \"end_at\": \"5098-02-06T24:07:07G666168\",\n  \"total_price\": -58935281.5982588,\n  \"deal_status\": \"pending\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -1381,7 +1381,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -1396,7 +1396,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"property_id\": \"<integer>\",\n  \"renter_id\": \"<integer>\",\n  \"start_at\": \"6949-12-03T09:21:54O878\",\n  \"end_at\": \"2580-12-28T28:15:22Z41747288109Z\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"cancelled\"\n}",
+											"raw": "{\n  \"property_id\": -79143750,\n  \"renter_id\": 80755415,\n  \"start_at\": \"5505-02-38T07:06:11d5385\",\n  \"end_at\": \"5098-02-06T24:07:07G666168\",\n  \"total_price\": -58935281.5982588,\n  \"deal_status\": \"pending\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1426,7 +1426,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"property_id\": \"<integer>\",\n  \"renter_id\": \"<integer>\",\n  \"start_at\": \"6949-12-03T09:21:54O878\",\n  \"end_at\": \"2580-12-28T28:15:22Z41747288109Z\",\n  \"total_price\": \"<number>\",\n  \"deal_status\": \"cancelled\"\n}"
+									"body": "{\n  \"property_id\": -79143750,\n  \"renter_id\": 80755415,\n  \"start_at\": \"5505-02-38T07:06:11d5385\",\n  \"end_at\": \"5098-02-06T24:07:07G666168\",\n  \"total_price\": -58935281.5982588,\n  \"deal_status\": \"pending\"\n}"
 								}
 							]
 						},
@@ -1454,7 +1454,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -1485,7 +1485,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"property_id\": \"<integer>\",\n    \"renter_id\": \"<integer>\",\n    \"start_at\": \"0377-03-02T08:17:43'49614652\",\n    \"end_at\": \"9733-11-27T12:07:40F714884\",\n    \"total_price\": \"<number>\",\n    \"deal_status\": \"confirmed\"\n  },\n  {\n    \"property_id\": \"<integer>\",\n    \"renter_id\": \"<integer>\",\n    \"start_at\": \"9167-18-14T25:40:48K208Z\",\n    \"end_at\": \"9261-03-06T02:33:24366795070933Z\",\n    \"total_price\": \"<number>\",\n    \"deal_status\": \"confirmed\"\n  }\n]"
+									"body": "[\n  {\n    \"property_id\": 3678880,\n    \"renter_id\": 12946603,\n    \"start_at\": \"9366-03-06T23:23:32U38629Z\",\n    \"end_at\": \"6974-13-08T25:01:11m0365214Z\",\n    \"total_price\": 57366771.33072719,\n    \"deal_status\": \"cancelled\"\n  },\n  {\n    \"property_id\": -2102912,\n    \"renter_id\": 42233570,\n    \"start_at\": \"2034-02-36T19:14:25a991279239\",\n    \"end_at\": \"9247-10-19T29:13:49x9404\",\n    \"total_price\": -25430908.39031747,\n    \"deal_status\": \"pending\"\n  }\n]"
 								}
 							]
 						}
@@ -1528,7 +1528,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -1564,7 +1564,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"sender_id\": \"<integer>\",\n  \"recipient_id\": \"<integer>\",\n  \"booking_id\": \"<integer>\",\n  \"text\": \"<string>\"\n}"
+											"body": "{\n  \"sender_id\": -45405068,\n  \"recipient_id\": 59440124,\n  \"booking_id\": -91656853,\n  \"text\": \"in est id\"\n}"
 										}
 									]
 								},
@@ -1584,7 +1584,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"text\": \"<string>\"\n}",
+											"raw": "{\n  \"text\": \"quis\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1613,7 +1613,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "PUT",
 												"header": [
@@ -1628,7 +1628,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"text\": \"<string>\"\n}",
+													"raw": "{\n  \"text\": \"quis\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -1663,7 +1663,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"text\": \"<string>\"\n}"
+											"body": "{\n  \"text\": \"quis\"\n}"
 										}
 									]
 								},
@@ -1711,7 +1711,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"sender_id\": \"<integer>\",\n  \"recipient_id\": \"<integer>\",\n  \"booking_id\": \"<integer>\",\n  \"text\": \"<string>\"\n}",
+									"raw": "{\n  \"sender_id\": -45405068,\n  \"recipient_id\": 59440124,\n  \"booking_id\": -91656853,\n  \"text\": \"in est id\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -1733,7 +1733,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -1748,7 +1748,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"sender_id\": \"<integer>\",\n  \"recipient_id\": \"<integer>\",\n  \"booking_id\": \"<integer>\",\n  \"text\": \"<string>\"\n}",
+											"raw": "{\n  \"sender_id\": -45405068,\n  \"recipient_id\": 59440124,\n  \"booking_id\": -91656853,\n  \"text\": \"in est id\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1778,7 +1778,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"sender_id\": \"<integer>\",\n  \"recipient_id\": \"<integer>\",\n  \"booking_id\": \"<integer>\",\n  \"text\": \"<string>\"\n}"
+									"body": "{\n  \"sender_id\": -45405068,\n  \"recipient_id\": 59440124,\n  \"booking_id\": -91656853,\n  \"text\": \"in est id\"\n}"
 								}
 							]
 						},
@@ -1806,7 +1806,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -1837,7 +1837,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"sender_id\": \"<integer>\",\n    \"recipient_id\": \"<integer>\",\n    \"booking_id\": \"<integer>\",\n    \"text\": \"<string>\"\n  },\n  {\n    \"sender_id\": \"<integer>\",\n    \"recipient_id\": \"<integer>\",\n    \"booking_id\": \"<integer>\",\n    \"text\": \"<string>\"\n  }\n]"
+									"body": "[\n  {\n    \"sender_id\": 49781155,\n    \"recipient_id\": -85675322,\n    \"booking_id\": -42592073,\n    \"text\": \"labore\"\n  },\n  {\n    \"sender_id\": -61672554,\n    \"recipient_id\": -26220916,\n    \"booking_id\": -22504569,\n    \"text\": \"Ut reprehenderit\"\n  }\n]"
 								}
 							]
 						}
@@ -1880,7 +1880,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -1916,7 +1916,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"property_id\": \"<integer>\",\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+											"body": "{\n  \"property_id\": -57807687,\n  \"photo_url\": \"in pariatur\",\n  \"description\": \"Excepteur est\"\n}"
 										}
 									]
 								},
@@ -1936,7 +1936,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+											"raw": "{\n  \"photo_url\": \"quis ut mollit aute\",\n  \"description\": \"irure aliquip nostrud dolor\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1965,7 +1965,7 @@
 									},
 									"response": [
 										{
-											"name": "Untitled Response",
+											"name": "Untitled Example",
 											"originalRequest": {
 												"method": "PUT",
 												"header": [
@@ -1980,7 +1980,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+													"raw": "{\n  \"photo_url\": \"quis ut mollit aute\",\n  \"description\": \"irure aliquip nostrud dolor\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -2015,7 +2015,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+											"body": "{\n  \"photo_url\": \"quis ut mollit aute\",\n  \"description\": \"irure aliquip nostrud dolor\"\n}"
 										}
 									]
 								},
@@ -2063,7 +2063,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"property_id\": \"<integer>\",\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+									"raw": "{\n  \"property_id\": -57807687,\n  \"photo_url\": \"in pariatur\",\n  \"description\": \"Excepteur est\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -2085,7 +2085,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -2100,7 +2100,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"property_id\": \"<integer>\",\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+											"raw": "{\n  \"property_id\": -57807687,\n  \"photo_url\": \"in pariatur\",\n  \"description\": \"Excepteur est\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -2130,7 +2130,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"property_id\": \"<integer>\",\n  \"photo_url\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+									"body": "{\n  \"property_id\": -57807687,\n  \"photo_url\": \"in pariatur\",\n  \"description\": \"Excepteur est\"\n}"
 								}
 							]
 						},
@@ -2158,7 +2158,7 @@
 							},
 							"response": [
 								{
-									"name": "Untitled Response",
+									"name": "Untitled Example",
 									"originalRequest": {
 										"method": "GET",
 										"header": [
@@ -2189,7 +2189,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"property_id\": \"<integer>\",\n    \"photo_url\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  {\n    \"property_id\": \"<integer>\",\n    \"photo_url\": \"<string>\",\n    \"description\": \"<string>\"\n  }\n]"
+									"body": "[\n  {\n    \"property_id\": 21610814,\n    \"photo_url\": \"aliqua id\",\n    \"description\": \"in sit ex\"\n  },\n  {\n    \"property_id\": 21339633,\n    \"photo_url\": \"dolore quis nulla\",\n    \"description\": \"fugiat dolor\"\n  }\n]"
 								}
 							]
 						}
@@ -2201,7 +2201,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:3000/api"
+			"value": "http://localhost:3000"
 		}
 	]
 }
