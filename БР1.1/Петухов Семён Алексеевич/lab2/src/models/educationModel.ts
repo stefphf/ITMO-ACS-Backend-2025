@@ -7,13 +7,9 @@ export class Education {
     id!: number;
 
     @Column()
-    education_level: string;
+    education_level!: string;
 
     @OneToMany(() => Resume, (resume) => resume.education)
     resumes?: Resume[];
 
-    // Конструктор для инициализации полей
-    constructor(education_level: string) {
-        this.education_level = education_level;
-    }
 }

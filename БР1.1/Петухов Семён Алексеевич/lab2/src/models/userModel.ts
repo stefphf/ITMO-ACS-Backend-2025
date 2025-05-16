@@ -16,19 +16,19 @@ export class User {
     id!: number;
 
     @Column()
-    username: string;
+    username!: string;
 
     @Column({ unique: true })
-    email: string;
+    email!: string;
 
     @Column()
-    password: string;
+    password!: string;
 
     @Column()
-    role: "соискатель" | "работодатель";
+    role!: "соискатель" | "работодатель";
 
     @ManyToOne(() => Company, (company) => company.users, { nullable: true })
-    company: Company | null;
+    company?: Company | null;
 
     @OneToMany(() => Resume, (resume) => resume.user)
     resumes?: Resume[];
@@ -39,17 +39,4 @@ export class User {
     @OneToMany(() => MotivationLetter, (ml) => ml.user)
     motivationLetters?: MotivationLetter[];
 
-    constructor(
-        username: string,
-        email: string,
-        password: string,
-        role: "соискатель" | "работодатель",
-        company?: Company
-    ) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.company = company || null;
-    }
 }

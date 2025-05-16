@@ -32,13 +32,12 @@ export const getVacancyById = async (req: Request, res: Response) => {
 
 // Создать новую вакансию
 export const createVacancy = async (req: Request, res: Response) => {
-    const { title, description, companyId } = req.body;
+    const { title, description, industry, requirements, salary, work_exp, companyId } = req.body;
 
-    if (!title || !description || !companyId) {
-        res.status(400).json({ message: "Missing required fields: title, description, or companyId" });
+    if (!title || !description || !industry || !requirements || !salary || !work_exp || !companyId) {
+        res.status(400).json({ message: "Missing one or more required fields" });
         return;
     }
-
     const item = repo.create(req.body);
     await repo.save(item);
     res.status(201).json(item);

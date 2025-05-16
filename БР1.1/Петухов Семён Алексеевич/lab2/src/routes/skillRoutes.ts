@@ -63,10 +63,26 @@ router.get("/:id", controller.getSkillById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Skill'
+ *             type: object
+ *             properties:
+ *               skill_name:
+ *                 type: string
+ *                 description: Название навыка
+ *               description:
+ *                 type: string
+ *                 description: Описание навыка
+ *             required:
+ *               - skill_name
+ *               - description
  *     responses:
  *       201:
  *         description: Навык создан
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Skill'
+ *       400:
+ *         description: Отсутствуют обязательные поля
  */
 router.post("/", controller.createSkill);
 
@@ -87,10 +103,24 @@ router.post("/", controller.createSkill);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Skill'
+ *             type: object
+ *             properties:
+ *               skill_name:
+ *                 type: string
+ *                 description: Название навыка
+ *               description:
+ *                 type: string
+ *                 description: Описание навыка
+ *             required:
+ *               - skill_name
+ *               - description
  *     responses:
  *       200:
  *         description: Навык обновлён
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Skill'
  *       404:
  *         description: Навык не найден
  */

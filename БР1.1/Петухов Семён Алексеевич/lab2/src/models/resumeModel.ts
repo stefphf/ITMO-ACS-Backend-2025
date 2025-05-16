@@ -12,53 +12,32 @@ export class Resume {
     id!: number;
 
     @ManyToOne(() => User, (user) => user.resumes)
-    user: User;
+    user!: User;
 
     @Column()
-    full_name: string;
+    full_name!: string;
 
     @Column()
-    date_of_birth: string;
+    date_of_birth!: string;
 
     @Column()
-    work_experience: string;
+    work_experience!: string;
 
     @Column()
-    skills: string;
+    skills?: string;
 
     @Column()
-    salary: number;
+    salary?: number;
 
     @ManyToOne(() => Education, (edu) => edu.resumes)
-    education: Education;
+    education?: Education;
 
     @Column("text")
-    additional_information: string;
+    additional_information?: string;
 
     @OneToMany(() => WorkExperience, (exp) => exp.resume)
     experiences?: WorkExperience[];
 
     @OneToMany(() => ResumeSkills, (rs) => rs.resume)
     resumeSkills?: ResumeSkills[];
-
-    // Конструктор для инициализации всех свойств
-    constructor(
-        user: User,
-        full_name: string,
-        date_of_birth: string,
-        work_experience: string,
-        skills: string,
-        salary: number,
-        education: Education,
-        additional_information: string
-    ) {
-        this.user = user;
-        this.full_name = full_name;
-        this.date_of_birth = date_of_birth;
-        this.work_experience = work_experience;
-        this.skills = skills;
-        this.salary = salary;
-        this.education = education;
-        this.additional_information = additional_information;
-    }
 }

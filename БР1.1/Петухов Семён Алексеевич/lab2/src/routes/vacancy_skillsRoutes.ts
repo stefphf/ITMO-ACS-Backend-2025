@@ -7,24 +7,31 @@ const router = Router();
  * @swagger
  * tags:
  *   name: VacancySkills
- *   description: Управление навыками вакансий
+ *   description: Связь вакансий и навыков
  */
 
 /**
  * @swagger
  * /api/vacancy-skills:
  *   get:
- *     summary: Получить все навыки, связанные с вакансиями
+ *     summary: Получить все связи вакансий и навыков
  *     tags: [VacancySkills]
  *     responses:
  *       200:
- *         description: Список всех навыков вакансий
+ *         description: Список всех связей
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/VacancySkill'
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   vacancy:
+ *                     type: integer
+ *                   skill:
+ *                     type: integer
  */
 router.get("/", controller.getAllVacancySkills);
 
@@ -32,7 +39,7 @@ router.get("/", controller.getAllVacancySkills);
  * @swagger
  * /api/vacancy-skills/{id}:
  *   get:
- *     summary: Получить навык вакансии по ID
+ *     summary: Получить связь между вакансией и навыком по ID
  *     tags: [VacancySkills]
  *     parameters:
  *       - name: id
@@ -42,13 +49,20 @@ router.get("/", controller.getAllVacancySkills);
  *           type: integer
  *     responses:
  *       200:
- *         description: Найденный навык вакансии
+ *         description: Найденная связь
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/VacancySkill'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 vacancy:
+ *                   type: integer
+ *                 skill:
+ *                   type: integer
  *       404:
- *         description: Навык не найден
+ *         description: Связь не найдена
  */
 router.get("/:id", controller.getVacancySkillById);
 
@@ -56,17 +70,36 @@ router.get("/:id", controller.getVacancySkillById);
  * @swagger
  * /api/vacancy-skills:
  *   post:
- *     summary: Создать новый навык для вакансии
+ *     summary: Создать связь между вакансией и навыком
  *     tags: [VacancySkills]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/VacancySkill'
+ *             type: object
+ *             required:
+ *               - vacancy
+ *               - skill
+ *             properties:
+ *               vacancy:
+ *                 type: integer
+ *               skill:
+ *                 type: integer
  *     responses:
  *       201:
- *         description: Навык добавлен
+ *         description: Связь создана
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 vacancy:
+ *                   type: integer
+ *                 skill:
+ *                   type: integer
  */
 router.post("/", controller.createVacancySkill);
 
@@ -74,7 +107,7 @@ router.post("/", controller.createVacancySkill);
  * @swagger
  * /api/vacancy-skills/{id}:
  *   put:
- *     summary: Обновить навык вакансии по ID
+ *     summary: Обновить связь между вакансией и навыком
  *     tags: [VacancySkills]
  *     parameters:
  *       - name: id
@@ -87,12 +120,28 @@ router.post("/", controller.createVacancySkill);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/VacancySkill'
+ *             type: object
+ *             properties:
+ *               vacancy:
+ *                 type: integer
+ *               skill:
+ *                 type: integer
  *     responses:
  *       200:
- *         description: Навык обновлён
+ *         description: Связь обновлена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 vacancy:
+ *                   type: integer
+ *                 skill:
+ *                   type: integer
  *       404:
- *         description: Навык не найден
+ *         description: Связь не найдена
  */
 router.put("/:id", controller.updateVacancySkill);
 
@@ -100,7 +149,7 @@ router.put("/:id", controller.updateVacancySkill);
  * @swagger
  * /api/vacancy-skills/{id}:
  *   delete:
- *     summary: Удалить навык вакансии по ID
+ *     summary: Удалить связь между вакансией и навыком
  *     tags: [VacancySkills]
  *     parameters:
  *       - name: id
@@ -110,9 +159,9 @@ router.put("/:id", controller.updateVacancySkill);
  *           type: integer
  *     responses:
  *       200:
- *         description: Навык удалён
+ *         description: Связь удалена
  *       404:
- *         description: Навык не найден
+ *         description: Связь не найдена
  */
 router.delete("/:id", controller.deleteVacancySkill);
 

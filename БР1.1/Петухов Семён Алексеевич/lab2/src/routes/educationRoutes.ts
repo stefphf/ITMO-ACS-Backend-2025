@@ -12,13 +12,33 @@ const router = Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Education:
+ *       type: object
+ *       required:
+ *         - education_level
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Уникальный ID записи
+ *         education_level:
+ *           type: string
+ *           description: Уровень образования
+ *       example:
+ *         id: 1
+ *         education_level: "Bachelor's Degree"
+ */
+
+/**
+ * @swagger
  * /api/educations:
  *   get:
  *     summary: Получить все записи об образовании
  *     tags: [Educations]
  *     responses:
  *       200:
- *         description: Успешный ответ
+ *         description: Список записей об образовании
  *         content:
  *           application/json:
  *             schema:
@@ -43,7 +63,7 @@ router.get("/", controller.getAllEducations);
  *         description: ID записи
  *     responses:
  *       200:
- *         description: Успешный ответ
+ *         description: Найденная запись
  *         content:
  *           application/json:
  *             schema:
@@ -64,26 +84,14 @@ router.get("/:id", controller.getEducationById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - institution
- *               - degree
- *               - startDate
- *               - endDate
- *             properties:
- *               institution:
- *                 type: string
- *               degree:
- *                 type: string
- *               startDate:
- *                 type: string
- *                 format: date
- *               endDate:
- *                 type: string
- *                 format: date
+ *             $ref: '#/components/schemas/Education'
  *     responses:
  *       201:
- *         description: Запись создана
+ *         description: Запись успешно создана
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Education'
  *       400:
  *         description: Ошибка валидации
  */
@@ -107,21 +115,16 @@ router.post("/", controller.createEducation);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               institution:
- *                 type: string
- *               degree:
- *                 type: string
- *               startDate:
- *                 type: string
- *                 format: date
- *               endDate:
- *                 type: string
- *                 format: date
+ *             $ref: '#/components/schemas/Education'
  *     responses:
  *       200:
  *         description: Запись обновлена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Education'
+ *       400:
+ *         description: Ошибка валидации
  *       404:
  *         description: Запись не найдена
  */
@@ -143,6 +146,13 @@ router.put("/:id", controller.updateEducation);
  *     responses:
  *       200:
  *         description: Запись удалена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 deleted:
+ *                   type: integer
  *       404:
  *         description: Запись не найдена
  */

@@ -7,32 +7,18 @@ export class WorkExperience {
     id!: number;
 
     @ManyToOne(() => Resume, (resume) => resume.experiences)
-    resume: Resume;
+    resume!: Resume;
 
-    @Column()
-    company: string;
+    @Column({ nullable: true })
+    company?: string;
 
-    @Column()
-    role: string;
+    @Column({ nullable: true })
+    role?: string;
 
     @Column("text")
-    description: string;
+    description?: string;
 
     @Column()
-    duration: string;
+    duration!: string;
 
-    // Конструктор для инициализации всех свойств
-    constructor(
-        company: string,
-        role: string,
-        description: string,
-        duration: string,
-        resume: Resume
-    ) {
-        this.company = company;
-        this.role = role;
-        this.description = description;
-        this.duration = duration;
-        this.resume = resume; // Обязательное поле связи с Resume
-    }
 }

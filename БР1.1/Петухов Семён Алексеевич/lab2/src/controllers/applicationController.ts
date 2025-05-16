@@ -32,10 +32,10 @@ export const getApplicationById = async (req: Request, res: Response) => {
 
 // Создать новую заявку
 export const createApplication = async (req: Request, res: Response) => {
-    const { userId, resumeId, vacancyId, applicationDate } = req.body;
+    const { user, resume, vacancy, status } = req.body;
 
-    if (!userId || !resumeId || !vacancyId || !applicationDate) {
-        res.status(400).json({ message: "Missing required fields: userId, resumeId, vacancyId, or applicationDate" });
+    if (!user || !resume || !vacancy || !status) {
+        res.status(400).json({ message: "Missing required fields: userId, resumeId, vacancyId, or status" });
         return;
     }
 

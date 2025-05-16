@@ -10,25 +10,25 @@ export class Vacancy {
     id!: number;
 
     @Column()
-    title: string;
+    title!: string;
 
     @Column("text")
-    description: string;
+    description?: string;
 
     @Column()
-    industry: string;
+    industry?: string;
 
     @Column("text")
-    requirements: string;
+    requirements?: string;
 
     @Column()
-    salary: number;
+    salary?: number;
 
     @Column()
-    work_exp: string;
+    work_exp?: string;
 
     @ManyToOne(() => Company, (company) => company.vacancies)
-    company: Company;
+    company!: Company;
 
     @OneToMany(() => VacancySkills, (vs) => vs.vacancy)
     vacancySkills?: VacancySkills[];
@@ -39,22 +39,4 @@ export class Vacancy {
     @OneToMany(() => MotivationLetter, (ml) => ml.vacancy)
     motivationLetters?: MotivationLetter[];
 
-    // Конструктор для инициализации всех свойств
-    constructor(
-        title: string,
-        description: string,
-        industry: string,
-        requirements: string,
-        salary: number,
-        work_exp: string,
-        company: Company
-    ) {
-        this.title = title;
-        this.description = description;
-        this.industry = industry;
-        this.requirements = requirements;
-        this.salary = salary;
-        this.work_exp = work_exp;
-        this.company = company;
-    }
 }

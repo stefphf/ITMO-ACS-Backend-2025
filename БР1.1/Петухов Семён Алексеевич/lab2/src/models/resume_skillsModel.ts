@@ -13,7 +13,6 @@ export class ResumeSkills {
     @ManyToOne(() => Skill, (skill) => skill.resumeSkills)
     skill: Skill;
 
-    // Конструктор для инициализации связей
     constructor(resume: Resume, skill: Skill) {
         this.resume = resume;
         this.skill = skill;

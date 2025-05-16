@@ -4,13 +4,11 @@ import { WorkExperience } from "../models/work_experienceModel";
 
 const repo = AppDataSource.getRepository(WorkExperience);
 
-// Получить все опыт работы
 export const getAllWorkExperiences = async (_: Request, res: Response) => {
     const items = await repo.find({ relations: ["resume"] });
     res.json(items);
 };
 
-// Получить опыт работы по ID
 export const getWorkExperienceById = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
@@ -30,12 +28,11 @@ export const getWorkExperienceById = async (req: Request, res: Response) => {
     res.json(item);
 };
 
-// Создать новый опыт работы
 export const createWorkExperience = async (req: Request, res: Response) => {
-    const { resumeId, jobTitle, companyName, startDate, endDate, description } = req.body;
+    const { resume, role, company, description, duration } = req.body;
 
-    if (!resumeId || !jobTitle || !companyName || !startDate) {
-        res.status(400).json({ message: "Missing required fields: resumeId, jobTitle, companyName, or startDate" });
+    if (!resume || !role || !duration) {
+        res.status(400).json({ message: "Missing required fields: resume, role, or duration" });
         return;
     }
 

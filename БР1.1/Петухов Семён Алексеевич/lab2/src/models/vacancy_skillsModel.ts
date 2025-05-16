@@ -8,14 +8,9 @@ export class VacancySkills {
     id!: number;
 
     @ManyToOne(() => Vacancy, (vacancy) => vacancy.vacancySkills)
-    vacancy: Vacancy;
+    vacancy!: Vacancy;
 
     @ManyToOne(() => Skill, (skill) => skill.vacancySkills)
-    skill: Skill;
+    skill!: Skill;
 
-    // Конструктор для инициализации всех свойств
-    constructor(vacancy: Vacancy, skill: Skill) {
-        this.vacancy = vacancy;
-        this.skill = skill;
-    }
 }

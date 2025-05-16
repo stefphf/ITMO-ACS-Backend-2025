@@ -8,32 +8,18 @@ export class MotivationLetter {
     id!: number;
 
     @ManyToOne(() => User, (user) => user.motivationLetters)
-    user: User;
+    user!: User;
 
     @ManyToOne(() => Vacancy, (vacancy) => vacancy.motivationLetters)
-    vacancy: Vacancy;
+    vacancy!: Vacancy;
 
     @Column()
-    title: string;
+    title!: string;
 
     @Column("text")
-    content: string;
+    content!: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at: Date;
+    created_at: Date = new Date();
 
-    // Конструктор для инициализации полей
-    constructor(
-        user: User,
-        vacancy: Vacancy,
-        title: string,
-        content: string,
-        created_at: Date = new Date() // По умолчанию установим текущую дату и время
-    ) {
-        this.user = user;
-        this.vacancy = vacancy;
-        this.title = title;
-        this.content = content;
-        this.created_at = created_at;
-    }
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/data-source";
 import { User } from "../models/userModel";
+import bcrypt from "bcrypt";
 
 const userRepo = AppDataSource.getRepository(User);
 
@@ -20,10 +21,23 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
     }
     res.json(user);
 };
+
 export const createUser = async (req: Request, res: Response) => {
-    const user = userRepo.create(req.body);
-    await userRepo.save(user);
-    res.status(201).json(user);
+    try {
+        const { password, ...rest } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = userRepo.create({
+            ...rest,
+            password: hashedPassword,
+        });
+
+        await userRepo.save(user);
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Ошибка при создании пользователя", error });
+    }
 };
 
 export const updateUser = async (req: Request, res: Response): Promise<void> => {

@@ -29,14 +29,14 @@ export const getEducationById = async (req: Request, res: Response) => {
 
 // Создать образовательную запись
 export const createEducation = async (req: Request, res: Response) => {
-    const { institution, degree, startYear, endYear } = req.body;
+    const { education_level } = req.body;
 
-    if (!institution || !degree || !startYear || !endYear) {
-        res.status(400).json({ message: "Missing required fields: institution, degree, startYear, or endYear" });
+    if (!education_level) {
+        res.status(400).json({ message: "Missing required field: education_level" });
         return;
     }
 
-    const item = repo.create(req.body);
+    const item = repo.create({ education_level });
     await repo.save(item);
     res.status(201).json(item);
 };
@@ -55,7 +55,13 @@ export const updateEducation = async (req: Request, res: Response) => {
         return;
     }
 
-    repo.merge(item, req.body);
+    const { education_level } = req.body;
+    if (!education_level) {
+        res.status(400).json({ message: "Missing required field: education_level" });
+        return;
+    }
+
+    item.education_level = education_level;
     await repo.save(item);
     res.json(item);
 };

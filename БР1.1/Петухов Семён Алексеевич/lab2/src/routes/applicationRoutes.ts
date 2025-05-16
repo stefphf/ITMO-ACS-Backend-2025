@@ -5,6 +5,13 @@ const router = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Applications
+ *   description: Управление заявками пользователей на вакансии
+ */
+
+/**
+ * @swagger
  * /api/applications:
  *   get:
  *     summary: Получить список всех заявок
@@ -17,7 +24,24 @@ const router = Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Application'
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   resume:
+ *                     type: object
+ *                     description: Объект резюме
+ *                   user:
+ *                     type: object
+ *                     description: Объект пользователя
+ *                   vacancy:
+ *                     type: object
+ *                     description: Объект вакансии
+ *                   status:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
  */
 router.get("/", controller.getAllApplications);
 
@@ -40,7 +64,21 @@ router.get("/", controller.getAllApplications);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Application'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 resume:
+ *                   type: object
+ *                 user:
+ *                   type: object
+ *                 vacancy:
+ *                   type: object
+ *                 status:
+ *                   type: string
+ *                 created_at:
+ *                   type: string
+ *                   format: date-time
  *       404:
  *         description: Заявка не найдена
  */
@@ -59,13 +97,19 @@ router.get("/:id", controller.getApplicationById);
  *           schema:
  *             type: object
  *             required:
- *               - userId
- *               - vacancyId
+ *               - user
+ *               - vacancy
+ *               - resume
+ *               - status
  *             properties:
- *               userId:
+ *               user:
  *                 type: integer
- *               vacancyId:
+ *               vacancy:
  *                 type: integer
+ *               resume:
+ *                 type: integer
+ *               status:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Заявка успешно создана
@@ -94,10 +138,14 @@ router.post("/", controller.createApplication);
  *           schema:
  *             type: object
  *             properties:
- *               userId:
+ *               user:
  *                 type: integer
- *               vacancyId:
+ *               vacancy:
  *                 type: integer
+ *               resume:
+ *                 type: integer
+ *               status:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Заявка обновлена

@@ -13,6 +13,35 @@ const router = Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     WorkExperience:
+ *       type: object
+ *       required:
+ *         - resume
+ *         - role
+ *         - duration
+ *       properties:
+ *         id:
+ *           type: integer
+ *         resume:
+ *           type: number
+ *           properties:
+ *             id:
+ *               type: integer
+ *         company:
+ *           type: string
+ *         role:
+ *           type: string
+ *         description:
+ *           type: string
+ *         duration:
+ *           type: string
+ */
+
+
+/**
+ * @swagger
  * /api/work-experiences:
  *   get:
  *     summary: Получить все записи опыта работы
@@ -25,21 +54,11 @@ const router = Router();
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   title:
- *                     type: string
- *                   company:
- *                     type: string
- *                   start_date:
- *                     type: string
- *                   end_date:
- *                     type: string
+ *                 $ref: '#/components/schemas/WorkExperience'
  *       500:
  *         description: Ошибка на сервере
  */
+
 router.get("/", controller.getAllWorkExperiences);
 
 /**
@@ -61,23 +80,13 @@ router.get("/", controller.getAllWorkExperiences);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 title:
- *                   type: string
- *                 company:
- *                   type: string
- *                 start_date:
- *                   type: string
- *                 end_date:
- *                   type: string
+ *               $ref: '#/components/schemas/WorkExperience'
  *       404:
  *         description: Запись не найдена
  *       500:
  *         description: Ошибка на сервере
  */
+
 router.get("/:id", controller.getWorkExperienceById);
 
 /**
@@ -93,18 +102,19 @@ router.get("/:id", controller.getWorkExperienceById);
  *           schema:
  *             type: object
  *             required:
- *               - title
- *               - company
- *               - start_date
- *               - end_date
+ *               - resume
+ *               - role
+ *               - duration
  *             properties:
- *               title:
+ *               resume:
+ *                 type: integer
+ *               role:
  *                 type: string
  *               company:
  *                 type: string
- *               start_date:
+ *               description:
  *                 type: string
- *               end_date:
+ *               duration:
  *                 type: string
  *     responses:
  *       201:
@@ -136,14 +146,17 @@ router.post("/", controller.createWorkExperience);
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               role:
  *                 type: string
  *               company:
  *                 type: string
- *               start_date:
+ *               description:
  *                 type: string
- *               end_date:
+ *               duration:
  *                 type: string
+ *               resume:
+ *                 type: integer
+
  *     responses:
  *       200:
  *         description: Описание обновленного опыта работы
@@ -171,7 +184,7 @@ router.put("/:id", controller.updateWorkExperience);
  *           type: integer
  *     responses:
  *       200:
- *         description: Опыта работы успешно удален
+ *         description: Опыт работы успешно удален
  *       404:
  *         description: Запись не найдена
  *       500:

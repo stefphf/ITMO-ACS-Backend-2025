@@ -6,7 +6,7 @@ const vacancySkillRepo = AppDataSource.getRepository(VacancySkills);
 
 // Получить все связи "Навыки вакансии"
 export const getAllVacancySkills = async (_: Request, res: Response) => {
-    const items = await vacancySkillRepo.find({ relations: ["resume", "skill"] });
+    const items = await vacancySkillRepo.find({ relations: ["vacancy", "skill"] });
     res.json(items);
 };
 
@@ -20,7 +20,7 @@ export const getVacancySkillById = async (req: Request, res: Response) => {
 
     const item = await vacancySkillRepo.findOne({
         where: { id },
-        relations: ["resume", "skill"],
+        relations: ["vacancy", "skill"],
     });
 
     if (!item) {
@@ -33,10 +33,10 @@ export const getVacancySkillById = async (req: Request, res: Response) => {
 
 // Создать новую связь "Навыки вакансии"
 export const createVacancySkill = async (req: Request, res: Response) => {
-    const { resume, skill } = req.body;
+    const { vacancy, skill } = req.body;
 
-    if (!resume || !skill) {
-        res.status(400).json({ message: "Missing required fields: resume and/or skill" });
+    if (!vacancy || !skill) {
+        res.status(400).json({ message: "Missing required fields: vacancy and/or skill" });
         return;
     }
 

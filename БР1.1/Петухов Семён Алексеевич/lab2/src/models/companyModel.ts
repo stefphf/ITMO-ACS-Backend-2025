@@ -16,7 +16,6 @@ export class Company {
     @Column()
     location: string;
 
-    // Убираем инициализацию массивов, TypeORM сам позаботится о связи
     @OneToMany(() => User, (user) => user.company)
     users?: User[];
 

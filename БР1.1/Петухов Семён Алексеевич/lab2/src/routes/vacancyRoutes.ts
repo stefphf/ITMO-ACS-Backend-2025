@@ -63,10 +63,46 @@ router.get("/:id", controller.getVacancyById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Vacancy'
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *               - industry
+ *               - requirements
+ *               - salary
+ *               - work_exp
+ *               - companyId
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "string"
+ *               description:
+ *                 type: string
+ *                 example: "string"
+ *               industry:
+ *                 type: string
+ *                 example: "string"
+ *               requirements:
+ *                 type: string
+ *                 example: "string"
+ *               salary:
+ *                 type: number
+ *                 example: 1
+ *               work_exp:
+ *                 type: string
+ *                 example: "string"
+ *               companyId:
+ *                 type: integer
+ *                 example: 1
  *     responses:
  *       201:
  *         description: Вакансия создана
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Vacancy'
+ *       400:
+ *         description: Неверные входные данные
  */
 router.post("/", controller.createVacancy);
 
@@ -87,10 +123,46 @@ router.post("/", controller.createVacancy);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Vacancy'
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *               - industry
+ *               - requirements
+ *               - salary
+ *               - work_exp
+ *               - companyId
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Backend Developer"
+ *               description:
+ *                 type: string
+ *                 example: "Разработка API и логики приложения"
+ *               industry:
+ *                 type: string
+ *                 example: "IT"
+ *               requirements:
+ *                 type: string
+ *                 example: "Node.js, PostgreSQL, Docker"
+ *               salary:
+ *                 type: number
+ *                 example: 140000
+ *               work_exp:
+ *                 type: string
+ *                 example: "3-5 лет"
+ *               companyId:
+ *                 type: integer
+ *                 example: 1
  *     responses:
  *       200:
  *         description: Вакансия обновлена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Vacancy'
+ *       400:
+ *         description: Некорректный ввод
  *       404:
  *         description: Вакансия не найдена
  */

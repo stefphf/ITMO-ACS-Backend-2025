@@ -6,9 +6,9 @@ const options = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'My API',
+            title: 'Resume API',
             version: '1.0.0',
-            description: 'Документация для моего API',
+            description: 'Документация для API поиска вакансий',
         },
         servers: [
             {

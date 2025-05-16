@@ -11,9 +11,17 @@ const router = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: User
+ *   description: Управление пользователями
+ */
+
+/**
+ * @swagger
  * /api/users:
  *   get:
- *     description: Получить список всех пользователей
+ *     summary: Получить список всех пользователей
+ *     tags: [User]
  *     responses:
  *       200:
  *         description: Успешный ответ, возвращает список пользователей
@@ -37,7 +45,8 @@ router.get("/", getAllUsers);
  * @swagger
  * /api/users/{id}:
  *   get:
- *     description: Получить пользователя по ID
+ *     summary: Получить пользователя по ID
+ *     tags: [User]
  *     parameters:
  *       - name: id
  *         in: path
@@ -68,7 +77,8 @@ router.get("/:id", getUserById);
  * @swagger
  * /api/users:
  *   post:
- *     description: Создать нового пользователя
+ *     summary: Создать нового пользователя
+ *     tags: [User]
  *     requestBody:
  *       required: true
  *       content:
@@ -97,7 +107,8 @@ router.post("/", createUser);
  * @swagger
  * /api/users/{id}:
  *   put:
- *     description: Обновить информацию о пользователе
+ *     summary: Обновить информацию о пользователе
+ *     tags: [User]
  *     parameters:
  *       - name: id
  *         in: path
@@ -133,7 +144,8 @@ router.put("/:id", updateUser);
  * @swagger
  * /api/users/{id}:
  *   delete:
- *     description: Удалить пользователя по ID
+ *     summary: Удалить пользователя по ID
+ *     tags: [User]
  *     parameters:
  *       - name: id
  *         in: path

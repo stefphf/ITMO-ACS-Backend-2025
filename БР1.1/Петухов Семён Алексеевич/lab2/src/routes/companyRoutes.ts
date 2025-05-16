@@ -46,8 +46,19 @@ router.get("/", controller.getAllCompanies);
  *         description: Компания найдена
  *         content:
  *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Company'
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - description
+ *               - location
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               location:
+ *                 type: string
  *       404:
  *         description: Компания не найдена
  */
@@ -68,14 +79,21 @@ router.get("/:id", controller.getCompanyById);
  *             required:
  *               - name
  *               - description
+ *               - location
  *             properties:
  *               name:
  *                 type: string
  *               description:
  *                 type: string
+ *               location:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Компания успешно создана
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Company'
  *       400:
  *         description: Неверные данные
  */
@@ -85,7 +103,7 @@ router.post("/", controller.createCompany);
  * @swagger
  * /api/companies/{id}:
  *   put:
- *     summary: Обновить компанию по ID
+ *     summary: Обновить данные компании по ID
  *     tags: [Companies]
  *     parameters:
  *       - name: id
@@ -103,11 +121,23 @@ router.post("/", controller.createCompany);
  *             properties:
  *               name:
  *                 type: string
+ *                 example: "New Company Name"
  *               description:
  *                 type: string
+ *                 example: "Updated description"
+ *               location:
+ *                 type: string
+ *                 example: "Updated address"
+ *             description: Передайте хотя бы одно поле для обновления
  *     responses:
  *       200:
- *         description: Компания обновлена
+ *         description: Компания успешно обновлена
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Company'
+ *       400:
+ *         description: Ошибка в запросе или недостаточно данных
  *       404:
  *         description: Компания не найдена
  */

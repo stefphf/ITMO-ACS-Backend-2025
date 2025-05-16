@@ -63,11 +63,54 @@ router.get("/:id", controller.getResumeById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Resume'
+ *             type: object
+ *             required:
+ *               - user
+ *               - full_name
+ *               - date_of_birth
+ *               - work_experience
+ *               - skills
+ *               - salary
+ *               - education
+ *               - additional_information
+ *             properties:
+ *               user:
+ *                 type: integer
+ *                 description: ID пользователя, создающего резюме
+ *               full_name:
+ *                 type: string
+ *                 description: Полное имя пользователя
+ *               date_of_birth:
+ *                 type: string
+ *                 format: date
+ *                 description: Дата рождения пользователя
+ *               work_experience:
+ *                 type: string
+ *                 description: Описание опыта работы
+ *               skills:
+ *                 type: string
+ *                 description: Навыки пользователя
+ *               salary:
+ *                 type: number
+ *                 format: float
+ *                 description: Ожидаемая зарплата
+ *               education:
+ *                 type: integer
+ *                 description: ID образования пользователя
+ *               additional_information:
+ *                 type: string
+ *                 description: Дополнительная информация
  *     responses:
  *       201:
  *         description: Резюме создано
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Resume'
+ *       400:
+ *         description: Неверные данные
  */
+
 router.post("/", controller.createResume);
 
 /**
@@ -87,13 +130,50 @@ router.post("/", controller.createResume);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Resume'
+ *             type: object
+ *             required:
+ *               - full_name
+ *               - date_of_birth
+ *               - work_experience
+ *               - skills
+ *               - salary
+ *               - education
+ *               - additional_information
+ *             properties:
+ *               full_name:
+ *                 type: string
+ *                 description: Полное имя пользователя
+ *               date_of_birth:
+ *                 type: string
+ *                 format: date
+ *                 description: Дата рождения пользователя
+ *               work_experience:
+ *                 type: string
+ *                 description: Описание опыта работы
+ *               skills:
+ *                 type: string
+ *                 description: Навыки пользователя
+ *               salary:
+ *                 type: number
+ *                 format: float
+ *                 description: Ожидаемая зарплата
+ *               education:
+ *                 type: integer
+ *                 description: ID образования пользователя
+ *               additional_information:
+ *                 type: string
+ *                 description: Дополнительная информация
  *     responses:
  *       200:
  *         description: Резюме обновлено
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Resume'
  *       404:
  *         description: Резюме не найдено
  */
+
 router.put("/:id", controller.updateResume);
 
 /**

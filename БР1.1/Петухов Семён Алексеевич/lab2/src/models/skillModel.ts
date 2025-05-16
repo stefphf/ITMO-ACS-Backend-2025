@@ -8,10 +8,10 @@ export class Skill {
     id!: number;
 
     @Column()
-    skill_name: string;
+    skill_name!: string;
 
     @Column("text")
-    description: string;
+    description?: string;
 
     @OneToMany(() => ResumeSkills, (rs) => rs.skill)
     resumeSkills?: ResumeSkills[];
@@ -19,12 +19,4 @@ export class Skill {
     @OneToMany(() => VacancySkills, (vs) => vs.skill)
     vacancySkills?: VacancySkills[];
 
-    // Конструктор для инициализации всех свойств
-    constructor(
-        skill_name: string,
-        description: string
-    ) {
-        this.skill_name = skill_name;
-        this.description = description;
-    }
 }

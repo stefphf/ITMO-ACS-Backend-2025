@@ -65,12 +65,12 @@ router.get("/:id", controller.getResumeSkillById);
  *           schema:
  *             type: object
  *             required:
- *               - resumeId
- *               - skillId
+ *               - resume
+ *               - skill
  *             properties:
- *               resumeId:
+ *               resume:
  *                 type: integer
- *               skillId:
+ *               skill:
  *                 type: integer
  *     responses:
  *       201:

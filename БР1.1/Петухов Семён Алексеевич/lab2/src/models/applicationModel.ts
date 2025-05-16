@@ -9,32 +9,17 @@ export class Application {
     id!: number;
 
     @ManyToOne(() => Resume, (resume) => resume)
-    resume: Resume;
+    resume!: Resume;
 
     @ManyToOne(() => User, (user) => user.applications)
-    user: User;
+    user!: User;
 
     @ManyToOne(() => Vacancy, (vacancy) => vacancy.applications)
-    vacancy: Vacancy;
+    vacancy!: Vacancy;
 
     @Column()
-    status: string;
+    status!: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at: Date;
-
-    // Конструктор для инициализации всех свойств
-    constructor(
-        resume: Resume,
-        user: User,
-        vacancy: Vacancy,
-        status: string,
-        created_at: Date = new Date()
-    ) {
-        this.resume = resume;
-        this.user = user;
-        this.vacancy = vacancy;
-        this.status = status;
-        this.created_at = created_at;
-    }
+    created_at: Date = new Date();
 }
