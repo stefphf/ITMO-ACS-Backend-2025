@@ -1,11 +1,18 @@
-import "reflect-metadata";
+import express from "express";
 import { AppDataSource } from "./config/data-source";
-import app from "./app";
+import basicRoutes from "./routes/basicRoutes";
 
-const PORT = 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-AppDataSource.initialize().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`);
+app.use(express.json());
+app.use("/api", basicRoutes);
+
+AppDataSource.initialize()
+    .then(() => {
+        console.log("📦 Data Source has been initialized");
+        app.listen(PORT, () => console.log(`🚀 Server started on port ${PORT}`));
+    })
+    .catch((err) => {
+        console.error("❌ Error during Data Source initialization", err);
     });
-}).catch((error) => console.error("Data source init error", error));

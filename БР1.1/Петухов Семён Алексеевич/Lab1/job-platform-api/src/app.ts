@@ -1,4 +1,4 @@
-import express from "express";
+mport express from "express";
 import basicRoutes from "./routes/basic.routes";
 
 const app = express();
