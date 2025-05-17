@@ -6,7 +6,7 @@ export class Video {
   @PrimaryColumn()
   id: string
 
-  @ManyToOne(type => Channel, channel => channel.videosList)
+  @ManyToOne(type => Channel, channel => channel.videosList, { onDelete: 'CASCADE' })
   channel: Channel
 
   @Column()

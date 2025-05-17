@@ -1,7 +1,7 @@
 import { AppDataSource } from "../AppDataSource"
 import { Category } from '../models/Category'
 import { Controller, Get, Post, Put, Delete, Route, Tags, Body, Path, Security } from 'tsoa'
-import { CategoryDto } from '../dto/Category';
+import { CategoryDto, ExtraCategoryDto, toCategoryDto } from '../dto/Category';
 
 const repository = AppDataSource.getRepository(Category)
 
@@ -10,18 +10,22 @@ const repository = AppDataSource.getRepository(Category)
 export class CategoryController extends Controller {
   @Get()
   public async get(): Promise<CategoryDto[]> {
-    return await repository.find()
+    var categories = await repository.find()
+    return categories.map(category => toCategoryDto(category))
   }
 
   @Get('{id}')
-  public async getOne(@Path() id: number): Promise<CategoryDto | null> {
-    return await repository.findOne({ where: { id } })
+  public async getOne(@Path() id: number): Promise<ExtraCategoryDto | null> {
+    var category = await repository.findOne({ where: { id }, relations: ['channels'] })
+    if (!category) return null
+    return toCategoryDto(category)
   }
 
   @Post()
   @Security('jwt', ['admin'])
   public async create(@Body() body: { name: string }): Promise<CategoryDto> {
-    return await repository.save(body)
+    var category = await repository.save(body)
+    return toCategoryDto(category)
   }
 
   @Put('{id}')
@@ -33,7 +37,8 @@ export class CategoryController extends Controller {
       throw new Error('Not found')
     }
     repository.merge(x, body)
-    return await repository.save(x)
+    var category = await repository.save(x)
+    return category
   }
   
   @Delete('{id}')

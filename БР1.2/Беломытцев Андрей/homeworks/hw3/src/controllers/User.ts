@@ -3,7 +3,7 @@ import { User } from '../models/User'
 import bcryptjs from 'bcryptjs'
 import signJWT from '../utils/signJWT'
 import { Controller, Get, Post, Put, Delete, Route, Tags, Body, Path, Security, Request } from 'tsoa'
-import { UserDto, CreateUserDto, LoginUserDto } from '../dto/User';
+import { UserDto, CreateUserDto, LoginUserDto, toUserDto } from '../dto/User';
 
 const repository = AppDataSource.getRepository(User)
 
@@ -12,57 +12,44 @@ const repository = AppDataSource.getRepository(User)
 export class UserController extends Controller {
   @Get()
   public async get(): Promise<UserDto[]> {
-    return await repository.find({ select: { id: true, username: true, email: true, timeCreate: true, about: true} })
+    var users = await repository.find({ relations: ['role', 'channels', 'reviews'] })
+    return users.map(user => toUserDto(user))
   }
 
   @Get('{id}')
   public async getOne(@Path() id: number): Promise<UserDto | null> {
-    return await repository.findOne({ where: { id }, select: { id: true, username: true, email: true, timeCreate: true, about: true} })
+    var user = await repository.findOne({ where: { id }, relations: ['role', 'channels', 'reviews'] })
+    if (!user) return null
+    return toUserDto(user)
   }
 
   @Post('register')
   public async register(@Body() body: CreateUserDto): Promise<UserDto> {
-    let { password } = body
-    bcryptjs.hash(password, 10, async (err, hash) => {
-      if (err) {
-        this.setStatus(500)
-        throw new Error(err.message)
-      }
-      else {
-        body.password = hash!
-        return await repository.save(body)
-      }
-    })
-    return await repository.save(body)
+    body.password = await bcryptjs.hash(body.password, 10)
+    var user = await repository.save(body)
+    return toUserDto(user)
   }
 
   @Post('login')
   public async login(@Body() body: LoginUserDto): Promise<any> {
     let { username, password } = body
     const user = await repository.findOne({ where: { username: username } })
-    if (user){
-      bcryptjs.compare(password, user?.password, (err, r) => {
-        if (err){
-          this.setStatus(401)
-          throw new Error(err.message)
-        }
-        else if (r){
-          signJWT(user, (error: any, token: any) => {
-            if (error){
-              this.setStatus(401)
-              throw new Error(error.message)
-            }
-            else if (token){
-              return { message: 'Auth Successfull', token, user: username }
-            }
-          })
-        }
-      })
-    }
-    else{
+    if (!user) {
       this.setStatus(401)
       throw new Error('No user')
     }
+    const isValid = await bcryptjs.compare(password, user.password)
+    if (!isValid) {
+      this.setStatus(401)
+      throw new Error('Invalid password')
+    }
+    const token = await new Promise<string>((resolve, reject) => {
+      signJWT(user, (err: any, token: any) => {
+        if (err || !token) reject(err || new Error('Token generation failed'))
+        else resolve(token)
+      })
+    })
+    return { message: 'Auth Successfull', token, user: username }
   }
 
   @Put()
@@ -87,7 +74,8 @@ export class UserController extends Controller {
       })
     }
     repository.merge(x, body)
-    return await repository.save(x)
+    var user = await repository.save(x)
+    return toUserDto(user)
   }
   
   @Delete('{id}')
