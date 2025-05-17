@@ -1,7 +1,7 @@
 import { AppDataSource } from "../AppDataSource"
 import { Role } from '../models/Role'
 import { Controller, Get, Post, Put, Delete, Route, Tags, Body, Path, Security } from 'tsoa'
-import { RoleDto } from '../dto/Role';
+import { RoleDto, ExtraRoleDto, toRoleDto } from '../dto/Role';
 
 const repository = AppDataSource.getRepository(Role)
 
@@ -10,18 +10,22 @@ const repository = AppDataSource.getRepository(Role)
 export class RoleController extends Controller {
   @Get()
   public async get(): Promise<RoleDto[]> {
-    return await repository.find()
+    var roles = await repository.find()
+    return roles.map(role => toRoleDto(role))
   }
 
   @Get('{id}')
-  public async getOne(@Path() id: number): Promise<RoleDto | null> {
-    return await repository.findOne({ where: { id } })
+  public async getOne(@Path() id: number): Promise<ExtraRoleDto | null> {
+    var role = await repository.findOne({ where: { id }, relations: ['users'] })
+    if (!role) return null
+    return toRoleDto(role)
   }
 
   @Post()
   @Security('jwt', ['admin'])
   public async create(@Body() body: { name: string }): Promise<RoleDto> {
-    return await repository.save(body)
+    var role = await repository.save(body)
+    return toRoleDto(role)
   }
 
   @Put('{id}')
@@ -33,7 +37,8 @@ export class RoleController extends Controller {
       throw new Error('Not found')
     }
     repository.merge(x, body)
-    return await repository.save(x)
+    var role = await repository.save(x)
+    return role
   }
   
   @Delete('{id}')

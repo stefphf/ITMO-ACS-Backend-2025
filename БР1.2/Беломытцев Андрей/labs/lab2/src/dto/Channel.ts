@@ -1,9 +1,8 @@
-import { CategoryDto } from './Category'
-import { ThemeDto } from './Theme'
+import { Channel } from '../models/Channel'
 
 export interface ChannelCreateDto {
   id: string,
-  lang: 'en' | 'ru',
+  lang: string,
   category: string,
   theme: string,
 }
@@ -23,6 +22,33 @@ export interface ChannelDto {
   isApproved: boolean
   timeCreate: Date
   timeUpdate: Date
-  category: CategoryDto
-  theme: ThemeDto
+  category: number
+  theme: number
+  userId: number
+  videosList: string[]
+  reviews?: number[]
+}
+
+export function toChannelDto(channel: Channel): ChannelDto {
+  return {
+    id: channel.id,
+    url: channel.url,
+    title: channel.title,
+    views: channel.views,
+    subs: channel.subs,
+    videos: channel.videos,
+    lang: channel.lang,
+    iconDefault: channel.iconDefault,
+    iconMedium: channel.iconMedium,
+    iconHigh: channel.iconHigh,
+    description: channel.description,
+    isApproved: channel.isApproved,
+    timeCreate: channel.timeCreate,
+    timeUpdate: channel.timeUpdate,
+    category: channel.category?.id,
+    theme: channel.theme?.id,
+    userId: channel.user?.id,
+    videosList: channel.videosList?.map(video => video.id),
+    reviews: channel.reviews?.map(review => review.id)
+  }
 }

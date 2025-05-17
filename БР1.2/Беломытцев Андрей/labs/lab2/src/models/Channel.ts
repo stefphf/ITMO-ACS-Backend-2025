@@ -58,7 +58,7 @@ export class Channel {
   @UpdateDateColumn()
   timeUpdate: Date
 
-  @OneToMany(type => Review, review => review.user)
+  @OneToMany(type => Review, review => review.channel)
   reviews: Review[]
 
   @OneToMany(type => Video, video => video.channel, {

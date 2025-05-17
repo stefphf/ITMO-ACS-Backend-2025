@@ -1,7 +1,7 @@
 import { AppDataSource } from "../AppDataSource"
 import { Theme } from '../models/Theme'
 import { Controller, Get, Post, Put, Delete, Route, Tags, Body, Path, Security } from 'tsoa'
-import { ThemeDto } from '../dto/Theme';
+import { ThemeDto, ExtraThemeDto, toThemeDto } from '../dto/Theme';
 
 const repository = AppDataSource.getRepository(Theme)
 
@@ -10,18 +10,22 @@ const repository = AppDataSource.getRepository(Theme)
 export class ThemeController extends Controller {
   @Get()
   public async get(): Promise<ThemeDto[]> {
-    return await repository.find()
+    var themes = await repository.find()
+    return themes.map(theme => toThemeDto(theme))
   }
 
   @Get('{id}')
-  public async getOne(@Path() id: number): Promise<ThemeDto | null> {
-    return await repository.findOne({ where: { id } })
+  public async getOne(@Path() id: number): Promise<ExtraThemeDto | null> {
+    var theme = await repository.findOne({ where: { id }, relations: ['channels'] })
+    if (!theme) return null
+    return toThemeDto(theme)
   }
 
   @Post()
   @Security('jwt', ['admin'])
   public async create(@Body() body: { name: string }): Promise<ThemeDto> {
-    return await repository.save(body)
+    var theme = await repository.save(body)
+    return toThemeDto(theme)
   }
 
   @Put('{id}')
@@ -33,7 +37,8 @@ export class ThemeController extends Controller {
       throw new Error('Not found')
     }
     repository.merge(x, body)
-    return await repository.save(x)
+    var theme = await repository.save(x)
+    return toThemeDto(theme)
   }
   
   @Delete('{id}')

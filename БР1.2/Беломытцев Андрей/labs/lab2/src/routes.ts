@@ -31,13 +31,13 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
-            "channelId": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
             "publishedAt": {"dataType":"datetime","required":true},
             "thumbnail": {"dataType":"string","required":true},
             "length": {"dataType":"double"},
             "views": {"dataType":"double"},
             "description": {"dataType":"string","required":true},
+            "channelId": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -51,15 +51,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RoleDto": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"double","required":true},
-            "name": {"dataType":"string","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserDto": {
         "dataType": "refObject",
         "properties": {
@@ -68,7 +59,9 @@ const models: TsoaRoute.Models = {
             "email": {"dataType":"string","required":true},
             "timeCreate": {"dataType":"datetime","required":true},
             "about": {"dataType":"string"},
-            "role": {"ref":"RoleDto","required":true},
+            "role": {"dataType":"double"},
+            "channels": {"dataType":"array","array":{"dataType":"string"}},
+            "reviews": {"dataType":"array","array":{"dataType":"double"}},
         },
         "additionalProperties": false,
     },
@@ -107,15 +100,44 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ExtraThemeDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "channels": {"dataType":"array","array":{"dataType":"string"}},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RoleDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ExtraRoleDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "users": {"dataType":"array","array":{"dataType":"double"}},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ReviewDto": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
-            "channelId": {"dataType":"string","required":true},
-            "userId": {"dataType":"double","required":true},
-            "timeCreate": {"dataType":"datetime","required":true},
-            "text": {"dataType":"string","required":true},
             "rate": {"dataType":"double","required":true},
+            "text": {"dataType":"string","required":true},
+            "timeCreate": {"dataType":"datetime","required":true},
+            "channelId": {"dataType":"string"},
+            "userId": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
@@ -126,15 +148,6 @@ const models: TsoaRoute.Models = {
             "channelId": {"dataType":"string","required":true},
             "text": {"dataType":"string","required":true},
             "rate": {"dataType":"double","required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CategoryDto": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"double","required":true},
-            "name": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -156,8 +169,11 @@ const models: TsoaRoute.Models = {
             "isApproved": {"dataType":"boolean","required":true},
             "timeCreate": {"dataType":"datetime","required":true},
             "timeUpdate": {"dataType":"datetime","required":true},
-            "category": {"ref":"CategoryDto","required":true},
-            "theme": {"ref":"ThemeDto","required":true},
+            "category": {"dataType":"double","required":true},
+            "theme": {"dataType":"double","required":true},
+            "userId": {"dataType":"double","required":true},
+            "videosList": {"dataType":"array","array":{"dataType":"string"},"required":true},
+            "reviews": {"dataType":"array","array":{"dataType":"double"}},
         },
         "additionalProperties": false,
     },
@@ -166,7 +182,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
-            "lang": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["en"]},{"dataType":"enum","enums":["ru"]}],"required":true},
+            "lang": {"dataType":"string","required":true},
             "category": {"dataType":"string","required":true},
             "theme": {"dataType":"string","required":true},
         },
@@ -175,7 +191,26 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_ChannelCreateDto_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"lang":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["en"]},{"dataType":"enum","enums":["ru"]}]},"category":{"dataType":"string"},"theme":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"lang":{"dataType":"string"},"category":{"dataType":"string"},"theme":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CategoryDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ExtraCategoryDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "channels": {"dataType":"array","array":{"dataType":"string"}},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -255,7 +290,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsVideoController_remove: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/video/:id',
             authenticateMiddleware([{"jwt":["admin"]}]),

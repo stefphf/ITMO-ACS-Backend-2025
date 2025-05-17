@@ -6,7 +6,7 @@ import { User } from '../models/User'
 import { Category } from '../models/Category'
 import { Theme } from '../models/Theme'
 import { Controller, Get, Post, Put, Delete, Route, Tags, Body, Path, Security, Request } from 'tsoa'
-import { ChannelCreateDto, ChannelDto } from '../dto/Channel';
+import { ChannelCreateDto, ChannelDto, toChannelDto } from '../dto/Channel';
 
 const repository = AppDataSource.getRepository(Channel)
 
@@ -65,7 +65,8 @@ const getChannel = async (ytid: string, lang: string, category: string, theme: s
 export class ChannelController extends Controller {
   @Get()
   public async get(): Promise<ChannelDto[]> {
-    return (await repository.find({ relations: ['category', 'theme'] })).map(({ user, videosList, reviews, ...rest }) => rest)
+    var channels = await repository.find({ relations: ['category', 'theme', 'user', 'videosList', 'reviews'] })
+    return channels.map(channel => toChannelDto(channel))
   }
 
   /**
@@ -73,7 +74,9 @@ export class ChannelController extends Controller {
    */
   @Get('{id}')
   public async getOne(@Path() id: string): Promise<ChannelDto | null> {
-    return await repository.findOne({ where: { id }, relations: ['category', 'theme'] })
+    var channel = await repository.findOne({ where: { id }, relations: ['category', 'theme', 'videosList', 'reviews'] })
+    if (!channel) return null
+    return toChannelDto(channel) 
   }
 
   @Post()
@@ -86,7 +89,8 @@ export class ChannelController extends Controller {
       body.category,
       req.user.username
     )
-    return await repository.save(channel)
+    var channel = await repository.save(channel)
+    return toChannelDto(channel) 
   }
 
   @Put('{id}')
@@ -105,7 +109,8 @@ export class ChannelController extends Controller {
       updated.theme = await AppDataSource.getRepository(Theme).findOneBy({ name: body.theme })
     }
     repository.merge(x, updated)
-    return await repository.save(x)
+    var channel = await repository.save(x)
+    return toChannelDto(channel)
   }
   
   @Delete('{id}')

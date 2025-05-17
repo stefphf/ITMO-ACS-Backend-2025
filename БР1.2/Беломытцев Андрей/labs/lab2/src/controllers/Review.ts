@@ -1,7 +1,7 @@
 import { AppDataSource } from "../AppDataSource"
 import { Review } from '../models/Review'
 import { Controller, Get, Post, Delete, Route, Tags, Body, Path, Security, Request } from 'tsoa'
-import { ReviewCreateDto, ReviewDto } from '../dto/Review';
+import { ReviewCreateDto, ReviewDto, toReviewDto } from '../dto/Review';
 import { User } from '../models/User'
 
 const repository = AppDataSource.getRepository(Review)
@@ -12,21 +12,21 @@ export class ReviewController extends Controller {
   @Get()
   public async get(): Promise<ReviewDto[]> {
     var reviews = await repository.find({ relations: ['channel', 'user'] })
-    return reviews.map((review) => { return { ...review, channelId: review.channel.id, userId: review.user.id } })
+    return reviews.map(review => toReviewDto(review))
   }
 
   @Get('{id}')
   public async getOne(@Path() id: number): Promise<ReviewDto | null> {
     var review = await repository.findOne({ where: { id }, relations: ['channel', 'user'] })
     if (!review) return null
-    return { ...review, channelId: review.channel.id, userId: review.user.id }
+    return toReviewDto(review)
   }
 
   @Post()
   @Security('jwt')
   public async create(@Body() body: ReviewCreateDto, @Request() req: any): Promise<ReviewDto> {
     var review = await repository.save({...body, user: (await AppDataSource.getRepository(User).findOneBy({ username: req.user.username }))!})
-    return { ...review, userId: review.user.id }
+    return toReviewDto(review)
   }
   
   @Delete('{id}')

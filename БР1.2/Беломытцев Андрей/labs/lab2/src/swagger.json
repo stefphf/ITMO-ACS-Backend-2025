@@ -12,9 +12,6 @@
 					"id": {
 						"type": "string"
 					},
-					"channelId": {
-						"type": "string"
-					},
 					"title": {
 						"type": "string"
 					},
@@ -35,11 +32,13 @@
 					},
 					"description": {
 						"type": "string"
+					},
+					"channelId": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"id",
-					"channelId",
 					"title",
 					"publishedAt",
 					"thumbnail",
@@ -67,23 +66,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RoleDto": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"UserDto": {
 				"properties": {
 					"id": {
@@ -104,15 +86,28 @@
 						"type": "string"
 					},
 					"role": {
-						"$ref": "#/components/schemas/RoleDto"
+						"type": "number",
+						"format": "double"
+					},
+					"channels": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"reviews": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
 					"id",
 					"username",
 					"email",
-					"timeCreate",
-					"role"
+					"timeCreate"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -191,11 +186,86 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ExtraThemeDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"channels": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RoleDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ExtraRoleDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"users": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ReviewDto": {
 				"properties": {
 					"id": {
 						"type": "number",
 						"format": "double"
+					},
+					"rate": {
+						"type": "number",
+						"format": "double"
+					},
+					"text": {
+						"type": "string"
+					},
+					"timeCreate": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"channelId": {
 						"type": "string"
@@ -203,26 +273,13 @@
 					"userId": {
 						"type": "number",
 						"format": "double"
-					},
-					"timeCreate": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"text": {
-						"type": "string"
-					},
-					"rate": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"required": [
 					"id",
-					"channelId",
-					"userId",
-					"timeCreate",
+					"rate",
 					"text",
-					"rate"
+					"timeCreate"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -244,23 +301,6 @@
 					"channelId",
 					"text",
 					"rate"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"CategoryDto": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"name"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -315,10 +355,29 @@
 						"format": "date-time"
 					},
 					"category": {
-						"$ref": "#/components/schemas/CategoryDto"
+						"type": "number",
+						"format": "double"
 					},
 					"theme": {
-						"$ref": "#/components/schemas/ThemeDto"
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"videosList": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"reviews": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -337,7 +396,9 @@
 					"timeCreate",
 					"timeUpdate",
 					"category",
-					"theme"
+					"theme",
+					"userId",
+					"videosList"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -348,11 +409,7 @@
 						"type": "string"
 					},
 					"lang": {
-						"type": "string",
-						"enum": [
-							"en",
-							"ru"
-						]
+						"type": "string"
 					},
 					"category": {
 						"type": "string"
@@ -376,11 +433,7 @@
 						"type": "string"
 					},
 					"lang": {
-						"type": "string",
-						"enum": [
-							"en",
-							"ru"
-						]
+						"type": "string"
 					},
 					"category": {
 						"type": "string"
@@ -391,6 +444,46 @@
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
+			},
+			"CategoryDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ExtraCategoryDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"channels": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {
@@ -419,7 +512,9 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {},
+									"items": {
+										"$ref": "#/components/schemas/VideoDto"
+									},
 									"type": "array"
 								}
 							}
@@ -498,8 +593,7 @@
 						"name": "id",
 						"required": true,
 						"schema": {
-							"format": "double",
-							"type": "number"
+							"type": "string"
 						}
 					}
 				]
@@ -779,7 +873,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/ThemeDto"
+											"$ref": "#/components/schemas/ExtraThemeDto"
 										}
 									],
 									"nullable": true
@@ -975,7 +1069,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/RoleDto"
+											"$ref": "#/components/schemas/ExtraRoleDto"
 										}
 									],
 									"nullable": true
@@ -1479,7 +1573,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/CategoryDto"
+											"$ref": "#/components/schemas/ExtraCategoryDto"
 										}
 									],
 									"nullable": true
