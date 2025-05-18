@@ -39,6 +39,7 @@ export class App {
             defaultErrorHandler: true,
         };
 
+        
         let expr_serv = createExpressServer(options);
         expr_serv.use(express.json());
         this.app = useSwagger(expr_serv, options);

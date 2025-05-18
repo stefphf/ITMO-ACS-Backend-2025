@@ -27,6 +27,7 @@ export function useSwagger(app: Express, options: RoutingControllersOptions): Ex
                 description: 'API documentation for boilerplate',
                 version: '1.0.0',
             },
+            security: [{ bearerAuth: [] }]
         });
         app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
         return app;

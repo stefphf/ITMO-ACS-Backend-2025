@@ -1,14 +1,18 @@
 import 'reflect-metadata';
 import { JsonController, Get, Post, Param, Body,
         NotFoundError as HttpNotFound, HttpCode, ForbiddenError, 
-        InternalServerError } from 'routing-controllers';
+        InternalServerError, UseBefore,
+        UnauthorizedError} from 'routing-controllers';
 import { OpenAPI } from 'routing-controllers-openapi'
 import { Inject, Service } from 'typedi';
 import { IUserService } from '../services/UserService';
 import { HttpCodes } from './Codes';
-import { CreateUserDto } from '../dtos/UserDtos';
+import { CreateUserDto, LoginDto } from '../dtos/UserDtos';
 import { UserAlreadyExistsError } from '../errors/UserAlreadyExistsError';
+import { WrongPasswordError } from '../errors/WrongPasswordError';
 import { NotFoundError } from '../errors/NotFoundError';
+import { AuthMiddleware } from '../middlewares/AuthMiddleware';
+
 
 @JsonController('/users')
 @Service()
@@ -19,9 +23,11 @@ export class UserHandler {
     ) { }
 
     @Get()
+    @UseBefore(AuthMiddleware)
     @OpenAPI({
         summary: 'Get users list',
         description: 'Returns a list of all users',
+        security: [{ bearerAuth: [] }],
         responses: {
             '200': {
                 description: 'OK',
@@ -44,6 +50,7 @@ export class UserHandler {
     @OpenAPI({
         summary: 'Get user by Id',
         description: 'Returns a single user',
+        security: [{ bearerAuth: [] }],
         responses: {
             '200': {
                 description: 'OK',
@@ -61,6 +68,7 @@ export class UserHandler {
             }
         }
     })
+    @UseBefore(AuthMiddleware)
     async getUserById(@Param('id') id: number) {
         try {
             return await this.service.findById(id, ["rents", "properties"])
@@ -72,7 +80,7 @@ export class UserHandler {
     }
 
     @HttpCode(HttpCodes.CREATED)
-    @Post()
+    @Post("/register")
     @OpenAPI({
         summary: 'Create user',
         description: 'Registers user in the system',
@@ -99,15 +107,49 @@ export class UserHandler {
         }
     })
     async createUser(@Body() newUser: CreateUserDto) {
-        console.log(newUser);
         try {
-            const userDto = await this.service.register(newUser)
-            console.log(userDto)
-            return userDto;
+            return await this.service.register(newUser)
         } catch (error: any) {
             if (error instanceof UserAlreadyExistsError)
                 throw new ForbiddenError("Email already taken")
-            console.log(error)
+            throw new InternalServerError("Server Error")
+        }
+    }
+
+    @Post("/login")
+    @OpenAPI({
+        summary: 'Authorize user',
+        description: 'Returns token after auth data verification',
+        requestBody: {
+            content: {
+                'application/json': { schema: {$ref: "#/components/schemas/LoginDto"}}
+            },
+        },
+        responses: {
+            '200': {
+                description: 'OK',
+                content: {
+                    'application/json': {
+                        schema: { $ref: '#/components/schemas/TokenDto' }
+                    }
+                }
+            },
+            '400': {
+                description: 'Not Found'
+            },
+            '401': {
+                description: 'Unauthorized'
+            },
+        }
+    })
+    async loginUser(@Body() user: LoginDto) {
+        try {
+            return await this.service.login(user)
+        } catch (error: any) {
+            if (error instanceof NotFoundError)
+                throw new HttpNotFound("Can't find user with provided email")
+            if (error instanceof WrongPasswordError)
+                throw new UnauthorizedError("Wrong password")
             throw new InternalServerError("Server Error")
         }
     }
