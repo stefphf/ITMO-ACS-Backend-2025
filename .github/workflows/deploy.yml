@@ -18,6 +18,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.BACKDEV }}
 
+      - name: Add remote host to known_hosts
+        run: |
+          ssh-keyscan -p 23498 5.144.96.120 >> ~/.ssh/known_hosts
+
       - name: Sync project to server
         run: |
           rsync -avz --delete --exclude=".git" -e "ssh -p 23498" ./ root@5.144.96.120:/root/user/backdev/
