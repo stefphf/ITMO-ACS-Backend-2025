@@ -5,6 +5,7 @@ import { ProgressDataSource } from "./data-source";
 import { useSwagger } from "./swagger";
 import { UserProgressController } from "./controllers/userProgressController";
 import { UserTrainingPlanController } from "./controllers/userTrainingPlanController";
+import { connectToRabbitMQ } from "./common/rabbitmq";
 import { config } from "dotenv";
 
 config();
@@ -13,23 +14,33 @@ const app = express();
 const host = process.env.HOST;
 const port = parseInt(process.env.PORT);
 
-ProgressDataSource.initialize().then(() => {
-  console.log("Progress DB connected");
+async function bootstrap() {
+  try {
+    await ProgressDataSource.initialize();
+    console.log("Progress DB connected");
 
-  useExpressServer(app, {
-    controllers: [UserProgressController, UserTrainingPlanController],
-    routePrefix: "",
-    cors: true,
-    defaultErrorHandler: true,
-  });
+    await connectToRabbitMQ();
+    console.log("RabbitMQ connected");
 
-  useSwagger(app, {
-    controllers: [UserProgressController, UserTrainingPlanController],
-    serviceName: "Progress Service",
-    port
-  });
+    useExpressServer(app, {
+      controllers: [UserProgressController, UserTrainingPlanController],
+      routePrefix: "",
+      cors: true,
+      defaultErrorHandler: true,
+    });
 
-  app.listen(port, () => {
-    console.log(`🚀 Progress service running at http://${host}:${port}`);
-  });
-});
+    useSwagger(app, {
+      controllers: [UserProgressController, UserTrainingPlanController],
+      serviceName: "Progress Service",
+      port,
+    });
+
+    app.listen(port, () => {
+      console.log(`🚀 Progress service running at http://${host}:${port}`);
+    });
+  } catch (error) {
+    console.error("Failed to start Progress Service", error);
+  }
+}
+
+bootstrap();

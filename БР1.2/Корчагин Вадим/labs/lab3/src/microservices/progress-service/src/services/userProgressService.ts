@@ -38,4 +38,10 @@ export class UserProgressService extends BaseService<UserProgress> {
       return null;
     }
   }
+  async createFromOrder(data: { userId: string }) {
+    const progress = await this.create({
+      user_id: parseInt(data.userId),
+    });
+    console.log("📦 Progress created from order:", progress);
+  }
 }

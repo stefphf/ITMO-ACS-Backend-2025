@@ -43,6 +43,13 @@ export class OrderController extends BaseController<Order> {
     return this.orderService.create(data);
   }
 
+  @Post("/rabbit")
+  @OpenAPI({ summary: "Create a new order and send event" })
+  @ResponseSchema(OrderResponseDto)
+  async createRabbit(@Body({ required: true }) data: CreateOrderDto) {
+    return this.orderService.createAndSend(data);
+}
+
   @Patch("/:id")
   @OpenAPI({ summary: "Update an order" })
   @ResponseSchema(OrderResponseDto)
