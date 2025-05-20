@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { authMiddleware } from '../middleware/authMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';
 import {
     getFollowingOf,
@@ -65,6 +64,73 @@ const router = Router();
  *             last_name:
  *               type: string
  */
+
+/**
+ * @openapi
+ * /subscription:
+ *   post:
+ *     tags:
+ *       - Subscription
+ *     summary: Создать подписку
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - followingId
+ *             properties:
+ *               followerId:
+ *                 type: integer
+ *               followingId:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Created Successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SubscriptionResponse'
+ *       400:
+ *         description: You can not subscribe to yourself
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ */
+router.post('/', authMiddleware, createSubscription);
+
+/**
+ * @openapi
+ * /subscription/all:
+ *   get:
+ *     tags:
+ *       - Subscription
+ *     summary: Все подписки
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/SubscriptionResponse'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Access Denied
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/all', authMiddleware, adminOnlyMiddleware, getSubscriptions);
 
 /**
  * @openapi
@@ -178,33 +244,6 @@ router.get('/mine/followers', authMiddleware, getOwnFollowers);
 
 /**
  * @openapi
- * /subscription/all:
- *   get:
- *     tags:
- *       - Subscription
- *     summary: Все подписки
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/SubscriptionResponse'
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Access Denied
- *       500:
- *         description: Internal Server Error
- */
-router.get('/all', authMiddleware, adminOnlyMiddleware, getSubscriptions);
-
-/**
- * @openapi
  * /subscription/{id}:
  *   get:
  *     tags:
@@ -230,46 +269,6 @@ router.get('/all', authMiddleware, adminOnlyMiddleware, getSubscriptions);
  *         description: Internal Server Error
  */
 router.get('/:id', getSubscription);
-
-/**
- * @openapi
- * /subscription:
- *   post:
- *     tags:
- *       - Subscription
- *     summary: Создать подписку
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - followingId
- *             properties:
- *               followerId:
- *                 type: integer
- *               followingId:
- *                 type: integer
- *     responses:
- *       201:
- *         description: Created Successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SubscriptionResponse'
- *       400:
- *         description: You can not subscribe to yourself
- *       401:
- *         description: Unauthorized
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.post('/', authMiddleware, createSubscription);
 
 /**
  * @openapi
@@ -299,6 +298,6 @@ router.post('/', authMiddleware, createSubscription);
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:id', authMiddleware, selfOrAdminMiddleware, deleteSubscription);
+router.delete('/:id', authMiddleware, deleteSubscription);
 
 export default router;

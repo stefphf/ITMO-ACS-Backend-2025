@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../config/database';
 import { DishType } from '../models/DishType';
+import { AuthRequest } from '../middleware/authMiddleware';
 
 const dishTypeRepository = AppDataSource.getRepository(DishType);
 
-export const createDishType = async function(req: Request, res: Response) {
+export const createDishType = async function(req: AuthRequest, res: Response) {
     const dishTypeData = req.body;
     const dishType = dishTypeRepository.create(dishTypeData);
     const savedDishType = await dishTypeRepository.save(dishType);

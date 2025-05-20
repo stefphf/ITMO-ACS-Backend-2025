@@ -7,7 +7,6 @@ import {
     deleteSavedRecipe,
 } from '../controllers/savedRecipeController';
 import { authMiddleware } from '../middleware/authMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 
 const router = Router();
 
@@ -86,40 +85,6 @@ router.get('/', authMiddleware, getSavedRecipes);
 
 /**
  * @openapi
- * /saved-recipe/{id}:
- *   get:
- *     tags:
- *       - SavedRecipe
- *     summary: Сохраненный рецепт
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID сохраненного рецепта
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SavedRecipeResponse'
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Access Denied
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.get('/:id', authMiddleware, selfOrAdminMiddleware, getSavedRecipe);
-
-/**
- * @openapi
  * /saved-recipe:
  *   post:
  *     tags:
@@ -161,6 +126,40 @@ router.post('/', authMiddleware, createSavedRecipe);
 /**
  * @openapi
  * /saved-recipe/{id}:
+ *   get:
+ *     tags:
+ *       - SavedRecipe
+ *     summary: Сохраненный рецепт
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID сохраненного рецепта
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SavedRecipeResponse'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Access Denied
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/:id', authMiddleware, getSavedRecipe);
+
+/**
+ * @openapi
+ * /saved-recipe/{id}:
  *   put:
  *     tags:
  *       - SavedRecipe
@@ -197,7 +196,7 @@ router.post('/', authMiddleware, createSavedRecipe);
  *       500:
  *         description: Internal Server Error
  */
-router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateSavedRecipe);
+router.put('/:id', authMiddleware, updateSavedRecipe);
 
 /**
  * @openapi
@@ -227,6 +226,6 @@ router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateSavedRecipe);
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:id', authMiddleware, selfOrAdminMiddleware, deleteSavedRecipe);
+router.delete('/:id', authMiddleware, deleteSavedRecipe);
 
 export default router;

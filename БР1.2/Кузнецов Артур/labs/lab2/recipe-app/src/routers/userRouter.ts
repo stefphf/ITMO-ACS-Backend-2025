@@ -2,7 +2,6 @@ import { createUser, deleteUser, getUser, getUserMe, getUsers, updateUser } from
 import { Router } from 'express';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 
 const router = Router();
 
@@ -83,66 +82,6 @@ router.get('/', getUsers);
 
 /**
  * @openapi
- * /user/{id}:
- *   get:
- *     tags:
- *       - User
- *     summary: Пользователь
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID пользователя
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserResponse'
- *       401:
- *         description: Unauthorized
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.get('/:id', getUser);
-
-/**
- * @openapi
- * /user/me:
- *   get:
- *     tags:
- *       - User
- *     summary: Пользователь
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID пользователя
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserResponse'
- *       401:
- *         description: Unauthorized
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.get('/me', authMiddleware, getUserMe);
-
-/**
- * @openapi
  * /user:
  *   post:
  *     tags:
@@ -187,6 +126,61 @@ router.get('/me', authMiddleware, getUserMe);
  *         description: Internal Server Error
  */
 router.post('/', authMiddleware, adminOnlyMiddleware, createUser);
+
+/**
+ * @openapi
+ * /user/me:
+ *   get:
+ *     tags:
+ *       - User
+ *     summary: Текущий пользователь
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/me', authMiddleware, getUserMe);
+
+/**
+ * @openapi
+ * /user/{id}:
+ *   get:
+ *     tags:
+ *       - User
+ *     summary: Пользователь
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID пользователя
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/:id', getUser);
 
 /**
  * @openapi
@@ -240,7 +234,7 @@ router.post('/', authMiddleware, adminOnlyMiddleware, createUser);
  *       500:
  *         description: Internal Server Error
  */
-router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateUser);
+router.put('/:id', authMiddleware, updateUser);
 
 /**
  * @openapi
@@ -270,6 +264,6 @@ router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateUser);
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:id', authMiddleware, selfOrAdminMiddleware, deleteUser);
+router.delete('/:id', authMiddleware, deleteUser);
 
 export default router;

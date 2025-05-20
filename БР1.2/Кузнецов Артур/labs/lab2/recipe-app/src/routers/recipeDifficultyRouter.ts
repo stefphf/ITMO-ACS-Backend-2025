@@ -82,9 +82,9 @@ router.get('/:id', getRecipeDifficulty);
  *           schema:
  *              type: object
  *              required:
- *                - level
+ *                - name
  *              properties:
- *                level:
+ *                name:
  *                  type: string
  *     responses:
  *       201:
@@ -125,9 +125,9 @@ router.post('/', authMiddleware, adminOnlyMiddleware, createRecipeDifficulty);
  *           schema:
  *              type: object
  *              required:
- *                - level
+ *                - name
  *              properties:
- *                level:
+ *                name:
  *                  type: string
  *     responses:
  *       200:

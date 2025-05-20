@@ -9,7 +9,6 @@ import {
     getOwnLikes,
 } from '../controllers/likeController';
 import { authMiddleware } from '../middleware/authMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';
 
 const router = Router();
@@ -64,63 +63,43 @@ const router = Router();
 
 /**
  * @openapi
- * /like/recipe/{recipeId}:
- *   get:
+ * /like:
+ *   post:
  *     tags:
  *       - Like
- *     summary: Лайки для рецепта
- *     parameters:
- *       - in: path
- *         name: recipeId
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID рецепта
+ *     summary: Создать лайк
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - recipeId
+ *             properties:
+ *               recipeId:
+ *                 type: integer
+ *               userId:
+ *                 type: integer
  *     responses:
- *       200:
- *         description: Successful Response
+ *       201:
+ *         description: Created Successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/LikeResponse'
+ *               $ref: '#/components/schemas/LikeResponse'
  *       400:
  *         description: Invalid Input
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Not Found
  *       500:
  *         description: Internal Server Error
  */
-router.get('/recipe/:recipeId', getLikesByRecipe);
-
-/**
- * @openapi
- * /like/user/{userId}:
- *   get:
- *     tags:
- *       - Like
- *     summary: Лайки пользователя
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID пользователя
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/LikeResponse'
- *       400:
- *         description: Invalid Input
- *       500:
- *         description: Internal Server Error
- */
-router.get('/user/:userId', getLikesByUser);
+router.post('/', authMiddleware, createLike);
 
 /**
  * @openapi
@@ -210,46 +189,6 @@ router.get('/:id', authMiddleware, adminOnlyMiddleware, getLike);
 
 /**
  * @openapi
- * /like:
- *   post:
- *     tags:
- *       - Like
- *     summary: Создать лайк
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - recipeId
- *             properties:
- *               recipeId:
- *                 type: integer
- *               userId:
- *                 type: integer
- *     responses:
- *       201:
- *         description: Created Successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/LikeResponse'
- *       400:
- *         description: Invalid Input
- *       401:
- *         description: Unauthorized
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.post('/', authMiddleware, createLike);
-
-/**
- * @openapi
  * /like/{id}:
  *   delete:
  *     tags:
@@ -276,6 +215,66 @@ router.post('/', authMiddleware, createLike);
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:id', authMiddleware, selfOrAdminMiddleware, deleteLike);
+router.delete('/:id', authMiddleware, deleteLike);
+
+/**
+ * @openapi
+ * /like/recipe/{recipeId}:
+ *   get:
+ *     tags:
+ *       - Like
+ *     summary: Лайки для рецепта
+ *     parameters:
+ *       - in: path
+ *         name: recipeId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID рецепта
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/LikeResponse'
+ *       400:
+ *         description: Invalid Input
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/recipe/:recipeId', getLikesByRecipe);
+
+/**
+ * @openapi
+ * /like/user/{userId}:
+ *   get:
+ *     tags:
+ *       - Like
+ *     summary: Лайки пользователя
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID пользователя
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/LikeResponse'
+ *       400:
+ *         description: Invalid Input
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/user/:userId', getLikesByUser);
 
 export default router;

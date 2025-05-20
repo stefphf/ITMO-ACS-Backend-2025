@@ -9,7 +9,6 @@ import {
     getRecipesByUser,
 } from '../controllers/recipeController';
 import { authMiddleware } from '../middleware/authMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 
 const router = Router();
 
@@ -164,89 +163,6 @@ router.get('/', getRecipes);
 
 /**
  * @openapi
- * /recipe/{id}:
- *   get:
- *     tags:
- *       - Recipe
- *     summary: Рецепт
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID рецепта
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/RecipeResponse'
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.get('/:id', getRecipe);
-
-/**
- * @openapi
- * /recipe/user/{userId}:
- *   get:
- *     tags:
- *       - Recipe
- *     summary: Рецепты пользователя
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID пользователя
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/RecipeResponse'
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error=
- */
-router.get('/user/:userId', getRecipesByUser);
-
-/**
- * @openapi
- * /recipe/mine:
- *   get:
- *     tags:
- *       - Recipe
- *     summary: Мои рецепты
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/RecipeResponse'
- *       401:
- *         description: Unauthorized
- *       500:
- *         description: Internal Server Error
- */
-router.get('/mine', authMiddleware, getOwnRecipes);
-
-/**
- * @openapi
  * /recipe:
  *   post:
  *     tags:
@@ -308,6 +224,89 @@ router.post('/', authMiddleware, createRecipe);
 
 /**
  * @openapi
+ * /recipe/mine:
+ *   get:
+ *     tags:
+ *       - Recipe
+ *     summary: Мои рецепты
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/RecipeResponse'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/mine', authMiddleware, getOwnRecipes);
+
+/**
+ * @openapi
+ * /recipe/user/{userId}:
+ *   get:
+ *     tags:
+ *       - Recipe
+ *     summary: Рецепты пользователя
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID пользователя
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/RecipeResponse'
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error=
+ */
+router.get('/user/:userId', getRecipesByUser);
+
+/**
+ * @openapi
+ * /recipe/{id}:
+ *   get:
+ *     tags:
+ *       - Recipe
+ *     summary: Рецепт
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID рецепта
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RecipeResponse'
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/:id', getRecipe);
+
+/**
+ * @openapi
  * /recipe/{id}:
  *   put:
  *     tags:
@@ -361,7 +360,7 @@ router.post('/', authMiddleware, createRecipe);
  *       500:
  *         description: Internal Server Error
  */
-router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateRecipe);
+router.put('/:id', authMiddleware, updateRecipe);
 
 /**
  * @openapi
@@ -391,6 +390,6 @@ router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateRecipe);
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:id', authMiddleware, selfOrAdminMiddleware, deleteRecipe);
+router.delete('/:id', authMiddleware, deleteRecipe);
 
 export default router;
