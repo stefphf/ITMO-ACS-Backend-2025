@@ -24,12 +24,12 @@ jobs:
 
       - name: Sync project to server
         run: |
-          rsync -avz --delete --exclude=".git" -e "ssh -p 23498" ./ root@5.144.96.120:/root/user/backdev/
+          rsync -avz --delete --exclude=".git" -e "ssh -p 23498" ./ root@5.144.96.120:/root/backdev/
 
       - name: Deploy with docker-compose
         run: |
           ssh -p 23498 root@5.144.96.120 '
-            cd "/root/user/backdev/БР1.2/Корчагин Вадим/labs/lab4/" &&
+            cd "/root/backdev/БР1.2/Корчагин Вадим/labs/lab4/" &&
             docker-compose down &&
             docker-compose pull &&
             docker-compose up -d --build
