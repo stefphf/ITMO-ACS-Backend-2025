@@ -5,13 +5,11 @@ services:
     container_name: blog-service
     ports:
       - "4004:4004"
-    volumes:
-      - ../lab3/src/microservices/blog-service:/app
     env_file:
       - ../lab3/src/microservices/blog-service/.env.example
     depends_on:
       - postgres
-    command: sh -c "pnpm migration:run && pnpm start"
+    command: sh -c "pnpm install && pnpm migration:run && pnpm start"
 
   workout-service:
     build:
@@ -19,13 +17,11 @@ services:
     container_name: workout-service
     ports:
       - "4001:4001"
-    volumes:
-      - ../lab3/src/microservices/workout-service:/app
     env_file:
       - ../lab3/src/microservices/workout-service/.env.example
     depends_on:
       - postgres
-    command: sh -c "pnpm migration:run && pnpm start"
+    command: sh -c "pnpm install && pnpm migration:run && pnpm start"
 
   order-service:
     build:
@@ -33,13 +29,11 @@ services:
     container_name: order-service
     ports:
       - "4003:4003"
-    volumes:
-      - ../lab3/src/microservices/order-service:/app
     env_file:
       - ../lab3/src/microservices/order-service/.env.example
     depends_on:
       - postgres
-    command: sh -c "pnpm migration:run && pnpm start"
+    command: sh -c "pnpm install && pnpm migration:run && pnpm start"
 
   progress-service:
     build:
@@ -47,13 +41,11 @@ services:
     container_name: progress-service
     ports:
       - "4002:4002"
-    volumes:
-      - ../lab3/src/microservices/progress-service:/app
     env_file:
       - ../lab3/src/microservices/progress-service/.env.example
     depends_on:
       - postgres
-    command: sh -c "pnpm migration:run && pnpm start"
+    command: sh -c "pnpm install && pnpm migration:run && pnpm start"
 
 
   auth-service:
@@ -62,13 +54,11 @@ services:
     container_name: auth-service
     ports:
       - "4000:4000"
-    volumes:
-      - ../lab3/src/microservices/auth-service:/app
     env_file:
       - ../lab3/src/microservices/auth-service/.env.example
     depends_on:
       - postgres
-    command: sh -c "pnpm migration:run && pnpm start"
+    command: sh -c "pnpm install && pnpm migration:run && pnpm start"
 
 
   postgres:
