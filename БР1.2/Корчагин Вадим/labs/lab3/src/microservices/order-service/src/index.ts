@@ -5,9 +5,13 @@ import { OrderDataSource } from "./data-source";
 import { useSwagger } from "./swagger";
 import { OrderController } from "./controllers/orderController";
 import { PaymentController } from "./controllers/paymentController";
+import { config } from "dotenv";
+
+config();
 
 const app = express();
-const port = 3003;
+const host = process.env.HOST;
+const port = parseInt(process.env.PORT);
 
 OrderDataSource.initialize().then(() => {
   console.log("Order DB connected");
@@ -26,6 +30,6 @@ OrderDataSource.initialize().then(() => {
   });
 
   app.listen(port, () => {
-    console.log(`🚀 Order service running at http://localhost:${port}`);
+    console.log(`🚀 Order service running at http://${host}:${port}`);
   });
 });

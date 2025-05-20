@@ -1,7 +1,12 @@
 import { BaseService } from "../common/baseService";
 import { UserTrainingPlan } from "../entities/UserTrainingPlan";
 import axios from "axios";
+import { config } from "dotenv";
 
+config();
+
+const host = process.env.AUTH_HOST;
+const port = parseInt(process.env.AUTH_PORT);
 export class UserTrainingPlanService extends BaseService<UserTrainingPlan> {
   constructor() {
     super(UserTrainingPlan);
@@ -27,7 +32,7 @@ export class UserTrainingPlanService extends BaseService<UserTrainingPlan> {
 
   private async fetchUser(userId: number) {
     try {
-      const res = await axios.get(`http://localhost:3000/users/id/${userId}`);
+      const res = await axios.get(`http://${host}:${port}/users/id/${userId}`);
       return res.data;
     } catch {
       return null;

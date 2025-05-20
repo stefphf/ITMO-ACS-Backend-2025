@@ -5,9 +5,13 @@ import { ProgressDataSource } from "./data-source";
 import { useSwagger } from "./swagger";
 import { UserProgressController } from "./controllers/userProgressController";
 import { UserTrainingPlanController } from "./controllers/userTrainingPlanController";
+import { config } from "dotenv";
+
+config();
 
 const app = express();
-const port = 3002;
+const host = process.env.HOST;
+const port = parseInt(process.env.PORT);
 
 ProgressDataSource.initialize().then(() => {
   console.log("Progress DB connected");
@@ -26,6 +30,6 @@ ProgressDataSource.initialize().then(() => {
   });
 
   app.listen(port, () => {
-    console.log(`🚀 Progress service running at http://localhost:${port}`);
+    console.log(`🚀 Progress service running at http://${host}:${port}`);
   });
 });
