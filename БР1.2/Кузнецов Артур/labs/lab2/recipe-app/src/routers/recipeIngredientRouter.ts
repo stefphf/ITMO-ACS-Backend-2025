@@ -7,7 +7,6 @@ import {
     deleteRecipeIngredient,
 } from '../controllers/recipeIngredientController';
 import { authMiddleware } from '../middleware/authMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 
 const router = Router();
 
@@ -91,38 +90,6 @@ router.get('/:recipeId', getRecipeIngredients);
 
 /**
  * @openapi
- * /recipe-ingredient/{recipeId}/{id}:
- *   get:
- *     tags:
- *       - RecipeIngredient
- *     summary: Ингредиент рецепта
- *     parameters:
- *       - in: path
- *         name: recipeId
- *         required: true
- *         schema:
- *           type: integer
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/RecipeIngredientResponse'
- *       404:
- *         description: Not Found
- *       500:
- *         description: Internal Server Error
- */
-router.get('/:recipeId/:id', getRecipeIngredient);
-
-/**
- * @openapi
  * /recipe-ingredient/{recipeId}:
  *   post:
  *     tags:
@@ -173,6 +140,38 @@ router.post('/:recipeId', authMiddleware, createRecipeIngredient);
 /**
  * @openapi
  * /recipe-ingredient/{recipeId}/{id}:
+ *   get:
+ *     tags:
+ *       - RecipeIngredient
+ *     summary: Ингредиент рецепта
+ *     parameters:
+ *       - in: path
+ *         name: recipeId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RecipeIngredientResponse'
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/:recipeId/:id', getRecipeIngredient);
+
+/**
+ * @openapi
+ * /recipe-ingredient/{recipeId}/{id}:
  *   put:
  *     tags:
  *       - RecipeIngredient
@@ -216,7 +215,7 @@ router.post('/:recipeId', authMiddleware, createRecipeIngredient);
  *       500:
  *         description: Internal Server Error
  */
-router.put('/:recipeId/:id', authMiddleware, selfOrAdminMiddleware, updateRecipeIngredient);
+router.put('/:recipeId/:id', authMiddleware, updateRecipeIngredient);
 
 /**
  * @openapi
@@ -250,6 +249,6 @@ router.put('/:recipeId/:id', authMiddleware, selfOrAdminMiddleware, updateRecipe
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:recipeId/:id', authMiddleware, selfOrAdminMiddleware, deleteRecipeIngredient);
+router.delete('/:recipeId/:id', authMiddleware, deleteRecipeIngredient);
 
 export default router;

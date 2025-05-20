@@ -9,11 +9,11 @@ import { Recipe } from './Recipe';
  *       type: object
  *       required:
  *         - id
- *         - level
+ *         - name
  *       properties:
  *         id:
  *           type: integer
- *         level:
+ *         name:
  *           type: string
  */
 @Entity()
@@ -22,7 +22,7 @@ export class RecipeDifficulty {
     id: number;
 
     @Column({ type: 'varchar', length: 255, unique: true })
-    level: string;
+    name: string;
 
     @OneToMany(() => Recipe, (recipe) => recipe.recipeDifficulty)
     recipes: Recipe[];

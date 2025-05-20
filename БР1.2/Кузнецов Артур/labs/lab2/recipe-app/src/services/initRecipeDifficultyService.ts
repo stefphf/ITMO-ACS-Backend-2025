@@ -7,13 +7,13 @@ export const initializeRecipeDifficulties = async () => {
     const difficulties = ['Легко', 'Нормально', 'Сложно'];
     const existingDifficulties = await difficultyRepo.find();
     const missingDifficulties = difficulties.filter(
-        level => !existingDifficulties.some(d => d.level === level),
+        name => !existingDifficulties.some(d => d.name === name),
     );
 
     if (missingDifficulties.length > 0) {
-        const newDifficulties = missingDifficulties.map(level => {
+        const newDifficulties = missingDifficulties.map(name => {
             const diff = new RecipeDifficulty();
-            diff.level = level;
+            diff.name = name;
             return diff;
         });
         await difficultyRepo.save(newDifficulties);

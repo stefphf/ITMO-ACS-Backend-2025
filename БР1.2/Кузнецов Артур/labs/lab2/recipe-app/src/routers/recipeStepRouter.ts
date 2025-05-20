@@ -7,7 +7,6 @@ import {
     deleteRecipeStep,
 } from '../controllers/recipeStepController';
 import { authMiddleware } from '../middleware/authMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 
 const router = Router();
 
@@ -229,7 +228,7 @@ router.post('/:recipeId', authMiddleware, createRecipeStep);
  *       500:
  *         description: Internal Server Error
  */
-router.put('/:recipeId/:stepNumber', authMiddleware, selfOrAdminMiddleware, updateRecipeStep);
+router.put('/:recipeId/:stepNumber', authMiddleware, updateRecipeStep);
 
 /**
  * @openapi
@@ -265,6 +264,6 @@ router.put('/:recipeId/:stepNumber', authMiddleware, selfOrAdminMiddleware, upda
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:recipeId/:stepNumber', authMiddleware, selfOrAdminMiddleware, deleteRecipeStep);
+router.delete('/:recipeId/:stepNumber', authMiddleware, deleteRecipeStep);
 
 export default router;

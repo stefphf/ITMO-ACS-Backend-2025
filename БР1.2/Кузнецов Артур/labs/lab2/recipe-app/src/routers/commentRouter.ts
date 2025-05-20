@@ -10,7 +10,6 @@ import {
 } from '../controllers/commentController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';
-import { selfOrAdminMiddleware } from '../middleware/selfOrAdminMiddleware';
 
 const router = Router();
 
@@ -22,7 +21,7 @@ const router = Router();
 
 /**
  * @openapi
- * component:
+ * components:
  *   schemas:
  *     CommentResponse:
  *       type: object
@@ -64,36 +63,6 @@ const router = Router();
  *             title:
  *               type: string
  */
-
-/**
- * @openapi
- * /comment/{recipeId}:
- *   get:
- *     tags:
- *       - Comment
- *     summary: Комментарии к рецепту
- *     parameters:
- *       - in: path
- *         name: recipeId
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID рецепта
- *     responses:
- *       200:
- *         description: Successful Response
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/CommentResponse'
- *       400:
- *         description: Invalid Input
- *       500:
- *         description: Internal Server Error
- */
-router.get('/:recipeId', getCommentsByRecipe);
 
 /**
  * @openapi
@@ -232,6 +201,36 @@ router.post('/:recipeId', authMiddleware, createComment);
 
 /**
  * @openapi
+ * /comment/{recipeId}:
+ *   get:
+ *     tags:
+ *       - Comment
+ *     summary: Комментарии к рецепту
+ *     parameters:
+ *       - in: path
+ *         name: recipeId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID рецепта
+ *     responses:
+ *       200:
+ *         description: Successful Response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/CommentResponse'
+ *       400:
+ *         description: Invalid Input
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/:recipeId', getCommentsByRecipe);
+
+/**
+ * @openapi
  * /comment/{id}:
  *   put:
  *     tags:
@@ -271,7 +270,7 @@ router.post('/:recipeId', authMiddleware, createComment);
  *       500:
  *         description: Internal Server Error
  */
-router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateComment);
+router.put('/:id', authMiddleware, updateComment);
 
 /**
  * @openapi
@@ -301,7 +300,6 @@ router.put('/:id', authMiddleware, selfOrAdminMiddleware, updateComment);
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:id', authMiddleware, selfOrAdminMiddleware, deleteComment);
+router.delete('/:id', authMiddleware, deleteComment);
 
 export default router;
-

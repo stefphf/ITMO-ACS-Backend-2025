@@ -73,7 +73,7 @@ export const register = async function(req: Request, res: Response) {
     }
 
     const token = jwt.sign(
-        { userId: savedUser.id, roleId: savedUser.role.id },
+        { userId: savedUser.id, email: savedUser.email, role: savedUser.role.name },
         process.env.JWT_SECRET,
         { expiresIn: '1h' },
     );
@@ -118,15 +118,10 @@ export const login = async function(req: Request, res: Response) {
         return;
     }
 
-    try {
-        const token = jwt.sign(
-            { userId: user.id, roleId: user.role.id },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' },
-        );
-        res.json({ token });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to generate token' });
-        return;
-    }
+    const token = jwt.sign(
+        { userId: user.id, email: user.email, role: user.role.name },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' },
+    );
+    res.json({ token });
 };
