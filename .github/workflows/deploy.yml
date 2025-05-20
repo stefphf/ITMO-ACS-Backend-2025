@@ -30,7 +30,7 @@ jobs:
         run: |
           ssh -p 23498 root@5.144.96.120 '
             cd "/root/backdev/БР1.2/Корчагин Вадим/labs/lab4/" &&
-            docker-compose down &&
-            docker-compose pull &&
-            docker-compose up -d --build
+            docker compose down &&
+            docker compose pull &&
+            docker compose up -d --build
           '
