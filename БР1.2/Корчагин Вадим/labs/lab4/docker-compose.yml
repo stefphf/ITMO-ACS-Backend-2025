@@ -8,7 +8,7 @@ services:
     volumes:
       - ../lab3/src/microservices/blog-service:/app
     env_file:
-      - ../lab3/src/microservices/blog-service/.env
+      - ../lab3/src/microservices/blog-service/.env.example
     depends_on:
       - postgres
     command: sh -c "pnpm migration:run && pnpm start"
@@ -22,7 +22,7 @@ services:
     volumes:
       - ../lab3/src/microservices/workout-service:/app
     env_file:
-      - ../lab3/src/microservices/workout-service/.env
+      - ../lab3/src/microservices/workout-service/.env.example
     depends_on:
       - postgres
     command: sh -c "pnpm migration:run && pnpm start"
@@ -36,7 +36,7 @@ services:
     volumes:
       - ../lab3/src/microservices/order-service:/app
     env_file:
-      - ../lab3/src/microservices/order-service/.env
+      - ../lab3/src/microservices/order-service/.env.example
     depends_on:
       - postgres
     command: sh -c "pnpm migration:run && pnpm start"
@@ -50,7 +50,7 @@ services:
     volumes:
       - ../lab3/src/microservices/progress-service:/app
     env_file:
-      - ../lab3/src/microservices/progress-service/.env
+      - ../lab3/src/microservices/progress-service/.env.example
     depends_on:
       - postgres
     command: sh -c "pnpm migration:run && pnpm start"
@@ -65,7 +65,7 @@ services:
     volumes:
       - ../lab3/src/microservices/auth-service:/app
     env_file:
-      - ../lab3/src/microservices/auth-service/.env
+      - ../lab3/src/microservices/auth-service/.env.example
     depends_on:
       - postgres
     command: sh -c "pnpm migration:run && pnpm start"
