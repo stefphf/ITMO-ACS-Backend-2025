@@ -32,5 +32,5 @@ jobs:
             cd "/root/backdev/БР1.2/Корчагин Вадим/labs/lab4/" &&
             docker compose down -v --remove-orphans &&
             docker compose pull &&
-            docker compose up --build
+            docker compose up -d --build
           '
