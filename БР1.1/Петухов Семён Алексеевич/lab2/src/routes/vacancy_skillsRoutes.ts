@@ -1,117 +1,67 @@
-import { Router } from "express";
-import * as controller from "../controllers/vacancy_skillsController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: VacancySkills
- *   description: Связь вакансий и навыков
+ *   description: Навыки, связанные с вакансиями
  */
 
 /**
  * @swagger
- * /api/vacancy-skills:
+ * /vacancy-skills:
  *   get:
- *     summary: Получить все связи вакансий и навыков
  *     tags: [VacancySkills]
+ *     summary: Получить список всех навыков для вакансий
  *     responses:
  *       200:
- *         description: Список всех связей
+ *         description: Список связей вакансий и навыков
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   vacancy:
- *                     type: integer
- *                   skill:
- *                     type: integer
- */
-router.get("/", controller.getAllVacancySkills);
-
-/**
- * @swagger
- * /api/vacancy-skills/{id}:
- *   get:
- *     summary: Получить связь между вакансией и навыком по ID
- *     tags: [VacancySkills]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Найденная связь
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 vacancy:
- *                   type: integer
- *                 skill:
- *                   type: integer
- *       404:
- *         description: Связь не найдена
- */
-router.get("/:id", controller.getVacancySkillById);
-
-/**
- * @swagger
- * /api/vacancy-skills:
+ *                 $ref: '#/components/schemas/VacancySkills'
+ *
  *   post:
- *     summary: Создать связь между вакансией и навыком
  *     tags: [VacancySkills]
+ *     summary: Добавить навык к вакансии
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - vacancy
- *               - skill
- *             properties:
- *               vacancy:
- *                 type: integer
- *               skill:
- *                 type: integer
+ *             $ref: '#/components/schemas/VacancySkillsInput'
  *     responses:
  *       201:
- *         description: Связь создана
+ *         description: Навык добавлен к вакансии
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 vacancy:
- *                   type: integer
- *                 skill:
- *                   type: integer
- */
-router.post("/", controller.createVacancySkill);
-
-/**
- * @swagger
- * /api/vacancy-skills/{id}:
- *   put:
- *     summary: Обновить связь между вакансией и навыком
+ *               $ref: '#/components/schemas/VacancySkills'
+ *
+ * /vacancy-skills/{id}:
+ *   get:
  *     tags: [VacancySkills]
+ *     summary: Получить навык вакансии по ID
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Связь вакансия-навык
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/VacancySkills'
+ *
+ *   put:
+ *     tags: [VacancySkills]
+ *     summary: Обновить навык вакансии по ID
+ *     parameters:
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -120,49 +70,38 @@ router.post("/", controller.createVacancySkill);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               vacancy:
- *                 type: integer
- *               skill:
- *                 type: integer
+ *             $ref: '#/components/schemas/VacancySkillsInput'
  *     responses:
  *       200:
- *         description: Связь обновлена
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 vacancy:
- *                   type: integer
- *                 skill:
- *                   type: integer
- *       404:
- *         description: Связь не найдена
- */
-router.put("/:id", controller.updateVacancySkill);
-
-/**
- * @swagger
- * /api/vacancy-skills/{id}:
+ *         description: Навык вакансии обновлён
+ *
  *   delete:
- *     summary: Удалить связь между вакансией и навыком
  *     tags: [VacancySkills]
+ *     summary: Удалить навык вакансии по ID
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
- *       200:
- *         description: Связь удалена
- *       404:
- *         description: Связь не найдена
+ *       204:
+ *         description: Навык вакансии удалён
  */
+import { Router } from "express";
+import * as controller from "../controllers/vacancy_skillsController";
+
+const router = Router();
+
+
+router.get("/", controller.getAllVacancySkills);
+
+router.get("/:id", controller.getVacancySkillById);
+
+router.post("/", controller.createVacancySkill);
+
+router.put("/:id", controller.updateVacancySkill);
+
 router.delete("/:id", controller.deleteVacancySkill);
 
 export default router;

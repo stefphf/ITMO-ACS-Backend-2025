@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/data-source";
-import { User } from "../models/userModel";
+import {User, UserRole} from "../models/userModel";
 import bcrypt from "bcrypt";
+import {Company} from "../models/companyModel";
 
 const userRepo = AppDataSource.getRepository(User);
+const companyRepo = AppDataSource.getRepository(Company);
 
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
     const users = await userRepo.find({ relations: ["company"] });
@@ -24,19 +26,46 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        const { password, ...rest } = req.body;
+        const { username, email, password, role, company } = req.body;
+
+        if (!username || !email || !password) {
+            return res.status(400).json({
+                message: "Missing required fields: username, email, or password",
+            });
+        }
+
+        const existingUser = await userRepo.findOneBy({ email: email.trim() });
+        if (existingUser) {
+            return res.status(409).json({ message: "User with this email already exists" });
+        }
+
+        if (role && !Object.values(UserRole).includes(role)) {
+            return res.status(400).json({ message: `Invalid role. Valid roles: ${Object.values(UserRole).join(", ")}` });
+        }
+
+        let companyEntity = null;
+        if (company) {
+            companyEntity = await companyRepo.findOneBy({ id: company });
+            if (!companyEntity) {
+                return res.status(400).json({ message: "Invalid company ID" });
+            }
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = userRepo.create({
-            ...rest,
+            username: username.trim(),
+            email: email.trim(),
             password: hashedPassword,
+            role: role || UserRole.SEEKER,
+            company: companyEntity,
         });
 
         await userRepo.save(user);
-        res.status(201).json(user);
+        return res.status(201).json(user);
     } catch (error) {
-        res.status(500).json({ message: "Ошибка при создании пользователя", error });
+        console.error("Error creating user:", error);
+        return res.status(500).json({ message: "Internal server error", error });
     }
 };
 

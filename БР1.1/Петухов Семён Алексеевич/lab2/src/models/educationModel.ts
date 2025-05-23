@@ -6,10 +6,9 @@ export class Education {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column({ type: "varchar", length: 255 })
     education_level!: string;
 
     @OneToMany(() => Resume, (resume) => resume.education)
     resumes?: Resume[];
-
 }

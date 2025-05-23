@@ -42,17 +42,26 @@ export const getSkillById = async (req: Request, res: Response) => {
 export const createSkill = async (req: Request, res: Response) => {
     const { skill_name, description } = req.body;
 
-    if (!skill_name || !description) {
-        res.status(400).json({ message: "Missing required fields: skill_name or description" });
-        return;
+    if (!skill_name) {
+        return res.status(400).json({ message: "Missing required field: skill_name" });
     }
 
     try {
-        const skill = skillRepo.create({ skill_name, description });
+        const existing = await skillRepo.findOneBy({ skill_name: skill_name.trim() });
+        if (existing) {
+            return res.status(409).json({ message: "Skill with this name already exists" });
+        }
+
+        const skill = skillRepo.create({
+            skill_name: skill_name.trim(),
+            description: description?.trim() || null,
+        });
+
         await skillRepo.save(skill);
-        res.status(201).json(skill);
+        return res.status(201).json(skill);
     } catch (error) {
-        res.status(500).json({ message: "Error creating skill", error });
+        console.error("Error creating skill:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 

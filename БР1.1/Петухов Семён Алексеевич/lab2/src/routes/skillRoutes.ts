@@ -1,79 +1,35 @@
-import { Router } from "express";
-import * as controller from "../controllers/skillController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: Skills
- *   description: Управление навыками
+ *   description: Работа с навыками
  */
 
 /**
  * @swagger
- * /api/skills:
+ * /skills:
  *   get:
- *     summary: Получить все навыки
  *     tags: [Skills]
+ *     summary: Получить все навыки
  *     responses:
  *       200:
- *         description: Список всех навыков
+ *         description: Список навыков
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Skill'
- */
-router.get("/", controller.getAllSkills);
-
-/**
- * @swagger
- * /api/skills/{id}:
- *   get:
- *     summary: Получить навык по ID
- *     tags: [Skills]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Найденный навык
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Skill'
- *       404:
- *         description: Навык не найден
- */
-router.get("/:id", controller.getSkillById);
-
-/**
- * @swagger
- * /api/skills:
+ *
  *   post:
- *     summary: Создать новый навык
  *     tags: [Skills]
+ *     summary: Создать новый навык
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               skill_name:
- *                 type: string
- *                 description: Название навыка
- *               description:
- *                 type: string
- *                 description: Описание навыка
- *             required:
- *               - skill_name
- *               - description
+ *             $ref: '#/components/schemas/SkillInput'
  *     responses:
  *       201:
  *         description: Навык создан
@@ -81,20 +37,31 @@ router.get("/:id", controller.getSkillById);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Skill'
- *       400:
- *         description: Отсутствуют обязательные поля
- */
-router.post("/", controller.createSkill);
-
-/**
- * @swagger
- * /api/skills/{id}:
- *   put:
- *     summary: Обновить навык по ID
+ *
+ * /skills/{id}:
+ *   get:
  *     tags: [Skills]
+ *     summary: Получить навык по ID
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Один навык
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Skill'
+ *
+ *   put:
+ *     tags: [Skills]
+ *     summary: Обновить навык
+ *     parameters:
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -103,47 +70,39 @@ router.post("/", controller.createSkill);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               skill_name:
- *                 type: string
- *                 description: Название навыка
- *               description:
- *                 type: string
- *                 description: Описание навыка
- *             required:
- *               - skill_name
- *               - description
+ *             $ref: '#/components/schemas/SkillInput'
  *     responses:
  *       200:
  *         description: Навык обновлён
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Skill'
- *       404:
- *         description: Навык не найден
- */
-router.put("/:id", controller.updateSkill);
-
-/**
- * @swagger
- * /api/skills/{id}:
+ *
  *   delete:
- *     summary: Удалить навык по ID
  *     tags: [Skills]
+ *     summary: Удалить навык
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
- *       200:
- *         description: Навык удалён
- *       404:
- *         description: Навык не найден
+ *       204:
+ *         description: Удалено
  */
+
+import { Router } from "express";
+import * as controller from "../controllers/skillController";
+
+const router = Router();
+
+
+router.get("/", controller.getAllSkills);
+
+router.get("/:id", controller.getSkillById);
+
+router.post("/", controller.createSkill);
+
+router.put("/:id", controller.updateSkill);
+
 router.delete("/:id", controller.deleteSkill);
 
 export default router;

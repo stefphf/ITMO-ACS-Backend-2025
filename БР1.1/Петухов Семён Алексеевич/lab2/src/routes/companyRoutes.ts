@@ -7,18 +7,18 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Companies
- *   description: Управление компаниями
+ *   description: API для управления компаниями
  */
 
 /**
  * @swagger
- * /api/companies:
+ * /companies:
  *   get:
  *     summary: Получить список всех компаний
  *     tags: [Companies]
  *     responses:
  *       200:
- *         description: Успешное получение списка компаний
+ *         description: Список компаний
  *         content:
  *           application/json:
  *             schema:
@@ -30,13 +30,13 @@ router.get("/", controller.getAllCompanies);
 
 /**
  * @swagger
- * /api/companies/{id}:
+ * /companies/{id}:
  *   get:
  *     summary: Получить компанию по ID
  *     tags: [Companies]
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -46,19 +46,8 @@ router.get("/", controller.getAllCompanies);
  *         description: Компания найдена
  *         content:
  *           application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - description
- *               - location
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *               location:
- *                 type: string
+ *             schema:
+ *               $ref: '#/components/schemas/Company'
  *       404:
  *         description: Компания не найдена
  */
@@ -66,7 +55,7 @@ router.get("/:id", controller.getCompanyById);
 
 /**
  * @swagger
- * /api/companies:
+ * /companies:
  *   post:
  *     summary: Создать новую компанию
  *     tags: [Companies]
@@ -75,18 +64,7 @@ router.get("/:id", controller.getCompanyById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - name
- *               - description
- *               - location
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *               location:
- *                 type: string
+ *             $ref: '#/components/schemas/CompanyInput'
  *     responses:
  *       201:
  *         description: Компания успешно создана
@@ -94,20 +72,18 @@ router.get("/:id", controller.getCompanyById);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Company'
- *       400:
- *         description: Неверные данные
  */
 router.post("/", controller.createCompany);
 
 /**
  * @swagger
- * /api/companies/{id}:
+ * /companies/{id}:
  *   put:
  *     summary: Обновить данные компании по ID
  *     tags: [Companies]
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -117,27 +93,14 @@ router.post("/", controller.createCompany);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 example: "New Company Name"
- *               description:
- *                 type: string
- *                 example: "Updated description"
- *               location:
- *                 type: string
- *                 example: "Updated address"
- *             description: Передайте хотя бы одно поле для обновления
+ *             $ref: '#/components/schemas/CompanyInput'
  *     responses:
  *       200:
- *         description: Компания успешно обновлена
+ *         description: Компания обновлена
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Company'
- *       400:
- *         description: Ошибка в запросе или недостаточно данных
  *       404:
  *         description: Компания не найдена
  */
@@ -145,19 +108,19 @@ router.put("/:id", controller.updateCompany);
 
 /**
  * @swagger
- * /api/companies/{id}:
+ * /companies/{id}:
  *   delete:
  *     summary: Удалить компанию по ID
  *     tags: [Companies]
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
  *         description: ID компании
  *     responses:
- *       200:
+ *       204:
  *         description: Компания удалена
  *       404:
  *         description: Компания не найдена

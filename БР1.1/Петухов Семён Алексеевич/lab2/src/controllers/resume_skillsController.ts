@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/data-source";
 import { ResumeSkills } from "../models/resume_skillsModel";
+import {Resume} from "../models/resumeModel";
+import {Skill} from "../models/skillModel";
 
-const repo = AppDataSource.getRepository(ResumeSkills);
+const resumeSkillRepo = AppDataSource.getRepository(ResumeSkills);
+const resumeRepo = AppDataSource.getRepository(Resume);
+const skillRepo = AppDataSource.getRepository(Skill);
 
 // Получить все связи резюме и навыков
 export const getAllResumeSkills = async (_: Request, res: Response) => {
-    const items = await repo.find({ relations: ["resume", "skill"] });
+    const items = await resumeSkillRepo.find({ relations: ["resume", "skill"] });
     res.json(items);
 };
 
@@ -18,7 +22,7 @@ export const getResumeSkillById = async (req: Request, res: Response) => {
         return;
     }
 
-    const item = await repo.findOne({
+    const item = await resumeSkillRepo.findOne({
         where: { id },
         relations: ["resume", "skill"],
     });
@@ -33,16 +37,32 @@ export const getResumeSkillById = async (req: Request, res: Response) => {
 
 // Создать связь резюме и навыка
 export const createResumeSkill = async (req: Request, res: Response) => {
-    const { resume, skill } = req.body;
+    const { resume: resumeId, skill: skillId } = req.body;
 
-    if (!resume || !skill) {
-        res.status(400).json({ message: "Missing required fields: resume and/or skill" });
-        return;
+    if (!resumeId || !skillId) {
+        return res.status(400).json({ message: "Missing required fields: resume and/or skill" });
     }
 
-    const item = repo.create(req.body);
-    await repo.save(item);
-    res.status(201).json(item);
+    try {
+        const resume = await resumeRepo.findOneBy({ id: resumeId });
+        const skill = await skillRepo.findOneBy({ id: skillId });
+
+        if (!resume) {
+            return res.status(404).json({ message: `Resume with id ${resumeId} not found` });
+        }
+
+        if (!skill) {
+            return res.status(404).json({ message: `Skill with id ${skillId} not found` });
+        }
+
+        const resumeSkill = resumeSkillRepo.create({ resume, skill });
+        await resumeSkillRepo.save(resumeSkill);
+
+        return res.status(201).json(resumeSkill);
+    } catch (err) {
+        console.error("Error creating ResumeSkill:", err);
+        return res.status(500).json({ message: "Internal server error, id doesn't exist" });
+    }
 };
 
 // Обновить связь резюме и навыка
@@ -53,14 +73,14 @@ export const updateResumeSkill = async (req: Request, res: Response) => {
         return;
     }
 
-    const item = await repo.findOneBy({ id });
+    const item = await resumeSkillRepo.findOneBy({ id });
     if (!item) {
         res.status(404).json({ message: "ResumeSkill not found" });
         return;
     }
 
-    repo.merge(item, req.body);
-    await repo.save(item);
+    resumeSkillRepo.merge(item, req.body);
+    await resumeSkillRepo.save(item);
     res.json(item);
 };
 
@@ -72,7 +92,7 @@ export const deleteResumeSkill = async (req: Request, res: Response) => {
         return;
     }
 
-    const result = await repo.delete(id);
+    const result = await resumeSkillRepo.delete(id);
     if (result.affected === 0) {
         res.status(404).json({ message: "ResumeSkill not found" });
         return;

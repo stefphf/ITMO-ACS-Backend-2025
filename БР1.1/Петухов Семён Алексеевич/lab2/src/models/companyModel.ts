@@ -7,28 +7,18 @@ export class Company {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
-    name: string;
+    @Column({ type: "varchar", length: 255 })
+    name!: string;
 
-    @Column()
-    description: string;
+    @Column({ type: "text" })
+    description!: string;
 
-    @Column()
-    location: string;
+    @Column({ type: "varchar", length: 255, nullable: true })
+    location?: string;
 
     @OneToMany(() => User, (user) => user.company)
     users?: User[];
 
     @OneToMany(() => Vacancy, (vacancy) => vacancy.company)
     vacancies?: Vacancy[];
-
-    constructor(
-        name: string,
-        description: string,
-        location: string
-    ) {
-        this.name = name;
-        this.description = description;
-        this.location = location;
-    }
 }

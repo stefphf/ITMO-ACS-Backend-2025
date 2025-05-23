@@ -1,132 +1,107 @@
-import { Router } from "express";
-import * as controller from "../controllers/resume_skillsController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: ResumeSkills
- *   description: Связь резюме и навыков
+ *   description: Работа с навыками резюме
  */
 
 /**
  * @swagger
- * /api/resume-skills:
+ * /resume-skills:
  *   get:
- *     summary: Получить все связи резюме и навыков
  *     tags: [ResumeSkills]
+ *     summary: Получить все навыки резюме
  *     responses:
  *       200:
- *         description: Список связей
+ *         description: Список навыков резюме
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/ResumeSkill'
- */
-router.get("/", controller.getAllResumeSkills);
-
-/**
- * @swagger
- * /api/resume-skills/{id}:
- *   get:
- *     summary: Получить связь резюме и навыка по ID
+ *                 $ref: '#/components/schemas/ResumeSkills'
+ *
+ *   post:
  *     tags: [ResumeSkills]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
+ *     summary: Добавить навык к резюме
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResumeSkillsInput'
  *     responses:
- *       200:
- *         description: Связь найдена
+ *       201:
+ *         description: Навык добавлен
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ResumeSkill'
- *       404:
- *         description: Связь не найдена
+ *               $ref: '#/components/schemas/ResumeSkills'
+ *
+ * /resume-skills/{id}:
+ *   get:
+ *     tags: [ResumeSkills]
+ *     summary: Получить навык резюме по ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Один навык резюме
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ResumeSkills'
+ *
+ *   put:
+ *     tags: [ResumeSkills]
+ *     summary: Обновить навык резюме
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResumeSkillsInput'
+ *     responses:
+ *       200:
+ *         description: Навык резюме обновлён
+ *
+ *   delete:
+ *     tags: [ResumeSkills]
+ *     summary: Удалить навык резюме
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Удалено
  */
+
+import { Router } from "express";
+import * as controller from "../controllers/resume_skillsController";
+
+const router = Router();
+
+router.get("/", controller.getAllResumeSkills);
+
 router.get("/:id", controller.getResumeSkillById);
 
-/**
- * @swagger
- * /api/resume-skills:
- *   post:
- *     summary: Создать связь между резюме и навыком
- *     tags: [ResumeSkills]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - resume
- *               - skill
- *             properties:
- *               resume:
- *                 type: integer
- *               skill:
- *                 type: integer
- *     responses:
- *       201:
- *         description: Связь создана
- */
 router.post("/", controller.createResumeSkill);
 
-/**
- * @swagger
- * /api/resume-skills/{id}:
- *   put:
- *     summary: Обновить связь между резюме и навыком
- *     tags: [ResumeSkills]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               resumeId:
- *                 type: integer
- *               skillId:
- *                 type: integer
- *     responses:
- *       200:
- *         description: Связь обновлена
- *       404:
- *         description: Связь не найдена
- */
 router.put("/:id", controller.updateResumeSkill);
 
-/**
- * @swagger
- * /api/resume-skills/{id}:
- *   delete:
- *     summary: Удалить связь между резюме и навыком
- *     tags: [ResumeSkills]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Связь удалена
- *       404:
- *         description: Связь не найдена
- */
 router.delete("/:id", controller.deleteResumeSkill);
 
 export default router;

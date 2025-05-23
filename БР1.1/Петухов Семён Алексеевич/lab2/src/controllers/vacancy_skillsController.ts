@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/data-source";
 import { VacancySkills } from "../models/vacancy_skillsModel";
+import {Vacancy} from "../models/vacancyModel";
+import {Skill} from "../models/skillModel";
 
 const vacancySkillRepo = AppDataSource.getRepository(VacancySkills);
+const vacancyRepo = AppDataSource.getRepository(Vacancy);
+const skillRepo = AppDataSource.getRepository(Skill);
 
 // Получить все связи "Навыки вакансии"
 export const getAllVacancySkills = async (_: Request, res: Response) => {
@@ -33,16 +37,42 @@ export const getVacancySkillById = async (req: Request, res: Response) => {
 
 // Создать новую связь "Навыки вакансии"
 export const createVacancySkill = async (req: Request, res: Response) => {
-    const { vacancy, skill } = req.body;
+    try {
+        const { vacancy, skill } = req.body;
 
-    if (!vacancy || !skill) {
-        res.status(400).json({ message: "Missing required fields: vacancy and/or skill" });
-        return;
+        if (!vacancy || !skill) {
+            return res.status(400).json({ message: "Missing required fields: vacancy and/or skill" });
+        }
+
+        const vacancyEntity = await vacancyRepo.findOneBy({ id: vacancy });
+        if (!vacancyEntity) {
+            return res.status(404).json({ message: "Vacancy not found" });
+        }
+
+        const skillEntity = await skillRepo.findOneBy({ id: skill });
+        if (!skillEntity) {
+            return res.status(404).json({ message: "Skill not found" });
+        }
+
+        const existingEntry = await vacancySkillRepo.findOne({
+            where: { vacancy: { id: vacancy }, skill: { id: skill } },
+        });
+
+        if (existingEntry) {
+            return res.status(409).json({ message: "This skill is already associated with the vacancy" });
+        }
+
+        const item = vacancySkillRepo.create({
+            vacancy: vacancyEntity,
+            skill: skillEntity,
+        });
+
+        await vacancySkillRepo.save(item);
+        return res.status(201).json(item);
+    } catch (error) {
+        console.error("Error creating VacancySkill:", error);
+        return res.status(500).json({ message: "Internal server error", error });
     }
-
-    const item = vacancySkillRepo.create(req.body);
-    await vacancySkillRepo.save(item);
-    res.status(201).json(item);
 };
 
 // Обновить связь "Навыки вакансии"

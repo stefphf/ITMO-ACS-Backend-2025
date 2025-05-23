@@ -11,28 +11,28 @@ export class Resume {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => User, (user) => user.resumes)
+    @ManyToOne(() => User, (user) => user.resumes, { nullable: false })
     user!: User;
 
-    @Column()
+    @Column({ type: "varchar", length: 255 })
     full_name!: string;
 
-    @Column()
+    @Column({ type: "date" })
     date_of_birth!: string;
 
-    @Column()
+    @Column({ type: "varchar", length: 255 })
     work_experience!: string;
 
-    @Column()
+    @Column({ type: "varchar", length: 255, nullable: true })
     skills?: string;
 
-    @Column()
+    @Column({ type: "int", nullable: true })
     salary?: number;
 
-    @ManyToOne(() => Education, (edu) => edu.resumes)
+    @ManyToOne(() => Education, (edu) => edu.resumes, { nullable: true })
     education?: Education;
 
-    @Column("text")
+    @Column({ type: "text", nullable: true })
     additional_information?: string;
 
     @OneToMany(() => WorkExperience, (exp) => exp.resume)

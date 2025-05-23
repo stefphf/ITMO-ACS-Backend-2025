@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/data-source";
 import { WorkExperience } from "../models/work_experienceModel";
+import {Resume} from "../models/resumeModel";
 
-const repo = AppDataSource.getRepository(WorkExperience);
+const workExperienceRepo = AppDataSource.getRepository(WorkExperience);
+const resumeRepo = AppDataSource.getRepository(Resume);
 
 export const getAllWorkExperiences = async (_: Request, res: Response) => {
-    const items = await repo.find({ relations: ["resume"] });
+    const items = await workExperienceRepo.find({ relations: ["resume"] });
     res.json(items);
 };
 
@@ -16,7 +18,7 @@ export const getWorkExperienceById = async (req: Request, res: Response) => {
         return;
     }
 
-    const item = await repo.findOne({
+    const item = await workExperienceRepo.findOne({
         where: { id },
         relations: ["resume"],
     });
@@ -29,16 +31,33 @@ export const getWorkExperienceById = async (req: Request, res: Response) => {
 };
 
 export const createWorkExperience = async (req: Request, res: Response) => {
-    const { resume, role, company, description, duration } = req.body;
+    try {
+        const { resume: resumeId, role, company, description, duration } = req.body;
 
-    if (!resume || !role || !duration) {
-        res.status(400).json({ message: "Missing required fields: resume, role, or duration" });
-        return;
+        if (!resumeId || !role || !duration) {
+            return res.status(400).json({ message: "Missing required fields: resume, role, or duration" });
+        }
+
+        const resume = await resumeRepo.findOneBy({ id: resumeId });
+        if (!resume) {
+            return res.status(404).json({ message: "Resume not found" });
+        }
+
+        const workExperience = workExperienceRepo.create({
+            resume,
+            role,
+            company,
+            description,
+            duration,
+        });
+
+        await workExperienceRepo.save(workExperience);
+
+        res.status(201).json(workExperience);
+    } catch (error) {
+        console.error("Error creating work experience:", error);
+        res.status(500).json({ message: "Internal server error", error });
     }
-
-    const item = repo.create(req.body);
-    await repo.save(item);
-    res.status(201).json(item);
 };
 
 // Обновить опыт работы
@@ -49,14 +68,14 @@ export const updateWorkExperience = async (req: Request, res: Response) => {
         return;
     }
 
-    const item = await repo.findOneBy({ id });
+    const item = await workExperienceRepo.findOneBy({ id });
     if (!item) {
         res.status(404).json({ message: "Work experience not found" });
         return;
     }
 
-    repo.merge(item, req.body);
-    await repo.save(item);
+    workExperienceRepo.merge(item, req.body);
+    await workExperienceRepo.save(item);
     res.json(item);
 };
 
@@ -68,7 +87,7 @@ export const deleteWorkExperience = async (req: Request, res: Response) => {
         return;
     }
 
-    const result = await repo.delete(id);
+    const result = await workExperienceRepo.delete(id);
     if (result.affected === 0) {
         res.status(404).json({ message: "Work experience not found" });
         return;

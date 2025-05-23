@@ -10,22 +10,31 @@ import { Company } from "./companyModel";
 import { Application } from "./applicationModel";
 import { MotivationLetter } from "./motivation_letterModel";
 
+export enum UserRole {
+    SEEKER = "соискатель",
+    EMPLOYER = "работодатель"
+}
+
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     username!: string;
 
-    @Column({ unique: true })
+    @Column({ type: 'varchar', unique: true, length: 255 })
     email!: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 255 })
     password!: string;
 
-    @Column()
-    role!: "соискатель" | "работодатель";
+    @Column({
+        type: "enum",
+        enum: UserRole,
+        default: UserRole.SEEKER
+    })
+    role!: UserRole;
 
     @ManyToOne(() => Company, (company) => company.users, { nullable: true })
     company?: Company | null;
@@ -38,5 +47,4 @@ export class User {
 
     @OneToMany(() => MotivationLetter, (ml) => ml.user)
     motivationLetters?: MotivationLetter[];
-
 }

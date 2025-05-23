@@ -6,19 +6,18 @@ export class WorkExperience {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => Resume, (resume) => resume.experiences)
+    @ManyToOne(() => Resume, (resume) => resume.experiences, { nullable: false })
     resume!: Resume;
 
-    @Column({ nullable: true })
+    @Column({ type: "varchar", length: 255, nullable: true })
     company?: string;
 
-    @Column({ nullable: true })
+    @Column({ type: "varchar", length: 255, nullable: true })
     role?: string;
 
-    @Column("text")
+    @Column({ type: "text", nullable: true })
     description?: string;
 
-    @Column()
-    duration!: string;
-
+    @Column({ type: "varchar", length: 100 })
+    duration!: string;  // Например, "2 года", "6 месяцев"
 }

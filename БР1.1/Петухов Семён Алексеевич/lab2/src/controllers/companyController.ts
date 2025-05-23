@@ -30,14 +30,22 @@ export const getCompanyById = async (req: Request, res: Response) => {
 export const createCompany = async (req: Request, res: Response) => {
     const { name, description, location } = req.body;
 
-    if (!name || !description || !location) {
-        res.status(400).json({ message: "Missing required fields: name, description, or location" });
-        return;
+    if (!name || !description) {
+        return res.status(400).json({
+            message: "Missing required fields: name or description"
+        });
     }
 
-    const item = repo.create({ name, description, location });
-    await repo.save(item);
-    res.status(201).json(item);
+    try {
+        const company = repo.create({ name, description, location });
+        await repo.save(company);
+        return res.status(201).json(company);
+    } catch (error) {
+        console.error("Error creating company:", error);
+        return res.status(500).json({
+            message: "Internal server error"
+        });
+    }
 };
 
 // Обновить компанию

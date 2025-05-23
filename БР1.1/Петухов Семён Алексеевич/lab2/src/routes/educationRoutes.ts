@@ -1,13 +1,8 @@
-import { Router } from "express";
-import * as controller from "../controllers/educationController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: Educations
- *   description: Управление записями об образовании
+ *   description: Работа с уровнями образования
  */
 
 /**
@@ -16,146 +11,127 @@ const router = Router();
  *   schemas:
  *     Education:
  *       type: object
- *       required:
- *         - education_level
  *       properties:
  *         id:
  *           type: integer
- *           description: Уникальный ID записи
  *         education_level:
  *           type: string
- *           description: Уровень образования
  *       example:
  *         id: 1
- *         education_level: "Bachelor's Degree"
+ *         education_level: Высшее
+ *
+ *     EducationInput:
+ *       type: object
+ *       properties:
+ *         education_level:
+ *           type: string
+ *       required:
+ *         - education_level
+ *       example:
+ *         education_level: Среднее специальное
  */
 
 /**
  * @swagger
- * /api/educations:
+ * /educations:
  *   get:
- *     summary: Получить все записи об образовании
- *     tags: [Educations]
+ *     tags:
+ *       - Educations
+ *     summary: Получить все уровни образования
  *     responses:
  *       200:
- *         description: Список записей об образовании
+ *         description: Список уровней образования
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Education'
- */
-router.get("/", controller.getAllEducations);
-
-/**
- * @swagger
- * /api/educations/{id}:
- *   get:
- *     summary: Получить запись об образовании по ID
- *     tags: [Educations]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID записи
- *     responses:
- *       200:
- *         description: Найденная запись
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Education'
- *       404:
- *         description: Запись не найдена
- */
-router.get("/:id", controller.getEducationById);
-
-/**
- * @swagger
- * /api/educations:
+ *
  *   post:
- *     summary: Создать новую запись об образовании
- *     tags: [Educations]
+ *     tags:
+ *       - Educations
+ *     summary: Создать уровень образования
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Education'
+ *             $ref: '#/components/schemas/EducationInput'
  *     responses:
  *       201:
- *         description: Запись успешно создана
+ *         description: Уровень образования создан
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Education'
- *       400:
- *         description: Ошибка валидации
- */
-router.post("/", controller.createEducation);
-
-/**
- * @swagger
- * /api/educations/{id}:
- *   put:
- *     summary: Обновить запись об образовании по ID
- *     tags: [Educations]
+ *
+ * /educations/{id}:
+ *   get:
+ *     tags:
+ *       - Educations
+ *     summary: Получить уровень образования по ID
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID записи
+ *     responses:
+ *       200:
+ *         description: Один уровень образования
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Education'
+ *
+ *   put:
+ *     tags:
+ *       - Educations
+ *     summary: Обновить уровень образования
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Education'
+ *             $ref: '#/components/schemas/EducationInput'
  *     responses:
  *       200:
- *         description: Запись обновлена
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Education'
- *       400:
- *         description: Ошибка валидации
- *       404:
- *         description: Запись не найдена
- */
-router.put("/:id", controller.updateEducation);
-
-/**
- * @swagger
- * /api/educations/{id}:
+ *         description: Уровень обновлён
+ *
  *   delete:
- *     summary: Удалить запись об образовании по ID
- *     tags: [Educations]
+ *     tags:
+ *       - Educations
+ *     summary: Удалить уровень образования
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID записи
  *     responses:
- *       200:
- *         description: Запись удалена
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 deleted:
- *                   type: integer
- *       404:
- *         description: Запись не найдена
+ *       204:
+ *         description: Удалено
  */
+import { Router } from "express";
+import * as controller from "../controllers/educationController";
+
+const router = Router();
+
+
+router.get("/", controller.getAllEducations);
+router.get("/:id", controller.getEducationById);
+
+router.post("/", controller.createEducation);
+
+router.put("/:id", controller.updateEducation);
+
 router.delete("/:id", controller.deleteEducation);
 
 export default router;

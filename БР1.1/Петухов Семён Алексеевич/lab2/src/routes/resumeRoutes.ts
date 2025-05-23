@@ -1,21 +1,16 @@
-import { Router } from "express";
-import * as controller from "../controllers/resumeController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: Resumes
- *   description: Управление резюме
+ *   description: Работа с резюме
  */
 
 /**
  * @swagger
- * /api/resumes:
+ * /resumes:
  *   get:
- *     summary: Получить список всех резюме
  *     tags: [Resumes]
+ *     summary: Получить все резюме
  *     responses:
  *       200:
  *         description: Список резюме
@@ -25,81 +20,16 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Resume'
- */
-router.get("/", controller.getAllResumes);
-
-/**
- * @swagger
- * /api/resumes/{id}:
- *   get:
- *     summary: Получить резюме по ID
- *     tags: [Resumes]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Резюме найдено
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Resume'
- *       404:
- *         description: Резюме не найдено
- */
-router.get("/:id", controller.getResumeById);
-
-/**
- * @swagger
- * /api/resumes:
+ *
  *   post:
- *     summary: Создать новое резюме
  *     tags: [Resumes]
+ *     summary: Создать новое резюме
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - user
- *               - full_name
- *               - date_of_birth
- *               - work_experience
- *               - skills
- *               - salary
- *               - education
- *               - additional_information
- *             properties:
- *               user:
- *                 type: integer
- *                 description: ID пользователя, создающего резюме
- *               full_name:
- *                 type: string
- *                 description: Полное имя пользователя
- *               date_of_birth:
- *                 type: string
- *                 format: date
- *                 description: Дата рождения пользователя
- *               work_experience:
- *                 type: string
- *                 description: Описание опыта работы
- *               skills:
- *                 type: string
- *                 description: Навыки пользователя
- *               salary:
- *                 type: number
- *                 format: float
- *                 description: Ожидаемая зарплата
- *               education:
- *                 type: integer
- *                 description: ID образования пользователя
- *               additional_information:
- *                 type: string
- *                 description: Дополнительная информация
+ *             $ref: '#/components/schemas/ResumeInput'
  *     responses:
  *       201:
  *         description: Резюме создано
@@ -107,21 +37,31 @@ router.get("/:id", controller.getResumeById);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Resume'
- *       400:
- *         description: Неверные данные
- */
-
-router.post("/", controller.createResume);
-
-/**
- * @swagger
- * /api/resumes/{id}:
- *   put:
- *     summary: Обновить резюме по ID
+ *
+ * /resumes/{id}:
+ *   get:
  *     tags: [Resumes]
+ *     summary: Получить резюме по ID
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Одно резюме
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Resume'
+ *
+ *   put:
+ *     tags: [Resumes]
+ *     summary: Обновить резюме
+ *     parameters:
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -130,70 +70,41 @@ router.post("/", controller.createResume);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - full_name
- *               - date_of_birth
- *               - work_experience
- *               - skills
- *               - salary
- *               - education
- *               - additional_information
- *             properties:
- *               full_name:
- *                 type: string
- *                 description: Полное имя пользователя
- *               date_of_birth:
- *                 type: string
- *                 format: date
- *                 description: Дата рождения пользователя
- *               work_experience:
- *                 type: string
- *                 description: Описание опыта работы
- *               skills:
- *                 type: string
- *                 description: Навыки пользователя
- *               salary:
- *                 type: number
- *                 format: float
- *                 description: Ожидаемая зарплата
- *               education:
- *                 type: integer
- *                 description: ID образования пользователя
- *               additional_information:
- *                 type: string
- *                 description: Дополнительная информация
+ *             $ref: '#/components/schemas/ResumeInput'
  *     responses:
  *       200:
  *         description: Резюме обновлено
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Resume'
- *       404:
- *         description: Резюме не найдено
- */
-
-router.put("/:id", controller.updateResume);
-
-/**
- * @swagger
- * /api/resumes/{id}:
+ *
  *   delete:
- *     summary: Удалить резюме по ID
  *     tags: [Resumes]
+ *     summary: Удалить резюме
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
- *       200:
- *         description: Резюме удалено
- *       404:
- *         description: Резюме не найдено
+ *       204:
+ *         description: Удалено
  */
+import { Router } from "express";
+import * as controller from "../controllers/resumeController";
+
+const router = Router();
+
+router.get("/", controller.getAllResumes);
+
+
+router.get("/:id", controller.getResumeById);
+
+
+
+router.post("/", controller.createResume);
+
+router.put("/:id", controller.updateResume);
+
+
 router.delete("/:id", controller.deleteResume);
 
 export default router;

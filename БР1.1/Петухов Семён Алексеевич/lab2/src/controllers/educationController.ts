@@ -31,14 +31,22 @@ export const getEducationById = async (req: Request, res: Response) => {
 export const createEducation = async (req: Request, res: Response) => {
     const { education_level } = req.body;
 
-    if (!education_level) {
-        res.status(400).json({ message: "Missing required field: education_level" });
-        return;
+    if (!education_level || typeof education_level !== "string" || education_level.trim() === "") {
+        return res.status(400).json({
+            message: "Missing or invalid required field: education_level"
+        });
     }
 
-    const item = repo.create({ education_level });
-    await repo.save(item);
-    res.status(201).json(item);
+    try {
+        const education = repo.create({ education_level: education_level.trim() });
+        await repo.save(education);
+        return res.status(201).json(education);
+    } catch (error) {
+        console.error("Error creating education:", error);
+        return res.status(500).json({
+            message: "Internal server error"
+        });
+    }
 };
 
 // Обновить образовательную запись

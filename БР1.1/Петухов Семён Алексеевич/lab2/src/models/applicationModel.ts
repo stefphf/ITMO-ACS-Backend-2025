@@ -8,18 +8,18 @@ export class Application {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => Resume, (resume) => resume)
+    @ManyToOne(() => Resume, (resume) => resume.applications, { nullable: false })
     resume!: Resume;
 
-    @ManyToOne(() => User, (user) => user.applications)
+    @ManyToOne(() => User, (user) => user.applications, { nullable: false })
     user!: User;
 
-    @ManyToOne(() => Vacancy, (vacancy) => vacancy.applications)
+    @ManyToOne(() => Vacancy, (vacancy) => vacancy.applications, { nullable: false })
     vacancy!: Vacancy;
 
-    @Column()
+    @Column({ type: "varchar", length: 100 })
     status!: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at: Date = new Date();
+    created_at!: Date;
 }

@@ -7,19 +7,18 @@ export class MotivationLetter {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => User, (user) => user.motivationLetters)
+    @ManyToOne(() => User, (user) => user.motivationLetters, { nullable: false })
     user!: User;
 
-    @ManyToOne(() => Vacancy, (vacancy) => vacancy.motivationLetters)
+    @ManyToOne(() => Vacancy, (vacancy) => vacancy.motivationLetters, { nullable: false })
     vacancy!: Vacancy;
 
-    @Column()
+    @Column({ type: "varchar", length: 255 })
     title!: string;
 
-    @Column("text")
+    @Column({ type: "text" })
     content!: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at: Date = new Date();
-
+    created_at!: Date;
 }

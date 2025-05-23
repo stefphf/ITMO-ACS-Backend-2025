@@ -1,133 +1,71 @@
-import { Router } from "express";
-import * as controller from "../controllers/applicationController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: Applications
- *   description: Управление заявками пользователей на вакансии
+ *   description: Работа с откликами на вакансии
  */
 
 /**
  * @swagger
- * /api/applications:
+ * /applications:
  *   get:
- *     summary: Получить список всех заявок
- *     tags: [Applications]
+ *     tags:
+ *       - Applications
+ *     summary: Получить все отклики
  *     responses:
  *       200:
- *         description: Список заявок успешно получен
+ *         description: Список откликов
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   resume:
- *                     type: object
- *                     description: Объект резюме
- *                   user:
- *                     type: object
- *                     description: Объект пользователя
- *                   vacancy:
- *                     type: object
- *                     description: Объект вакансии
- *                   status:
- *                     type: string
- *                   created_at:
- *                     type: string
- *                     format: date-time
- */
-router.get("/", controller.getAllApplications);
-
-/**
- * @swagger
- * /api/applications/{id}:
- *   get:
- *     summary: Получить заявку по ID
- *     tags: [Applications]
- *     parameters:
- *       - name: id
- *         in: path
- *         description: ID заявки
- *         required: true
- *         schema:
- *           type: integer
+ *                 $ref: '#/components/schemas/Application'
+ *
+ *   post:
+ *     tags:
+ *       - Applications
+ *     summary: Создать отклик
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ApplicationInput'
  *     responses:
- *       200:
- *         description: Заявка найдена
+ *       201:
+ *         description: Отклик создан
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 resume:
- *                   type: object
- *                 user:
- *                   type: object
- *                 vacancy:
- *                   type: object
- *                 status:
- *                   type: string
- *                 created_at:
- *                   type: string
- *                   format: date-time
- *       404:
- *         description: Заявка не найдена
- */
-router.get("/:id", controller.getApplicationById);
-
-/**
- * @swagger
- * /api/applications:
- *   post:
- *     summary: Создать новую заявку
- *     tags: [Applications]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - user
- *               - vacancy
- *               - resume
- *               - status
- *             properties:
- *               user:
- *                 type: integer
- *               vacancy:
- *                 type: integer
- *               resume:
- *                 type: integer
- *               status:
- *                 type: string
+ *               $ref: '#/components/schemas/Application'
+ *
+ * /applications/{id}:
+ *   get:
+ *     tags:
+ *       - Applications
+ *     summary: Получить отклик по ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
- *       201:
- *         description: Заявка успешно создана
- *       400:
- *         description: Неверные входные данные
- */
-router.post("/", controller.createApplication);
-
-/**
- * @swagger
- * /api/applications/{id}:
+ *       200:
+ *         description: Один отклик
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Application'
+ *
  *   put:
- *     summary: Обновить заявку по ID
- *     tags: [Applications]
+ *     tags:
+ *       - Applications
+ *     summary: Обновить отклик
  *     parameters:
- *       - name: id
- *         in: path
- *         description: ID заявки
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
@@ -136,43 +74,35 @@ router.post("/", controller.createApplication);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               user:
- *                 type: integer
- *               vacancy:
- *                 type: integer
- *               resume:
- *                 type: integer
- *               status:
- *                 type: string
+ *             $ref: '#/components/schemas/ApplicationInput'
  *     responses:
  *       200:
- *         description: Заявка обновлена
- *       404:
- *         description: Заявка не найдена
- */
-router.put("/:id", controller.updateApplication);
-
-/**
- * @swagger
- * /api/applications/{id}:
+ *         description: Отклик обновлён
+ *
  *   delete:
- *     summary: Удалить заявку по ID
- *     tags: [Applications]
+ *     tags:
+ *       - Applications
+ *     summary: Удалить отклик
  *     parameters:
- *       - name: id
- *         in: path
- *         description: ID заявки
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
- *       200:
- *         description: Заявка удалена
- *       404:
- *         description: Заявка не найдена
+ *       204:
+ *         description: Удалено
  */
+
+import { Router } from "express";
+import * as controller from "../controllers/applicationController";
+
+const router = Router();
+
+router.get("/", controller.getAllApplications);
+router.get("/:id", controller.getApplicationById);
+router.post("/", controller.createApplication);
+router.put("/:id", controller.updateApplication);
 router.delete("/:id", controller.deleteApplication);
 
 export default router;

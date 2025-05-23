@@ -7,14 +7,10 @@ export class ResumeSkills {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => Resume, (resume) => resume.resumeSkills)
-    resume: Resume;
+    @ManyToOne(() => Resume, (resume) => resume.resumeSkills, { nullable: false })
+    resume!: Resume;
 
-    @ManyToOne(() => Skill, (skill) => skill.resumeSkills)
-    skill: Skill;
+    @ManyToOne(() => Skill, (skill) => skill.resumeSkills, { nullable: false })
+    skill!: Skill;
 
-    constructor(resume: Resume, skill: Skill) {
-        this.resume = resume;
-        this.skill = skill;
-    }
 }

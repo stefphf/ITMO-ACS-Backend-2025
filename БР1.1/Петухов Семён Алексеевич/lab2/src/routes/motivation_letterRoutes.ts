@@ -1,98 +1,68 @@
-import { Router } from "express";
-import * as controller from "../controllers/motivation_letterController";
-
-const router = Router();
-
 /**
  * @swagger
  * tags:
  *   name: MotivationLetters
- *   description: Управление мотивационными письмами
+ *   description: Работа с мотивационными письмами
  */
 
 /**
  * @swagger
- * /api/motivation-letters:
+ * /motivation-letters:
  *   get:
- *     summary: Получить все мотивационные письма
  *     tags: [MotivationLetters]
+ *     summary: Получить все мотивационные письма
  *     responses:
  *       200:
- *         description: Список мотивационных писем
+ *         description: Список писем
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/MotivationLetter'
- */
-router.get("/", controller.getAllLetters);
 
-/**
- * @swagger
- * /api/motivation-letters/{id}:
- *   get:
- *     summary: Получить мотивационное письмо по ID
+ *   post:
  *     tags: [MotivationLetters]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID письма
- *         schema:
- *           type: integer
+ *     summary: Создать мотивационное письмо
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/MotivationLetterInput'
  *     responses:
- *       200:
- *         description: Мотивационное письмо найдено
+ *       201:
+ *         description: Письмо создано
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/MotivationLetter'
- *       404:
- *         description: Письмо не найдено
- */
-router.get("/:id", controller.getLetterById);
 
-/**
- * @swagger
- * /api/motivation-letters:
- *   post:
- *     summary: Создать новое мотивационное письмо
+ * /motivation-letters/{id}:
+ *   get:
  *     tags: [MotivationLetters]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - content
- *               - userId
- *               - vacancyId
- *             properties:
- *               content:
- *                 type: string
- *               userId:
- *                 type: integer
- *               vacancyId:
- *                 type: integer
- *     responses:
- *       201:
- *         description: Письмо создано
- */
-router.post("/", controller.createLetter);
-
-/**
- * @swagger
- * /api/motivation-letters/{id}:
- *   put:
- *     summary: Обновить мотивационное письмо по ID
- *     tags: [MotivationLetters]
+ *     summary: Получить мотивационное письмо по ID
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
- *         description: ID письма
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Одно письмо
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MotivationLetter'
+
+ *   put:
+ *     tags: [MotivationLetters]
+ *     summary: Обновить письмо
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
  *         schema:
  *           type: integer
  *     requestBody:
@@ -100,37 +70,41 @@ router.post("/", controller.createLetter);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               content:
- *                 type: string
+ *             $ref: '#/components/schemas/MotivationLetterInput'
  *     responses:
  *       200:
  *         description: Письмо обновлено
- *       404:
- *         description: Письмо не найдено
- */
-router.put("/:id", controller.updateLetter);
 
-/**
- * @swagger
- * /api/motivation-letters/{id}:
  *   delete:
- *     summary: Удалить мотивационное письмо по ID
  *     tags: [MotivationLetters]
+ *     summary: Удалить письмо
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
- *         description: ID письма
  *         schema:
  *           type: integer
  *     responses:
- *       200:
- *         description: Письмо удалено
- *       404:
- *         description: Письмо не найдено
+ *       204:
+ *         description: Удалено
  */
+
+import { Router } from "express";
+import * as controller from "../controllers/motivation_letterController";
+
+const router = Router();
+
+router.get("/", controller.getAllLetters);
+
+
+router.get("/:id", controller.getLetterById);
+
+
+router.post("/", controller.createLetter);
+
+
+router.put("/:id", controller.updateLetter);
+
 router.delete("/:id", controller.deleteLetter);
 
 export default router;

@@ -9,25 +9,25 @@ export class Vacancy {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column({ type: "varchar", length: 255 })
     title!: string;
 
-    @Column("text")
+    @Column({ type: "text", nullable: true })
     description?: string;
 
-    @Column()
+    @Column({ type: "varchar", length: 255, nullable: true })
     industry?: string;
 
-    @Column("text")
+    @Column({ type: "text", nullable: true })
     requirements?: string;
 
-    @Column()
+    @Column({ type: "int", nullable: true })
     salary?: number;
 
-    @Column()
+    @Column({ type: "varchar", length: 255, nullable: true })
     work_exp?: string;
 
-    @ManyToOne(() => Company, (company) => company.vacancies)
+    @ManyToOne(() => Company, (company) => company.vacancies, { nullable: false })
     company!: Company;
 
     @OneToMany(() => VacancySkills, (vs) => vs.vacancy)
@@ -38,5 +38,4 @@ export class Vacancy {
 
     @OneToMany(() => MotivationLetter, (ml) => ml.vacancy)
     motivationLetters?: MotivationLetter[];
-
 }

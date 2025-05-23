@@ -7,10 +7,10 @@ export class Skill {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column({ type: "varchar", length: 255 })
     skill_name!: string;
 
-    @Column("text")
+    @Column({ type: "text", nullable: true })
     description?: string;
 
     @OneToMany(() => ResumeSkills, (rs) => rs.skill)
@@ -18,5 +18,4 @@ export class Skill {
 
     @OneToMany(() => VacancySkills, (vs) => vs.skill)
     vacancySkills?: VacancySkills[];
-
 }
