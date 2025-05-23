@@ -5,7 +5,7 @@ export class BasicModel {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column()
+    @Column("text")
     ColumnString?: string;
 
 }
