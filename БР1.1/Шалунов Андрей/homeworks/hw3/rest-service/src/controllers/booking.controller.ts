@@ -53,5 +53,6 @@ export class BookingController {
     @OpenAPI({ summary: 'Delete booking' })
     async remove(@Param('id') id: number) {
         await BookingService.deleteBooking(id);
+        return null;
     }
 }  

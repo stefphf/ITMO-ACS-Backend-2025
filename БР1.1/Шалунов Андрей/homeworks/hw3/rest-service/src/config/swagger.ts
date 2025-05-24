@@ -30,6 +30,9 @@ export function useSwagger(
             },
             },
         },
+        security: [
+            { bearerAuth: [] }
+        ],
         info: {
             title: 'RealEstate API',
             description: 'Автодокументация REST API для проекта RealEstate',

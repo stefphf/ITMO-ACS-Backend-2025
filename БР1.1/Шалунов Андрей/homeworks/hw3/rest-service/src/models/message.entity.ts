@@ -13,7 +13,7 @@ export class Message {
     @ManyToOne(() => User, u => u.receivedMessages)
     recipient!: User;
 
-    @ManyToOne(() => Booking, b => b.messages)
+    @ManyToOne(() => Booking, b => b.messages, { onDelete: 'CASCADE' })
     booking!: Booking;
 
     @Column('text')
