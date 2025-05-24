@@ -101,54 +101,47 @@ export const getRecipeIngredient = async function(req: Request, res: Response) {
 export const updateRecipeIngredient = async function(req: AuthRequest, res: Response) {
     const id = Number(req.params.id);
 
-    // Проверяем, что пользователь авторизован
     if (!req.user) {
         res.status(401).json({ message: 'Unauthorized' });
         return;
     }
 
-    // Проверяем существование ингредиента рецепта и загружаем владельца рецепта
     const recipeIngredient = await recipeIngredientRepository.findOne({
         where: { id },
-        relations: ['recipe', 'recipe.user'] // Загружаем рецепт и его владельца
+        relations: ['recipe', 'recipe.user'],
     });
     if (!recipeIngredient) {
         res.status(404).json({ message: 'RecipeIngredient not found' });
         return;
     }
 
-    // Проверяем, является ли пользователь создателем рецепта или админом
     if (req.user.userId !== recipeIngredient.recipe.user.id && req.user.role !== 'admin') {
         res.status(403).json({ message: 'Access denied' });
         return;
     }
 
-    // Подготавливаем данные для обновления
     const data: any = { ...req.body };
 
-    // Обрабатываем ingredientId, если передан
     if (data.ingredientId) {
         const ingredient = await ingredientRepository.findOneBy({ id: data.ingredientId });
         if (!ingredient) {
             res.status(404).json({ message: 'Ingredient not found' });
             return;
         }
-        data.ingredient = ingredient; // Устанавливаем отношение ingredient
-        delete data.ingredientId; // Удаляем ingredientId, чтобы избежать ошибки
+        data.ingredient = ingredient;
+        delete data.ingredientId;
     }
 
-    // Обрабатываем recipeId, если передан
     if (data.recipeId) {
         const recipe = await recipeRepository.findOneBy({ id: data.recipeId });
         if (!recipe) {
             res.status(404).json({ message: 'Recipe not found' });
             return;
         }
-        data.recipe = recipe; // Устанавливаем отношение recipe
-        delete data.recipeId; // Удаляем recipeId
+        data.recipe = recipe;
+        delete data.recipeId;
     }
 
-    // Выполняем обновление
     const result = await recipeIngredientRepository.update(id, data);
     if (result.affected === 0) {
         res.status(404).json({ message: 'RecipeIngredient not found' });
@@ -167,7 +160,7 @@ export const deleteRecipeIngredient = async function(req: AuthRequest, res: Resp
 
     const recipeIngredient = await recipeIngredientRepository.findOne({
         where: { id },
-        relations: ['recipe', 'recipe.user']
+        relations: ['recipe', 'recipe.user'],
     });
     if (!recipeIngredient) {
         res.status(404).json({ message: 'RecipeIngredient not found' });

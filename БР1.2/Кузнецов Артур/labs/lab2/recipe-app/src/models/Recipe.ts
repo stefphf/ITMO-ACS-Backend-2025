@@ -1,11 +1,11 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
     Column,
+    CreateDateColumn,
+    Entity,
     ManyToOne,
     OneToMany,
+    PrimaryGeneratedColumn,
     UpdateDateColumn,
-    CreateDateColumn,
 } from 'typeorm';
 import { User } from './User';
 import { DishType } from './DishType';

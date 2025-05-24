@@ -18,7 +18,7 @@ export const createRecipeStep = async function(req: AuthRequest, res: Response) 
 
     const recipe = await recipeRepository.findOne({
         where: { id: recipeId },
-        relations: ['user']
+        relations: ['user'],
     });
     if (!recipe) {
         res.status(404).json({ message: 'Recipe not found' });
@@ -116,7 +116,7 @@ export const updateRecipeStep = async function(req: AuthRequest, res: Response) 
 
     const recipeStep = await recipeStepRepository.findOne({
         where: { step_number: stepNumber, recipe: { id: recipeId } },
-        relations: ['recipe', 'recipe.user']
+        relations: ['recipe', 'recipe.user'],
     });
     if (!recipeStep) {
         res.status(404).json({ message: 'RecipeStep not found' });
@@ -132,7 +132,7 @@ export const updateRecipeStep = async function(req: AuthRequest, res: Response) 
 
     const result = await recipeStepRepository.update(
         { step_number: stepNumber, recipe: { id: recipeId } },
-        data
+        data,
     );
     if (result.affected === 0) {
         res.status(404).json({ message: 'RecipeStep not found' });
@@ -157,7 +157,7 @@ export const deleteRecipeStep = async function(req: AuthRequest, res: Response) 
 
     const recipeStep = await recipeStepRepository.findOne({
         where: { step_number: stepNumber, recipe: { id: recipeId } },
-        relations: ['recipe', 'recipe.user']
+        relations: ['recipe', 'recipe.user'],
     });
     if (!recipeStep) {
         res.status(404).json({ message: 'RecipeStep not found' });

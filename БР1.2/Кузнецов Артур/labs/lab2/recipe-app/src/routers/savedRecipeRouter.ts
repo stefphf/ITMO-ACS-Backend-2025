@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
     createSavedRecipe,
-    getSavedRecipes,
-    getSavedRecipe,
-    updateSavedRecipe,
     deleteSavedRecipe,
+    getSavedRecipe,
+    getSavedRecipes,
+    updateSavedRecipe,
 } from '../controllers/savedRecipeController';
 import { authMiddleware } from '../middleware/authMiddleware';
 

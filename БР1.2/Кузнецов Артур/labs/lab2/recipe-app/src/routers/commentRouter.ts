@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import {
-    getCommentsByRecipe,
-    getAllComments,
-    getOwnComments,
-    getCommentsByUser,
     createComment,
-    updateComment,
     deleteComment,
+    getAllComments,
+    getCommentsByRecipe,
+    getCommentsByUser,
+    getOwnComments,
+    updateComment,
 } from '../controllers/commentController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';

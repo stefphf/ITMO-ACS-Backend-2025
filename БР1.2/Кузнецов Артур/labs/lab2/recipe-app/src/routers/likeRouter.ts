@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import {
     createLike,
-    getLikes,
-    getLike,
     deleteLike,
+    getLike,
+    getLikes,
     getLikesByRecipe,
     getLikesByUser,
     getOwnLikes,

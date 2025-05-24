@@ -2,14 +2,14 @@ import { Router } from 'express';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';
 import {
-    getFollowingOf,
-    getFollowersOf,
-    getOwnFollowing,
-    getOwnFollowers,
-    getSubscriptions,
-    getSubscription,
     createSubscription,
     deleteSubscription,
+    getFollowersOf,
+    getFollowingOf,
+    getOwnFollowers,
+    getOwnFollowing,
+    getSubscription,
+    getSubscriptions,
 } from '../controllers/subscriptionController';
 
 const router = Router();
