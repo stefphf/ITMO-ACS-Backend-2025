@@ -13,9 +13,9 @@ const repository = AppDataSource.getRepository(Channel)
 const getVideos = async (ytid: string, maxResults: number = 50) => {
   const uploads = 'UULF' + ytid.slice(2)
   const videos: any = await (await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&maxResults=${maxResults}&playlistId=${uploads}&key=${config.YT_API_KEY}`)).json()
-  var videosList: Video[] = []
-  for(var m of videos['items']){
-    var m = m['snippet']
+  const videosList: Video[] = []
+  for(let m of videos['items']){
+    m = m['snippet']
     videosList.push({
       'id': m['resourceId']['videoId'],
       'channel': m['channelId'],
@@ -32,13 +32,13 @@ const getChannel = async (ytid: string, lang: string, category: string, theme: s
   const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=statistics,snippet&id=${ytid}&key=${config.YT_API_KEY}`)
   if (!response.ok) throw new Error('Network response was not ok')
   const data: any = await response.json()
-  var stat = data['items'][0]['statistics']
-  var icon = data['items'][0]['snippet']['thumbnails']
-  // var ytid = data['items'][0]['id']
+  const stat = data['items'][0]['statistics']
+  const icon = data['items'][0]['snippet']['thumbnails']
+  // const ytid = data['items'][0]['id']
 
-  var videosList = await getVideos(ytid)
+  const videosList = await getVideos(ytid)
 
-  var channel = {
+  const channel = {
     id: ytid,
     url: 'https://www.youtube.com/channel/' + ytid,
     title: data['items'][0]['snippet']['title'],
@@ -65,7 +65,7 @@ const getChannel = async (ytid: string, lang: string, category: string, theme: s
 export class ChannelController extends Controller {
   @Get()
   public async get(): Promise<ChannelDto[]> {
-    var channels = await repository.find({ relations: ['category', 'theme', 'user', 'videosList', 'reviews'] })
+    const channels = await repository.find({ relations: ['category', 'theme', 'user', 'videosList', 'reviews'] })
     return channels.map(channel => toChannelDto(channel))
   }
 
@@ -74,7 +74,7 @@ export class ChannelController extends Controller {
    */
   @Get('{id}')
   public async getOne(@Path() id: string): Promise<ChannelDto | null> {
-    var channel = await repository.findOne({ where: { id }, relations: ['category', 'theme', 'videosList', 'reviews'] })
+    const channel = await repository.findOne({ where: { id }, relations: ['category', 'theme', 'videosList', 'reviews'] })
     if (!channel) return null
     return toChannelDto(channel) 
   }
@@ -82,22 +82,21 @@ export class ChannelController extends Controller {
   @Post()
   @Security('jwt')
   public async create(@Body() body: ChannelCreateDto, @Request() req: any): Promise<ChannelDto> {
-    var channel = await getChannel(
+    const channel = await getChannel(
       body.id, 
       body.lang, 
       body.theme,
       body.category,
       req.user.username
     )
-    var channel = await repository.save(channel)
-    return toChannelDto(channel) 
+    return toChannelDto(await repository.save(channel)) 
   }
 
   @Put('{id}')
   @Security('jwt', ['admin'])
   public async update(@Path() id: string, @Body() body: Partial<ChannelCreateDto>): Promise<ChannelDto> {
-    const x = await repository.findOneBy({ id })
-    if (!x) {
+    const channel = await repository.findOneBy({ id })
+    if (!channel) {
       this.setStatus(404)
       throw new Error('Not found')
     }
@@ -108,19 +107,18 @@ export class ChannelController extends Controller {
     if (body.theme) {
       updated.theme = await AppDataSource.getRepository(Theme).findOneBy({ name: body.theme })
     }
-    repository.merge(x, updated)
-    var channel = await repository.save(x)
-    return toChannelDto(channel)
+    repository.merge(channel, updated)
+    return toChannelDto(await repository.save(channel))
   }
   
   @Delete('{id}')
   @Security('jwt', ['admin'])
   public async remove(@Path() id: string) {
-    const r = await repository.delete(id)
-    if (r.affected === 0) {
+    const result = await repository.delete(id)
+    if (result.affected === 0) {
       this.setStatus(404)
       throw new Error('Not found')
     }
-    return r
+    return result
   }
 }
