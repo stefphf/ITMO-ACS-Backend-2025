@@ -11,13 +11,13 @@ const repository = AppDataSource.getRepository(Review)
 export class ReviewController extends Controller {
   @Get()
   public async get(): Promise<ReviewDto[]> {
-    var reviews = await repository.find({ relations: ['channel', 'user'] })
+    const reviews = await repository.find({ relations: ['channel', 'user'] })
     return reviews.map(review => toReviewDto(review))
   }
 
   @Get('{id}')
   public async getOne(@Path() id: number): Promise<ReviewDto | null> {
-    var review = await repository.findOne({ where: { id }, relations: ['channel', 'user'] })
+    const review = await repository.findOne({ where: { id }, relations: ['channel', 'user'] })
     if (!review) return null
     return toReviewDto(review)
   }
@@ -25,18 +25,18 @@ export class ReviewController extends Controller {
   @Post()
   @Security('jwt')
   public async create(@Body() body: ReviewCreateDto, @Request() req: any): Promise<ReviewDto> {
-    var review = await repository.save({...body, user: (await AppDataSource.getRepository(User).findOneBy({ username: req.user.username }))!})
+    const review = await repository.save({...body, user: (await AppDataSource.getRepository(User).findOneBy({ username: req.user.username }))!})
     return toReviewDto(review)
   }
   
   @Delete('{id}')
   @Security('jwt', ['admin'])
   public async remove(@Path() id: number) {
-    const r = await repository.delete(id)
-    if (r.affected === 0) {
+    const result = await repository.delete(id)
+    if (result.affected === 0) {
       this.setStatus(404)
       throw new Error('Not found')
     }
-    return r
+    return result
   }
 }

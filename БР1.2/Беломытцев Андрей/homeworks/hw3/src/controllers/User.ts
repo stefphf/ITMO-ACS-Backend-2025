@@ -12,13 +12,13 @@ const repository = AppDataSource.getRepository(User)
 export class UserController extends Controller {
   @Get()
   public async get(): Promise<UserDto[]> {
-    var users = await repository.find({ relations: ['role', 'channels', 'reviews'] })
+    const users = await repository.find({ relations: ['role', 'channels', 'reviews'] })
     return users.map(user => toUserDto(user))
   }
 
   @Get('{id}')
   public async getOne(@Path() id: number): Promise<UserDto | null> {
-    var user = await repository.findOne({ where: { id }, relations: ['role', 'channels', 'reviews'] })
+    const user = await repository.findOne({ where: { id }, relations: ['role', 'channels', 'reviews'] })
     if (!user) return null
     return toUserDto(user)
   }
@@ -26,7 +26,7 @@ export class UserController extends Controller {
   @Post('register')
   public async register(@Body() body: CreateUserDto): Promise<UserDto> {
     body.password = await bcryptjs.hash(body.password, 10)
-    var user = await repository.save(body)
+    const user = await repository.save(body)
     return toUserDto(user)
   }
 
@@ -55,8 +55,8 @@ export class UserController extends Controller {
   @Put()
   @Security('jwt')
   public async update(@Body() body: Partial<CreateUserDto>, @Request() req: any): Promise<UserDto> {
-    const x = await repository.findOneBy({ username: req.user.username })
-    if (!x) {
+    const user = await repository.findOneBy({ username: req.user.username })
+    if (!user) {
       this.setStatus(404)
       throw new Error('Not found')
     }
@@ -68,24 +68,23 @@ export class UserController extends Controller {
         }
         else {
           body.password = hash!
-          repository.merge(x, body)
-          return await repository.save(x)
+          repository.merge(user, body)
+          return await repository.save(user)
         }
       })
     }
-    repository.merge(x, body)
-    var user = await repository.save(x)
-    return toUserDto(user)
+    repository.merge(user, body)
+    return toUserDto(await repository.save(user))
   }
   
   @Delete('{id}')
   @Security('jwt', ['admin'])
   public async remove(@Path() id: number) {
-    const r = await repository.delete(id)
-    if (r.affected === 0) {
+    const result = await repository.delete(id)
+    if (result.affected === 0) {
       this.setStatus(404)
       throw new Error('Not found')
     }
-    return r
+    return result
   }
 }
