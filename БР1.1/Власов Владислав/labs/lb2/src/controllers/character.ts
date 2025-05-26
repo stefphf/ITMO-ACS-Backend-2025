@@ -83,7 +83,7 @@ export class CharacterController{
         await this._service.deleteCharacter(request.userId, id)
         return {"message": "Deleted successfully"}
     }
-
+    // Тут закончен swagger
     @UseBefore(authMiddleware)
     @Patch("/:charId/race/:raceId")
     async setRaceToCharacter(@Req() request: RequestWithUserId, @Param('charId') charId: number, @Param('raceId') raceId: number)

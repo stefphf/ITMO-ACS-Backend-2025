@@ -2,6 +2,7 @@ import { ObjectLiteral } from "typeorm";
 import { CreateCharacterDto } from "../../dtos/createCharacterDto";
 import { UpdateCharacterDto } from "../../dtos/updateCharacterDto";
 import { ItemStatus } from "../../models/ItemToCharacter";
+import { EffectType } from "../../models/Effect";
 
 export interface ICharacterService
 {
@@ -32,5 +33,5 @@ export interface ICharacterService
     deleteEdges(ownerId: number, charId: number, edgesId: number[]): Promise<void>
     deleteSkills(ownerId: number, skillsByCharId: number[]): Promise<void>
 
-    getCharEffects(ownerId: number, charId: number, type: string): Promise<ObjectLiteral[]>
+    getCharEffects(ownerId: number, charId: number, type: EffectType): Promise<ObjectLiteral[]>
 }

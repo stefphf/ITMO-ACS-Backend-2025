@@ -1,13 +1,8 @@
 import 'reflect-metadata';
 import {
     Param,
-    Body,
-    Get,
-    Post,
     Patch,
     Controller,
-    Delete,
-    HttpCode,
     UseBefore,
     Req
 } from 'routing-controllers';
@@ -15,12 +10,9 @@ import {
 
 
 import authMiddleware, { RequestWithUserId } from '../middlewares/auth';
-import { CreateEdgeDto } from '../dtos/createEdgeDto';
-import { EdgeService } from '../services/EdgeService';
-import { IEdgeService } from '../services/interfaces/IEdgeService';
-import { ChangeEffectsDto } from '../dtos/changeEffectsDto';
 import { IBattleService } from '../services/interfaces/IBattleService';
 import { BattleService } from '../services/BattleService';
+import { OpenAPI } from 'routing-controllers-openapi';
 
 
 @Controller('/battle')

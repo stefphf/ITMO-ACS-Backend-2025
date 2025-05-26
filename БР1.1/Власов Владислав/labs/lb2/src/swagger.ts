@@ -24,6 +24,13 @@ export function useSwagger(
         const spec = routingControllersToSpec(storage, options, {
             components: {
                 schemas,
+                securitySchemes: {
+                    bearerAuth: {
+                        type: 'http',
+                        scheme: 'bearer',
+                        bearerFormat: 'JWT',
+                    },
+                },
             },
             info: {
                 title: 'Boilerplate API documentation',

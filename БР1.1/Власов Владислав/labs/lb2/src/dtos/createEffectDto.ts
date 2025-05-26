@@ -11,11 +11,7 @@ export class CreateEffectDto
     @IsString()
     @Type(() => String)
     description?: string
-
-    @IsBoolean()
-    @Type(() => Boolean)
-    isPassive: boolean
-
+    
     @IsBoolean()
     @Type(() => Boolean)
     isTemp: boolean

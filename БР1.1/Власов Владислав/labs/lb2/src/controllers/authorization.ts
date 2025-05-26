@@ -1,12 +1,8 @@
 import 'reflect-metadata';
 import {
-    Param,
     Body,
-    Get,
     Post,
-    Patch,
     Controller,
-    Delete
 } from 'routing-controllers';
 
 import { LoginDto } from '../dtos/loginDto';
@@ -29,4 +25,4 @@ export class AuthorizationController{
         const token = await this._service.login(user)
         return {"token": token}
     }
-}   
+}
