@@ -7,7 +7,8 @@ import {
   Param,
   Body,
   HttpCode,
-  UseBefore
+  UseBefore,
+  OnUndefined
 } from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
@@ -20,48 +21,44 @@ const progressRepo = AppDataSource.getRepository(Progress);
 export class ProgressController {
   @Post()
   @HttpCode(201)
-  async create(@Body() progressData: any) {
+  async create(@Body() progressData: Partial<Progress>) {
     const progress = progressRepo.create(progressData);
     return await progressRepo.save(progress);
   }
 
   @Get()
+  @HttpCode(200)
   async getAll() {
     return await progressRepo.find();
   }
 
   @Get("/:id")
+  @OnUndefined(404)
+  @HttpCode(200)
   async getOne(@Param("id") id: string) {
-    const progress = await progressRepo.findOne({
+    return await progressRepo.findOne({
       where: { id },
-      relations: ["user"],
+      relations: ["user"]
     });
-
-    if (!progress) {
-      return { status: 404, message: "Progress not found" };
-    }
-
-    return progress;
   }
 
   @Put("/:id")
-  async update(@Param("id") id: string, @Body() data: any) {
+  @OnUndefined(404)
+  @HttpCode(200)
+  async update(@Param("id") id: string, @Body() data: Partial<Progress>) {
     const progress = await progressRepo.findOne({ where: { id } });
-    if (!progress) {
-      return { status: 404, message: "Progress not found" };
-    }
+    if (!progress) return undefined;
 
     progressRepo.merge(progress, data);
     return await progressRepo.save(progress);
   }
 
   @Delete("/:id")
+  @OnUndefined(404)
+  @HttpCode(204)
   async delete(@Param("id") id: string) {
     const result = await progressRepo.delete(id);
-    if (result.affected === 0) {
-      return { status: 404, message: "Progress not found" };
-    }
-
-    return { message: "Progress deleted successfully" };
+    if (result.affected === 0) return undefined;
+    return;
   }
 }

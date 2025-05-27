@@ -7,7 +7,8 @@ import {
   Param,
   Body,
   HttpCode,
-  UseBefore
+  UseBefore,
+  OnUndefined
 } from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
 import { TrainingPlan } from "../models/TrainingPlan";
@@ -20,48 +21,44 @@ const trainingPlanRepo = AppDataSource.getRepository(TrainingPlan);
 export class TrainingPlanController {
   @Post()
   @HttpCode(201)
-  async create(@Body() trainingPlanData: any) {
+  async create(@Body() trainingPlanData: Partial<TrainingPlan>) {
     const trainingPlan = trainingPlanRepo.create(trainingPlanData);
     return await trainingPlanRepo.save(trainingPlan);
   }
 
   @Get()
+  @HttpCode(200)
   async getAll() {
     return await trainingPlanRepo.find();
   }
 
   @Get("/:id")
+  @OnUndefined(404)
+  @HttpCode(200)
   async getOne(@Param("id") id: string) {
-    const trainingPlan = await trainingPlanRepo.findOne({
+    return await trainingPlanRepo.findOne({
       where: { id },
-      relations: ["user", "workout"],
+      relations: ["user", "workout"]
     });
-
-    if (!trainingPlan) {
-      return { status: 404, message: "Training plan not found" };
-    }
-
-    return trainingPlan;
   }
 
   @Put("/:id")
-  async update(@Param("id") id: string, @Body() data: any) {
+  @OnUndefined(404)
+  @HttpCode(200)
+  async update(@Param("id") id: string, @Body() data: Partial<TrainingPlan>) {
     const trainingPlan = await trainingPlanRepo.findOne({ where: { id } });
-    if (!trainingPlan) {
-      return { status: 404, message: "Training plan not found" };
-    }
+    if (!trainingPlan) return undefined;
 
     trainingPlanRepo.merge(trainingPlan, data);
     return await trainingPlanRepo.save(trainingPlan);
   }
 
   @Delete("/:id")
+  @OnUndefined(404)
+  @HttpCode(204)
   async delete(@Param("id") id: string) {
     const result = await trainingPlanRepo.delete(id);
-    if (result.affected === 0) {
-      return { status: 404, message: "Training plan not found" };
-    }
-
-    return { message: "Training plan deleted successfully" };
+    if (result.affected === 0) return undefined;
+    return;
   }
 }

@@ -7,72 +7,63 @@ import {
   Param,
   Body,
   QueryParam,
-  NotFoundError,
-  UseBefore
+  HttpCode,
+  UseBefore,
+  OnUndefined
 } from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
 import { User } from "../models/User";
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
 
+const userRepo = AppDataSource.getRepository(User);
 
 @JsonController("/users")
 @UseBefore(AuthMiddleware)
 export class UserController {
-  private userRepo = AppDataSource.getRepository(User);
-
-  @Post("/")
+  @Post()
+  @HttpCode(201)
   async createUser(@Body() userData: Partial<User>) {
-    const user = this.userRepo.create(userData);
-    return await this.userRepo.save(user);
+    const user = userRepo.create(userData);
+    return await userRepo.save(user);
   }
 
-  @Get("/")
+  @Get()
+  @HttpCode(200)
   async getAllUsers() {
-    return await this.userRepo.find();
+    return await userRepo.find();
   }
 
   @Get("/by-email")
+  @OnUndefined(404)
+  @HttpCode(200)
   async getUserByEmail(@QueryParam("email") email: string) {
-    if (!email) {
-      throw new NotFoundError("Email is required");
-    }
-
-    const user = await this.userRepo.findOne({ where: { email } });
-    if (!user) {
-      throw new NotFoundError("User not found");
-    }
-
-    return user;
+    if (!email) return undefined;
+    return await userRepo.findOne({ where: { email } });
   }
 
   @Get("/:id")
-  async getUserById(@Param("id") id: number) {
-    const user = await this.userRepo.findOne({ where: { id: id.toString() } });
-    if (!user) {
-      throw new NotFoundError("User not found");
-    }
-
-    return user;
+  @OnUndefined(404)
+  @HttpCode(200)
+  async getUserById(@Param("id") id: string) {
+    return await userRepo.findOne({ where: { id } });
   }
 
   @Put("/:id")
-  async updateUser(@Param("id") id: number, @Body() updateData: Partial<User>) {
-    const user = await this.userRepo.findOne({ where: { id: id.toString() } });
-    if (!user) {
-      throw new NotFoundError("User not found");
-    }
-
-    this.userRepo.merge(user, updateData);
-    return await this.userRepo.save(user);
+  @OnUndefined(404)
+  @HttpCode(200)
+  async updateUser(@Param("id") id: string, @Body() updateData: Partial<User>) {
+    const user = await userRepo.findOne({ where: { id } });
+    if (!user) return undefined;
+    userRepo.merge(user, updateData);
+    return await userRepo.save(user);
   }
 
   @Delete("/:id")
-  async deleteUser(@Param("id") id: number) {
-    const result = await this.userRepo.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundError("User not found");
-    }
-
-    return { message: "User deleted successfully" };
+  @OnUndefined(404)
+  @HttpCode(204)
+  async deleteUser(@Param("id") id: string) {
+    const result = await userRepo.delete(id);
+    if (result.affected === 0) return undefined;
+    return;
   }
 }

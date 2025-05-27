@@ -8,7 +8,7 @@ import {
   Body,
   HttpCode,
   OnUndefined,
-  UseBefore 
+  UseBefore
 } from "routing-controllers";
 import { AppDataSource } from "../AppDataSource";
 import { AuthMiddleware } from '../middlewares/AuthMiddleware';
@@ -23,44 +23,42 @@ export class PostController {
   @HttpCode(201)
   async createPost(@Body() postData: Partial<PostEntity>) {
     const post = postRepo.create(postData);
-    const savedPost = await postRepo.save(post);
-    return savedPost;
+    return await postRepo.save(post);
   }
 
   @Get()
+  @HttpCode(200)
   async getAllPosts() {
     return await postRepo.find();
   }
 
   @Get("/:id")
   @OnUndefined(404)
-  async getPostById(@Param("id") id: number) {
-    const post = await postRepo.findOne({ where: { id: id.toString() }, relations: ["user"] });
-    if (!post) {
-      return { message: "Post not found" };
-    }
-    return post;
+  @HttpCode(200)
+  async getPostById(@Param("id") id: string) {
+    return await postRepo.findOne({
+      where: { id },
+      relations: ["user"]
+    });
   }
 
   @Put("/:id")
   @OnUndefined(404)
-  async updatePost(@Param("id") id: number, @Body() body: Partial<PostEntity>) {
-    const post = await postRepo.findOne({ where: { id: id.toString() } });
-    if (!post) {
-      return { message: "Post not found" };
-    }
+  @HttpCode(200)
+  async updatePost(@Param("id") id: string, @Body() body: Partial<PostEntity>) {
+    const post = await postRepo.findOne({ where: { id } });
+    if (!post) return undefined;
+
     postRepo.merge(post, body);
-    const updatedPost = await postRepo.save(post);
-    return updatedPost;
+    return await postRepo.save(post);
   }
 
   @Delete("/:id")
   @OnUndefined(404)
-  async deletePost(@Param("id") id: number) {
+  @HttpCode(204)
+  async deletePost(@Param("id") id: string) {
     const result = await postRepo.delete(id);
-    if (result.affected === 0) {
-      return { message: "Post not found" };
-    }
-    return { message: "Post deleted successfully" };
+    if (result.affected === 0) return undefined;
+    return;
   }
 }
