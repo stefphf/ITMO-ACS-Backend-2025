@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Appointment } from '../models/appointment.entity';
-import { User } from '../../../user/src/user/user.entity';
+import { Appointment } from './appointment.entity';
+import { User } from '../../user/src/user/user.entity';
 import { Psychologist } from '../models/psychologist.entity';
-import { AppointmentService } from '../services/appointment.service';
+import { AppointmentService } from './appointment.service';
 import { AppointmentController } from '../controllers/appointment.controller';
 
 @Module({

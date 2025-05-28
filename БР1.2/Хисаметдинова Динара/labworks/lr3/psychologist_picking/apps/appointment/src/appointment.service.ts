@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Appointment } from '../models/appointment.entity';
+import { Appointment } from './appointment.entity';
 import { Repository } from 'typeorm';
-import { CreateAppointmentDto } from '../dto/createAppointment.dto';
-import { UpdateAppointmentDto } from '../dto/updateAppointment.dto';
-import { User } from '../../../user/src/user/user.entity';
+import { CreateAppointmentDto } from '../../api-gateway/src/dto/createAppointment.dto';
+import { UpdateAppointmentDto } from '../../api-gateway/src/dto/updateAppointment.dto';
+import { User } from '../../user/src/user/user.entity';
 import { Psychologist } from '../models/psychologist.entity';
 
 @Injectable()

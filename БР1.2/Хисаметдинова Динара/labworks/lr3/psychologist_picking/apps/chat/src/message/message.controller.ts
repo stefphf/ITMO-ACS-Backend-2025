@@ -7,12 +7,12 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { MessageService } from '../services/message.service';
-import { CreateMessageDto } from '../dto/createMessage.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { MessageService } from './message.service';
+import { CreateMessageDto } from './createMessage.dto';
+import { JwtAuthGuard } from '../../../../libs/shared/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '../../../../libs/shared/decorators/user.decorator';
-import { JwtPayload } from '../types/jwt-payload.type';
+import { JwtPayload } from '../../../../libs/shared/types/jwt-payload.type';
 
 @ApiTags('Messages')
 @ApiBearerAuth()

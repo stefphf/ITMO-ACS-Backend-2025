@@ -7,9 +7,9 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ChatService } from '../services/chat.service';
-import { CreateChatDto } from '../dto/createChat.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { ChatService } from './chat.service';
+import { CreateChatDto } from './createChat.dto';
+import { JwtAuthGuard } from '../../../../libs/shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../../libs/shared/guards/roles.guard';
 import { Roles } from '../../../../libs/shared/decorators/roles.decorator';
 import { Role } from '../../../../libs/shared/enums/userRoles.enum';

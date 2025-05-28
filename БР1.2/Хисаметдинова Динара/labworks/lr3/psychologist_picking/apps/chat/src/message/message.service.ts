@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Message } from '../models/message.entity';
-import { Chat } from '../models/chat.entity';
+import { Message } from './message.entity';
+import { Chat } from '../chat/chat.entity';
 import { User } from '../../../user/src/user/user.entity';
-import { CreateMessageDto } from '../dto/createMessage.dto';
+import { CreateMessageDto } from './createMessage.dto';
 
 @Injectable()
 export class MessageService {
@@ -51,7 +51,7 @@ export class MessageService {
   }
 
   async remove(id: number, userId: number) {
-    // Можно разрешить удалять только свои сообщения:
+    // Можно удалять только свои сообщения:
     const msg = await this.messageRepo.findOne({
       where: { id },
       relations: ['sender'],

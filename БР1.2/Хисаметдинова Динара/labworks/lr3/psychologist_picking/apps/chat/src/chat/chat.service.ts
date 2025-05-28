@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Chat } from '../models/chat.entity';
+import { Chat } from './chat.entity';
 import { Repository } from 'typeorm';
 import { User } from '../../../user/src/user/user.entity';
-import { CreateChatDto } from '../dto/createChat.dto';
+import { CreateChatDto } from './createChat.dto';
 
 @Injectable()
 export class ChatService {
