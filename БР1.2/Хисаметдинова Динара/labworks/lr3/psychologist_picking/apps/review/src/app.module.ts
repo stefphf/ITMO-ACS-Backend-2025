@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Review } from './review.entity';
-import { ReviewModule } from './review.module';
+import { ReviewController } from './review.controller';
+import { ReviewService } from './review.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -16,13 +18,24 @@ import { ReviewModule } from './review.module';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [Review],
         synchronize: true,
-        logging: true,
       }),
     }),
     TypeOrmModule.forFeature([Review]),
-    ReviewModule,
+    ClientsModule.register([
+      {
+        name: 'USERS_AUTH_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672'],
+          queue: 'users_queue',
+          queueOptions: { durable: false },
+        },
+      },
+    ]),
   ],
+  controllers: [ReviewController],
+  providers: [ReviewService],
 })
 export class AppModule {}

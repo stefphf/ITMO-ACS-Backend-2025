@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Schedule } from '../models/schedule.entity';
+import { Schedule } from '../schedule/schedule.entity';
 import { Repository } from 'typeorm';
 import { CreateScheduleDto } from '../dto/createSchedule.dto';
 import { UpdateScheduleDto } from '../dto/updateSchedule.dto';
-import { Psychologist } from '../models/psychologist.entity';
+import { Psychologist } from '../psychologist/psychologist.entity';
 
 @Injectable()
 export class ScheduleService {

@@ -1,17 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from '../../user/src/user/user.entity';
-import { Psychologist } from './psychologist.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('appointments')
 export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User)
-  client: User;
+  @Column()
+  clientId: number;
 
-  @ManyToOne(() => Psychologist)
-  psychologist: Psychologist;
+  @Column()
+  psychologistId: number;
 
   @Column({ type: 'timestamp' })
   start_time: Date;

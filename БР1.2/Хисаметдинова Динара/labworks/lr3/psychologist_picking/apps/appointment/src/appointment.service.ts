@@ -1,53 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Appointment } from './appointment.entity';
 import { Repository } from 'typeorm';
-import { CreateAppointmentDto } from '../../api-gateway/src/dto/createAppointment.dto';
-import { UpdateAppointmentDto } from '../../api-gateway/src/dto/updateAppointment.dto';
-import { User } from '../../user/src/user/user.entity';
-import { Psychologist } from '../models/psychologist.entity';
+import { Appointment } from './appointment.entity';
+import { CreateAppointmentDto } from './dto/createAppointment.dto';
+import { UpdateAppointmentDto } from './dto/updateAppointment.dto';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AppointmentService {
   constructor(
     @InjectRepository(Appointment)
     private readonly appointmentRepo: Repository<Appointment>,
-    @InjectRepository(User)
-    private readonly userRepo: Repository<User>,
-    @InjectRepository(Psychologist)
-    private readonly psychologistRepo: Repository<Psychologist>,
+    @Inject('USERS_AUTH_SERVICE') private usersClient: ClientProxy,
+    @Inject('PSYCHOLOGISTS_SERVICE') private psychologistsClient: ClientProxy,
   ) {}
 
   async create(dto: CreateAppointmentDto) {
-    const client = await this.userRepo.findOneByOrFail({ id: dto.clientId });
-    const psychologist = await this.psychologistRepo.findOneByOrFail({
-      id: dto.psychologistId,
-    });
-
     const appointment = this.appointmentRepo.create({
-      client,
-      psychologist,
-      start_time: dto.start_time,
-      end_time: dto.end_time,
-      price: dto.price,
+      ...dto,
       status: dto.status ?? 'pending',
     });
-
     return this.appointmentRepo.save(appointment);
   }
 
   findAll() {
-    return this.appointmentRepo.find({
-      relations: { client: true, psychologist: true },
-    });
+    return this.appointmentRepo.find();
   }
 
   findOne(id: number) {
-    return this.appointmentRepo.findOne({
-      where: { id },
-      relations: { client: true, psychologist: true },
-    });
+    return this.appointmentRepo.findOneBy({ id });
   }
+
   async update(
     id: number,
     dto: UpdateAppointmentDto,
@@ -58,5 +42,20 @@ export class AppointmentService {
 
   async remove(id: number) {
     return this.appointmentRepo.delete(id);
+  }
+
+  async getClientInfo(clientId: number): Promise<any> {
+    return firstValueFrom(
+      this.usersClient.send({ cmd: 'get-user-by-id' }, clientId),
+    );
+  }
+
+  async getPsychologistInfo(psychologistId: number): Promise<any> {
+    return firstValueFrom(
+      this.psychologistsClient.send(
+        { cmd: 'get-psychologist-by-id' },
+        psychologistId,
+      ),
+    );
   }
 }

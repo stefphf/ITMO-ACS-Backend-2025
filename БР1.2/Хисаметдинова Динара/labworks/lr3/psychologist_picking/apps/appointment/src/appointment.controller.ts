@@ -8,10 +8,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AppointmentService } from '../services/appointment.service';
-import { CreateAppointmentDto } from '../dto/createAppointment.dto';
-import { UpdateAppointmentDto } from '../dto/updateAppointment.dto';
-import { Appointment } from '../models/appointment.entity';
+import { AppointmentService } from './appointment.service';
+import { CreateAppointmentDto } from './dto/createAppointment.dto';
+import { UpdateAppointmentDto } from './dto/updateAppointment.dto';
 
 @ApiTags('appointments')
 @Controller('appointments')
@@ -34,10 +33,7 @@ export class AppointmentController {
   }
 
   @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() dto: UpdateAppointmentDto,
-  ): Promise<Appointment | null> {
+  update(@Param('id') id: string, @Body() dto: UpdateAppointmentDto) {
     return this.appointmentService.update(+id, dto);
   }
 
