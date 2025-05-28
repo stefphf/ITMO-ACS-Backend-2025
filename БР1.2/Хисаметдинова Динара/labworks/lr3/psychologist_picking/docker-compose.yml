@@ -1,104 +1,115 @@
-version: '3.9'
-
 services:
-  users-db:
+  user-db:
     image: postgres:15
+    container_name: user-db
     environment:
-      POSTGRES_DB: users
+      POSTGRES_DB: user
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
-      - users_db_data:/var/lib/postgresql/data
+      - user_db_data:/var/lib/postgresql/data
     restart: always
 
-  users-auth:
+  user:
     build:
-      context: ./users-auth-service
+      context: .
+      dockerfile: apps/user/Dockerfile
     env_file:
-      - ./users-auth-service/.env
+      - ./apps/user/.env
     depends_on:
-      - users-db
+      - user-db
       - rabbitmq
     ports:
       - "3001:3000"
     restart: always
+    container_name: user
 
-  psychologists-db:
+  psychologist-db:
     image: postgres:15
+    container_name: psychologist-db
     environment:
-      POSTGRES_DB: psychologists
+      POSTGRES_DB: psychologist
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5433:5432"
     volumes:
-      - psychologists_db_data:/var/lib/postgresql/data
+      - psychologist_db_data:/var/lib/postgresql/data
     restart: always
 
-  psychologists:
+  psychologist:
     build:
-      context: ./psychologists-service
+      context: .
+      dockerfile: apps/psychologist/Dockerfile
     env_file:
-      - ./psychologists-service/.env
+      - ./apps/psychologist/.env
     depends_on:
-      - psychologists-db
+      - psychologist-db
       - rabbitmq
     ports:
       - "3002:3000"
     restart: always
+    container_name: psychologist
 
-  reviews-db:
+  review-db:
     image: postgres:15
+    container_name: review-db
     environment:
-      POSTGRES_DB: reviews
+      POSTGRES_DB: review
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5434:5432"
     volumes:
-      - reviews_db_data:/var/lib/postgresql/data
+      - review_db_data:/var/lib/postgresql/data
     restart: always
 
-  reviews:
+  review:
     build:
-      context: ./reviews-service
+      context: .
+      dockerfile: apps/review/Dockerfile
     env_file:
-      - ./reviews-service/.env
+      - ./apps/review/.env
     depends_on:
-      - reviews-db
+      - review-db
       - rabbitmq
     ports:
       - "3003:3000"
     restart: always
+    container_name: review
 
-  appointments-db:
+  appointment-db:
     image: postgres:15
+    container_name: appointment-db
     environment:
-      POSTGRES_DB: appointments
+      POSTGRES_DB: appointment
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5435:5432"
     volumes:
-      - appointments_db_data:/var/lib/postgresql/data
+      - appointment_db_data:/var/lib/postgresql/data
     restart: always
 
-  appointments:
+  appointment:
     build:
-      context: ./appointments-service
+      context: .
+      dockerfile: apps/appointment/Dockerfile
     env_file:
-      - ./appointments-service/.env
+      - ./apps/appointment/.env
     depends_on:
-      - appointments-db
+      - appointment-db
       - rabbitmq
     ports:
       - "3004:3000"
     restart: always
+    container_name: appointment
 
   chat-db:
     image: postgres:15
+    container_name: chat-db
     environment:
       POSTGRES_DB: chat
       POSTGRES_USER: postgres
@@ -111,26 +122,29 @@ services:
 
   chat:
     build:
-      context: ./chat-service
+      context: .
+      dockerfile: apps/chat/Dockerfile
     env_file:
-      - ./chat-service/.env
+      - ./apps/chat/.env
     depends_on:
       - chat-db
       - rabbitmq
     ports:
       - "3005:3000"
     restart: always
+    container_name: chat
 
   rabbitmq:
     image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"  # Web UI (http://localhost:15672, login guest/guest)
+      - "5672:5672"     
+      - "15672:15672"    
     restart: always
 
 volumes:
-  users_db_data:
-  psychologists_db_data:
-  reviews_db_data:
-  appointments_db_data:
+  user_db_data:
+  psychologist_db_data:
+  review_db_data:
+  appointment_db_data:
   chat_db_data:

@@ -13,7 +13,7 @@ COPY libs ./libs
 RUN npm install --legacy-peer-deps
 
 # 4. Переходим в директорию микросервиса
-WORKDIR /app/apps/review
+WORKDIR /app/apps/chat
 
 # 5. Билдим сервис (предполагается что у тебя есть tsconfig в корне)
 RUN npm run build
