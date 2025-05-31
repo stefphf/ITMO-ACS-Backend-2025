@@ -8,4 +8,3 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     const newErr = ApiError.internal();
     return res.status(newErr.status).json({error: newErr})
 }
-

@@ -1,75 +1,81 @@
 import {dataSource} from "../config/dataSource";
 import {BlogPost} from "../models/BlogPost";
-import {RequestHandler} from "express";
+import {Request, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
+import {OpenAPI} from "routing-controllers-openapi";
+import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
 
 const blogPostRepo = dataSource.getRepository(BlogPost);
 
+@JsonController('/blog-post')
 class BlogPostController {
-    getAll: RequestHandler = async (req, res, next) => {
-        try {
-            const posts = await blogPostRepo.find();
-            return res.json({posts});
-        } catch (e) {
-            next(ApiError.internal());
-        }
+    @OpenAPI({})
+    @Get('/get-all')
+    async getAll(
+        @Res() res: Response,
+    ) {
+        const posts = await blogPostRepo.find();
+        return res.json({posts});
     }
 
-    getOne: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Get('/get-one/:id')
+    async getOne(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { id } = req.params;
-        try {
-            const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
-            if (!post) {
-                return next(ApiError.badRequest(errorMessages.postNotFound));
-            }
-            return res.json({post});
-        } catch (e) {
-            next(ApiError.internal());
+        const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
+        if (!post) {
+            throw ApiError.badRequest(errorMessages.postNotFound)
         }
+        return res.json({post});
     }
 
-    create: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Post('/')
+    async create(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { title, content, authorId } = req.body;
-        try {
-            const newPost = blogPostRepo.create({ title, content, authorId });
-            await blogPostRepo.save(newPost);
-            return res.json({post: newPost});
-        } catch (e) {
-            next(ApiError.internal());
-        }
+        const newPost = blogPostRepo.create({ title, content, authorId });
+        await blogPostRepo.save(newPost);
+        return res.json({post: newPost});
     }
 
-    update: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Put('/:id')
+    async update(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { id } = req.params;
         const { title, content } = req.body;
-        try {
-            const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
-            if (!post) {
-                return next(ApiError.badRequest(errorMessages.postNotFound));
-            }
-            post.title = title;
-            post.content = content;
-            await blogPostRepo.save(post);
-            return res.json({post});
-        } catch (e) {
-            next(ApiError.internal());
+        const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
+        if (!post) {
+            throw ApiError.badRequest(errorMessages.userNotFound)
         }
+        post.title = title;
+        post.content = content;
+        await blogPostRepo.save(post);
+        return res.json({post});
     }
 
-    delete: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Delete('/:id')
+    async delete(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { id } = req.params;
-        try {
-            const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
-            if (!post) {
-                return next(ApiError.badRequest(errorMessages.postNotFound));
-            }
-            await blogPostRepo.remove(post);
-            return res.json({ message: 'Deleted successfully' });
-        } catch (e) {
-            next(ApiError.internal());
+        const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
+        if (!post) {
+            throw ApiError.badRequest(errorMessages.userNotFound)
         }
+        await blogPostRepo.remove(post);
+        return res.json({ message: 'Deleted successfully' });
     }
 }
 
-export default new BlogPostController();
