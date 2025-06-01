@@ -100,6 +100,8 @@ export class BattleService implements IBattleService
                     else
                     {
                         const value = this._countConditionValue(condition.value, defencer)
+                        console.log("Шок")
+                        console.log(value)
                         if (condition.parameter in defencer)
                         {
                             switch (condition.operand)
@@ -195,10 +197,11 @@ export class BattleService implements IBattleService
             return
         }
 
+        console.log("damage")
         console.log(damage)
 
         let resultArmor = Math.max(defencer.toughness, 0) + Math.max(defencer.armor, 0)
-        if (damage > resultArmor)
+        if (damage >= resultArmor)
         {
             if (!defencer.isShaken)
             {

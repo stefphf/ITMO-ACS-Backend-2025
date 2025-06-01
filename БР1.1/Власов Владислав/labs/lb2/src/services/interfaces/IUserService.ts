@@ -1,12 +1,12 @@
 import { ObjectLiteral } from "typeorm";
-import { createUserDto } from "../../dtos/createUserDto";
+import { CreateUserDto } from "../../dtos/createUserDto";
 
 export interface IUserService
 {
     getAllUser(): Promise<ObjectLiteral[]>
     getUser(id: number): Promise<ObjectLiteral>
     getUserByEmail(email: string): Promise<ObjectLiteral>
-    createUser(user: createUserDto): Promise<ObjectLiteral>
-    updateUser(id: number, user: createUserDto): Promise<ObjectLiteral>
+    createUser(user: CreateUserDto): Promise<ObjectLiteral>
+    updateUser(id: number, user: CreateUserDto): Promise<ObjectLiteral>
     deleteUser(id: number): Promise<void>
 }

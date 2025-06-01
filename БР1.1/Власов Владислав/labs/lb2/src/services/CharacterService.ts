@@ -39,8 +39,7 @@ export class CharacterService implements ICharacterService
         this._skillRepository = dataSource.getRepository(Skill)
         this._effectToCharRepository = dataSource.getRepository(EffectToCharacter)
         this._skillToCharRepository = dataSource.getRepository(SkillToCharacter)
-        this.
-        _validator = new ServicesValidator()
+        this._validator = new ServicesValidator()
     }
 
 
@@ -252,7 +251,7 @@ export class CharacterService implements ICharacterService
                 await this._skillToCharRepository.save(skillsCharacter)
             }
     }
-//Конец реализованного
+
     async upSkill(ownerId: number, skillToCharId: number, level: number): Promise<void> {
         const skillByChar = await this._skillToCharRepository.findOne({
             where: { id:skillToCharId},
