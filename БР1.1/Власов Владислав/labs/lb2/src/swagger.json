@@ -5,9 +5,12 @@
         "version":"1.0.0"
     },
     "paths": { 
-        "/api/auth/login": { 
+        "/monolite/api/auth/login": { 
             "post": {
                 "tags": ["Authentication"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить токен по данным авторизации",
                 "requestBody": {
                     "required": true,
@@ -36,20 +39,23 @@
                 }
             }
         },
-        "/api/battle/:attackCharId/attack/:defenceCharId/": { 
+        "/monolite/api/battle/{attackCharId}/attack/{defenceCharId}/": { 
             "patch": { 
                 "tags": ["Battle"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Атаковать одним персонажем другого",
                 "parameters": [
                     {
                         "name": "attackCharId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     },
                     {
                         "name": "defenceCharId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -62,9 +68,12 @@
                 }
             }
         },
-        "/api/characters/create/": { 
+        "/monolite/api/characters/create/": { 
             "post": { 
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать персонажа",
                 "requestBody": {
                     "required": true,
@@ -93,9 +102,12 @@
                 }
             }
         },
-        "/api/characters/": { 
+        "/monolite/api/characters/": { 
             "get": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить своеих персонажей",
                 "responses": { 
                     "200": { 
@@ -105,14 +117,17 @@
                 }
             }
         },
-        "/api/characters/:id": { 
+        "/monolite/api/characters/{id}": { 
             "get": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить персонажа по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -125,14 +140,17 @@
                 }
             }
         },
-        "/api/characters/update/:id": { 
+        "/monolite/api/characters/update/{id}": { 
             "patch": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить характеристики и описание персонажа",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -284,14 +302,17 @@
                 }
             }
         },
-        "/api/characters/delete/:id": { 
+        "/monolite/api/characters/delete/{id}": { 
             "delete": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить персонажа",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -303,20 +324,23 @@
                 }
             }
         },
-        "/api/characters/:charId/race/:raceId": { 
+        "/monolite/api/characters/{charId}/race/{raceId}": { 
             "patch": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Изменить или добавить расу персонажу",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     },
                     {
                         "name": "raceId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -328,20 +352,23 @@
                 }
             }
         },
-        "/api/characters/:charId/visibility/:status": { 
+        "/monolite/api/characters/{charId}/visibility/{status}": { 
             "patch": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Изменить видимость персонажа",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     },
                     {
                         "name": "status",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "boolean"
                     }
@@ -353,14 +380,17 @@
                 }
             }
         },
-        "/api/characters/:charId/items": { 
+        "/monolite/api/characters/{charId}/items": { 
             "post": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить предметы персонажу",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -387,20 +417,23 @@
                 }
             }
         },
-        "/api/characters/:charId/items/:itemId/status": { 
+        "/monolite/api/characters/{charId}/items/{itemId}/status": { 
             "patch": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Изменить статус предмета персонажа",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     },
                     {
                         "name": "itemId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -433,9 +466,12 @@
                 }
             }
         },
-        "/api/characters/items/delete": { 
+        "/monolite/api/characters/items/delete": { 
             "delete": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить предметы персонажа. Принимает id из таблицы предметов Персонажа!",
                 "requestBody": {
                     "required": true,
@@ -459,14 +495,17 @@
                 }
             }
         },
-        "/api/characters/:charId/effects": { 
+        "/monolite/api/characters/{charId}/effects": { 
             "post": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить эффекты персонажу",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -493,9 +532,12 @@
                 }
             }
         },
-        "/api/characters/effects/delete": { 
+        "/monolite/api/characters/effects/delete": { 
             "delete": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить эффекты персонажа. Принимает id из таблицы эффектов Персонажа!",
                 "requestBody": {
                     "required": true,
@@ -519,14 +561,17 @@
                 }
             }
         },
-        "/api/characters/:charId/skills": { 
+        "/monolite/api/characters/{charId}/skills": { 
             "post": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить навыки персонажу",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -553,20 +598,23 @@
                 }
             }
         },
-        "/api/characters/skills/:skillId/level/:level": { 
+        "/monolite/api/characters/skills/{skillId}/level/{level}": { 
             "patch": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Изменить уровень навыка персонажа",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     },
                     {
                         "name": "level",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -578,9 +626,12 @@
                 }
             }
         },
-        "/api/characters/skills/delete": { 
+        "/monolite/api/characters/skills/delete": { 
             "delete": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить навыки персонажа. Принимает id из таблицы навыков Персонажа!",
                 "requestBody": {
                     "required": true,
@@ -604,14 +655,17 @@
                 }
             }
         },
-        "/api/characters/:charId/edges": { 
+        "/monolite/api/characters/{charId}/edges": { 
             "post": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить черты персонажу",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -638,14 +692,17 @@
                 }
             }
         },
-        "/api/characters/:charId/edges/delete": { 
+        "/monolite/api/characters/{charId}/edges/delete": { 
             "delete": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить черты персонажа. Принимает id из Черт!",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -672,14 +729,17 @@
                 }
             }
         },
-        "/api/characters/:charId/effects/attack": { 
+        "/monolite/api/characters/{charId}/effects/attack": { 
             "get": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Вернуть список атакующих эффектов, связанных с персонажем",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -691,14 +751,17 @@
                 }
             }
         },
-        "/api/characters/:charId/effects/defence": { 
+        "/monolite/api/characters/{charId}/effects/defence": { 
             "get": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Вернуть список защищающих эффектов, связанных с персонажем",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -710,14 +773,17 @@
                 }
             }
         },
-        "/api/characters/:charId/effects/uni": { 
+        "/monolite/api/characters/{charId}/effects/uni": { 
             "get": {
                 "tags": ["Characters"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Вернуть список универсальных эффектов, связанных с персонажем",
                 "parameters": [
                     {
                         "name": "charId",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -729,9 +795,12 @@
                 }
             }
         },
-        "/api/edges/create": { 
+        "/monolite/api/edges/create": { 
             "post": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать новую черту",
                 "requestBody": {
                     "required": true,
@@ -767,9 +836,12 @@
                 }
             }
         },
-        "/api/edges/": { 
+        "/monolite/api/edges/": { 
             "get": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех черт",
                 "responses": { 
                     "200": { 
@@ -778,14 +850,17 @@
                 }
             }
         },
-        "/api/edges/:id": { 
+        "/monolite/api/edges/{id}": { 
             "get": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить черту по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -797,14 +872,17 @@
                 }
             }
         },
-        "/api/edges/update/:id": { 
+        "/monolite/api/edges/update/{id}": { 
             "patch": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить черту",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -842,14 +920,17 @@
                 }
             }
         },
-        "/api/edges/delete/:id": { 
+        "/monolite/api/edges/delete/{id}": { 
             "patch": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить черту",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -861,9 +942,12 @@
                 }
             }
         },
-        "/api/edges/effects/give": { 
+        "/monolite/api/edges/effects/give": { 
             "post": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить эффекты для черты",
                 "requestBody": {
                     "required": true,
@@ -900,9 +984,12 @@
                 }
             }
         },
-        "/api/edges/effects/delete": { 
+        "/monolite/api/edges/effects/delete": { 
             "post": {
                 "tags": ["Edges"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить эффекты для черты",
                 "requestBody": {
                     "required": true,
@@ -939,9 +1026,12 @@
                 }
             }
         },
-        "/api/conditions/create": { 
+        "/monolite/api/conditions/create": { 
             "post": {
                 "tags": ["Conditions"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать новое условие",
                 "requestBody": {
                     "required": true,
@@ -992,9 +1082,12 @@
                 }
             }
         },
-        "/api/conditions/": { 
+        "/monolite/api/conditions/": { 
             "get": {
                 "tags": ["Conditions"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех условий",
                 "responses": { 
                     "200": { 
@@ -1003,14 +1096,17 @@
                 }
             }
         },
-        "/api/conditions/:id": { 
+        "/monolite/api/conditions/{id}": { 
             "get": {
                 "tags": ["Conditions"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить условие по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1022,14 +1118,17 @@
                 }
             }
         },
-        "/api/conditions/update/:id": { 
+        "/monolite/api/conditions/update/{id}": { 
             "patch": {
                 "tags": ["Conditions"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить условие",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1082,14 +1181,17 @@
                 }
             }
         },
-        "/api/conditions/delete/:id": { 
+        "/monolite/api/conditions/delete/{id}": { 
             "patch": {
                 "tags": ["Conditions"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить условие",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1101,9 +1203,12 @@
                 }
             }
         },
-        "/api/effects/create": { 
+        "/monolite/api/effects/create": { 
             "post": {
                 "tags": ["Effects"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать новый эффект",
                 "requestBody": {
                     "required": true,
@@ -1153,9 +1258,12 @@
                 }
             }
         },
-        "/api/effects/": { 
+        "/monolite/api/effects/": { 
             "get": {
                 "tags": ["Effects"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех эффектов",
                 "responses": { 
                     "200": { 
@@ -1164,14 +1272,17 @@
                 }
             }
         },
-        "/api/effects/:id": { 
+        "/monolite/api/effects/{id}": { 
             "get": {
                 "tags": ["Effects"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить условие по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1183,14 +1294,17 @@
                 }
             }
         },
-        "/api/effects/update/:id": { 
+        "/monolite/api/effects/update/{id}": { 
             "patch": {
                 "tags": ["Effects"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить эффект",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1242,14 +1356,17 @@
                 }
             }
         },
-        "/api/effects/delete/:id": { 
+        "/monolite/api/effects/delete/{id}": { 
             "patch": {
                 "tags": ["Effects"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить эффект",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1261,14 +1378,17 @@
                 }
             }
         },
-        "/api/effects/:id/conditions": { 
+        "/monolite/api/effects/{id}/conditions": { 
             "get": {
                 "tags": ["Effects"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить условия эффекта",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1280,9 +1400,12 @@
                 }
             }
         },
-        "/api/items/create": { 
+        "/monolite/api/items/create": { 
             "post": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать новый предмет",
                 "requestBody": {
                     "required": true,
@@ -1329,9 +1452,12 @@
                 }
             }
         },
-        "/api/items/": { 
+        "/monolite/api/items/": { 
             "get": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех предметов",
                 "responses": { 
                     "200": { 
@@ -1340,14 +1466,17 @@
                 }
             }
         },
-        "/api/items/:id": { 
+        "/monolite/api/items/{id}": { 
             "get": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить предмет по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1359,14 +1488,17 @@
                 }
             }
         },
-        "/api/items/update/:id": { 
+        "/monolite/api/items/update/{id}": { 
             "patch": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить предмет",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1415,14 +1547,17 @@
                 }
             }
         },
-        "/api/items/delete/:id": { 
+        "/monolite/api/items/delete/{id}": { 
             "patch": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить предмет",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1434,9 +1569,12 @@
                 }
             }
         },
-        "/api/items/effects/give": { 
+        "/monolite/api/items/effects/give": { 
             "post": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить эффекты для предмета",
                 "requestBody": {
                     "required": true,
@@ -1473,9 +1611,12 @@
                 }
             }
         },
-        "/api/items/effects/delete": { 
+        "/monolite/api/items/effects/delete": { 
             "post": {
                 "tags": ["Items"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить эффекты для предмета",
                 "requestBody": {
                     "required": true,
@@ -1512,9 +1653,12 @@
                 }
             }
         },
-        "/api/races/create": { 
+        "/monolite/api/races/create": { 
             "post": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать новую расу",
                 "requestBody": {
                     "required": true,
@@ -1546,9 +1690,12 @@
                 }
             }
         },
-        "/api/races/": { 
+        "/monolite/api/races/": { 
             "get": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех рас",
                 "responses": { 
                     "200": { 
@@ -1557,14 +1704,17 @@
                 }
             }
         },
-        "/api/races/:id": { 
+        "/monolite/api/races/{id}": { 
             "get": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить расу по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1576,14 +1726,17 @@
                 }
             }
         },
-        "/api/races/update/:id": { 
+        "/monolite/api/races/update/{id}": { 
             "patch": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить расу",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1617,14 +1770,17 @@
                 }
             }
         },
-        "/api/races/delete/:id": { 
+        "/monolite/api/races/delete/{id}": { 
             "patch": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить расу",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1636,9 +1792,12 @@
                 }
             }
         },
-        "/api/races/effects/give": { 
+        "/monolite/api/races/effects/give": { 
             "post": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Добавить черты для расы",
                 "requestBody": {
                     "required": true,
@@ -1675,9 +1834,12 @@
                 }
             }
         },
-        "/api/races/effects/delete": { 
+        "/monolite/api/races/effects/delete": { 
             "patch": {
                 "tags": ["Races"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить черты для расы",
                 "requestBody": {
                     "required": true,
@@ -1714,9 +1876,12 @@
                 }
             }
         },
-        "/api/skills/create": { 
+        "/monolite/api/skills/create": { 
             "post": {
                 "tags": ["Skills"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать новый навык",
                 "requestBody": {
                     "required": true,
@@ -1749,9 +1914,12 @@
                 }
             }
         },
-        "/api/skills/": { 
+        "/monolite/api/skills/": { 
             "get": {
                 "tags": ["Skills"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех навыков",
                 "responses": { 
                     "200": { 
@@ -1760,14 +1928,17 @@
                 }
             }
         },
-        "/api/skills/:id": { 
+        "/monolite/api/skills/{id}": { 
             "get": {
                 "tags": ["Skills"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить навык по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1779,14 +1950,17 @@
                 }
             }
         },
-        "/api/skills/update/:id": { 
+        "/monolite/api/skills/update/{id}": { 
             "patch": {
                 "tags": ["Skills"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить навык",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1821,14 +1995,17 @@
                 }
             }
         },
-        "/api/skills/delete/:id": { 
+        "/monolite/api/skills/delete/{id}": { 
             "patch": {
                 "tags": ["Skills"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить навык",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1840,9 +2017,12 @@
                 }
             }
         },
-        "/api/users/create": { 
+        "/monolite/api/users/create": { 
             "post": {
                 "tags": ["Users"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Создать нового пользователя",
                 "requestBody": {
                     "required": true,
@@ -1880,9 +2060,12 @@
                 }
             }
         },
-        "/api/users/": { 
+        "/monolite/api/users/": { 
             "get": {
                 "tags": ["Users"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить список всех пользователей",
                 "responses": { 
                     "200": { 
@@ -1891,14 +2074,17 @@
                 }
             }
         },
-        "/api/users/:id": { 
+        "/monolite/api/users/{id}": { 
             "get": {
                 "tags": ["Users"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить пользователя по id",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1910,14 +2096,17 @@
                 }
             }
         },
-        "/api/users/email/:email": { 
+        "/monolite/api/users/email/{email}": { 
             "get": {
                 "tags": ["Users"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Получить пользователя по email",
                 "parameters": [
                     {
                         "name": "email",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "string"
                     }
@@ -1929,14 +2118,17 @@
                 }
             }
         },
-        "/api/users/update/:id": { 
+        "/monolite/api/users/update/{id}": { 
             "patch": {
                 "tags": ["Users"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Обновить пользователя",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
@@ -1976,14 +2168,17 @@
                 }
             }
         },
-        "/api/users/delete/:id": { 
+        "/monolite/api/users/delete/{id}": { 
             "patch": {
                 "tags": ["Users"],
+                "security": [{
+                    "bearerAuth": []
+                }],
                 "description": "Удалить пользователя",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "number"
                     }
