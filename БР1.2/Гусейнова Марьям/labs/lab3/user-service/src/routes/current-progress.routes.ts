@@ -1,16 +1,17 @@
-import { Router, Request, Response, RequestHandler } from 'express';
+import { Router } from 'express';
 import { CurrentProgressController } from '../controllers/current-progress.controller';
 import { authMiddleware } from "../middlewares/auth.middleware";
+import { asyncHandler } from '../utils/async-handler'; 
 
 const router = Router();
 const currentProgressController = new CurrentProgressController();
 
-router.get('/my-progress', authMiddleware, currentProgressController.getMyCurrentProgress as RequestHandler);
-router.get('/', authMiddleware, currentProgressController.getAllCurrentProgress);
-router.get('/:id', authMiddleware, currentProgressController.getCurrentProgressById);
-router.get('/user/:userId', authMiddleware, currentProgressController.getCurrentProgressByUserId);
-router.post('/', authMiddleware, currentProgressController.createCurrentProgress);
-router.put('/user/:userId', authMiddleware, currentProgressController.updateCurrentProgress);
-router.delete('/user/:userId', authMiddleware, currentProgressController.deleteCurrentProgress);
+router.get('/my-progress', authMiddleware, asyncHandler(currentProgressController.getMyCurrentProgress));
+router.get('/', authMiddleware, asyncHandler(currentProgressController.getAllCurrentProgress));
+router.get('/:id', authMiddleware, asyncHandler(currentProgressController.getCurrentProgressById));
+router.get('/user/:userId', authMiddleware, asyncHandler(currentProgressController.getCurrentProgressByUserId));
+router.post('/', authMiddleware, asyncHandler(currentProgressController.createCurrentProgress));
+router.put('/user/:userId', authMiddleware, asyncHandler(currentProgressController.updateCurrentProgress));
+router.delete('/user/:userId', authMiddleware, asyncHandler(currentProgressController.deleteCurrentProgress));
 
 export default router;

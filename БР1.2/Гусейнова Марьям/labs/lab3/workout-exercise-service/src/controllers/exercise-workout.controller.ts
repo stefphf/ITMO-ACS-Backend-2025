@@ -1,72 +1,48 @@
 import { Request, Response } from 'express';
 import { ExerciseWorkoutService } from '../services/exercise-workout.service';
+import { CustomError } from '../utils/custom-error.util';
 
 const exerciseWorkoutService = new ExerciseWorkoutService();
 
 export class ExerciseWorkoutController {
 
   getAllExerciseWorkouts = async (req: Request, res: Response) => {
-    try {
-      const exerciseWorkouts = await exerciseWorkoutService.getAllExerciseWorkouts();
-      res.json(exerciseWorkouts);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to fetch exercise workouts' });
-    }
+    const exerciseWorkouts = await exerciseWorkoutService.getAllExerciseWorkouts();
+    res.json(exerciseWorkouts);
   };
 
   getExerciseWorkoutById = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
-    try {
-      const exerciseWorkout = await exerciseWorkoutService.getExerciseWorkoutById(id);
-      if (exerciseWorkout) {
-        res.json(exerciseWorkout);
-      } else {
-        res.status(404).json({ message: 'Exercise workout not found' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to fetch exercise workout' });
+    if (isNaN(id)) {
+      throw new CustomError('Invalid exercise workout ID format', 400);
     }
+    const exerciseWorkout = await exerciseWorkoutService.getExerciseWorkoutById(id);
+    res.json(exerciseWorkout);
   };
 
   createExerciseWorkout = async (req: Request, res: Response) => {
-    try {
-      const newExerciseWorkout = await exerciseWorkoutService.createExerciseWorkout(req.body);
-      res.status(201).json(newExerciseWorkout);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to create exercise workout' });
+    if (isNaN(req.body.exercise_id) || isNaN(req.body.workout_id)) {
+        throw new CustomError('Exercise ID and Workout ID must be valid numbers', 400);
     }
+    const newExerciseWorkout = await exerciseWorkoutService.createExerciseWorkout(req.body);
+    res.status(201).json(newExerciseWorkout);
   };
 
   updateExerciseWorkout = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
-    try {
-      const updatedExerciseWorkout = await exerciseWorkoutService.updateExerciseWorkout(id, req.body);
-      if (updatedExerciseWorkout) {
-        res.json(updatedExerciseWorkout);
-      } else {
-        res.status(404).json({ message: 'Exercise workout not found' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to update exercise workout' });
+    if (isNaN(id)) {
+      throw new CustomError('Invalid exercise workout ID format', 400);
     }
+    const updatedExerciseWorkout = await exerciseWorkoutService.updateExerciseWorkout(id, req.body);
+    res.json(updatedExerciseWorkout);
   };
 
   deleteExerciseWorkout = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
-    try {
-      const success = await exerciseWorkoutService.deleteExerciseWorkout(id);
-      if (success) {
-        res.status(204).send();
-      } else {
-        res.status(404).json({ message: 'Exercise workout not found' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to delete exercise workout' });
+    if (isNaN(id)) {
+      throw new CustomError('Invalid exercise workout ID format', 400);
     }
+    await exerciseWorkoutService.deleteExerciseWorkout(id);
+    res.status(204).send();
   };
 }

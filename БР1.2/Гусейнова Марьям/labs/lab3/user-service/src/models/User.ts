@@ -29,6 +29,6 @@ export class User {
   @Column({ type: 'date', nullable: true })
   birth_date?: Date;
 
-  @OneToOne(() => CurrentProgress, (currentProgress) => currentProgress.user)
+  @OneToOne(() => CurrentProgress, (currentProgress) => currentProgress.user, { onDelete: 'CASCADE' })
   currentProgress!: CurrentProgress;
 }

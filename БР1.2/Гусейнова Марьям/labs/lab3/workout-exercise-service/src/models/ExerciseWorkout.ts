@@ -7,14 +7,14 @@ export class ExerciseWorkout {
   @PrimaryGeneratedColumn()
   exercise_workout_id!: number;
 
-  @ManyToOne(() => Exercise, (exercise) => exercise.exerciseWorkouts)
+  @ManyToOne(() => Exercise, (exercise) => exercise.exerciseWorkouts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'exercise_id' })
   exercise!: Exercise;
 
   @Column()
   exercise_id!: number;
 
-  @ManyToOne(() => Workout, (workout) => workout.exerciseWorkouts)
+  @ManyToOne(() => Workout, (workout) => workout.exerciseWorkouts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'workout_id' })
   workout!: Workout;
 

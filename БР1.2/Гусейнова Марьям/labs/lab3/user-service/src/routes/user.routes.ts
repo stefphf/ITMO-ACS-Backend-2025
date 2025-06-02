@@ -1,23 +1,20 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { UserController } from "../controllers/user.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
+import { asyncHandler } from '../utils/async-handler';
 
 const router = Router();
 const userController = new UserController();
 
-router.post("/register", async (req, res) => {
-  await userController.register(req, res);
-});
+router.post("/register", asyncHandler(userController.register));
+router.post("/login", asyncHandler(userController.login));
 
-router.post("/login", async (req, res) => {
-  await userController.login(req, res);
-});
+router.get("/", authMiddleware, asyncHandler(userController.getAllUsers));
+router.get("/:id", authMiddleware, asyncHandler(userController.getUserById));
+router.get("/email/:email", authMiddleware, asyncHandler(userController.getUserByEmail));
+router.put("/:id", authMiddleware, asyncHandler(userController.updateUser));
+router.delete("/:id", authMiddleware, asyncHandler(userController.deleteUser));
 
-// Роуты для CRUD операций (требуют аутентификации)
-router.get("/users", authMiddleware, userController.getAllUsers);
-router.get("/users/:id", authMiddleware, userController.getUserById);
-router.get("/users/email/:email", authMiddleware, userController.getUserByEmail);
-router.put("/users/:id", authMiddleware, userController.updateUser);
-router.delete("/users/:id", authMiddleware, userController.deleteUser);
+router.get("/internal/exists/:id", asyncHandler(userController.getUserIdInternal));
 
 export default router;

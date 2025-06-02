@@ -21,7 +21,7 @@ export class CurrentProgress {
   current_height?: number;
 
   @Column({ nullable: true })
-  goal?: string; // 'lose weight', 'gain weight'
+  goal?: string; 
 
   @Column({
     type: 'enum',

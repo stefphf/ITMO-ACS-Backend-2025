@@ -1,105 +1,68 @@
 import { Request, Response } from 'express';
 import { CurrentProgressService } from '../services/current-progress.service';
+import { CustomError } from '../utils/custom-error.util';
 
 const currentProgressService = new CurrentProgressService();
 
 export class CurrentProgressController {
 
   getMyCurrentProgress = async (req: Request, res: Response) => {
-    try {
-      const userId = req.userId;
-      if (!userId) {
-        return res.status(401).json({ message: "User not authenticated" });
-      }
-      const currentProgress = await currentProgressService.getMyCurrentProgress(userId);
-      if (currentProgress) {
-        res.json(currentProgress);
-      } else {
-        res.status(404).json({ message: 'Current progress not found for this user' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to fetch current progress' });
+    const userId = req.userId;
+    // authMiddleware уже проверит аутентификацию. Если userId здесь null,
+    // значит что-то не так с middleware, но мы все равно выбросим ошибку
+    if (!userId) {
+      throw new CustomError("User not authenticated", 401);
     }
+    const currentProgress = await currentProgressService.getMyCurrentProgress(userId);
+    res.json(currentProgress);
   };
 
   getAllCurrentProgress = async (req: Request, res: Response) => {
-    try {
-      const currentProgresses = await currentProgressService.getAllCurrentProgress();
-      res.json(currentProgresses);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to fetch current progresses' });
-    }
+    const currentProgresses = await currentProgressService.getAllCurrentProgress();
+    res.json(currentProgresses);
   };
 
   getCurrentProgressById = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
-    try {
-      const currentProgress = await currentProgressService.getCurrentProgressById(id);
-      if (currentProgress) {
-        res.json(currentProgress);
-      } else {
-        res.status(404).json({ message: 'Current progress not found' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to fetch current progress' });
+    if (isNaN(id)) {
+      throw new CustomError('Invalid progress ID format', 400);
     }
+    const currentProgress = await currentProgressService.getCurrentProgressById(id);
+    res.json(currentProgress);
   };
 
   getCurrentProgressByUserId = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.userId, 10);
-    try {
-      const currentProgress = await currentProgressService.getCurrentProgressByUserId(userId);
-      if (currentProgress) {
-        res.json(currentProgress);
-      } else {
-        res.status(404).json({ message: 'Current progress not found for this user' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to fetch current progress for user' });
+    if (isNaN(userId)) {
+      throw new CustomError('Invalid user ID format', 400);
     }
+    const currentProgress = await currentProgressService.getCurrentProgressByUserId(userId);
+    res.json(currentProgress);
   };
 
   createCurrentProgress = async (req: Request, res: Response) => {
-    try {
-      const newCurrentProgress = await currentProgressService.createCurrentProgress(req.body);
-      res.status(201).json(newCurrentProgress);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to create current progress' });
+    if (!req.body.user_id) {
+        throw new CustomError('User ID is required in request body', 400);
     }
+    const newCurrentProgress = await currentProgressService.createCurrentProgress(req.body);
+    res.status(201).json(newCurrentProgress);
   };
 
   updateCurrentProgress = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.userId, 10);
-    try {
-      const updatedCurrentProgress = await currentProgressService.updateCurrentProgress(userId, req.body);
-      if (updatedCurrentProgress) {
-        res.json(updatedCurrentProgress);
-      } else {
-        res.status(404).json({ message: 'Current progress not found for this user' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to update current progress' });
+    if (isNaN(userId)) {
+      throw new CustomError('Invalid user ID format', 400);
     }
+    const updatedCurrentProgress = await currentProgressService.updateCurrentProgress(userId, req.body);
+    res.json(updatedCurrentProgress);
   };
 
   deleteCurrentProgress = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.userId, 10);
-    try {
-      const success = await currentProgressService.deleteCurrentProgress(userId);
-      if (success) {
-        res.status(204).send();
-      } else {
-        res.status(404).json({ message: 'Current progress not found for this user' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to delete current progress' });
+    if (isNaN(userId)) {
+      throw new CustomError('Invalid user ID format', 400);
     }
+    await currentProgressService.deleteCurrentProgress(userId);
+    res.status(204).send();
   };
 }
