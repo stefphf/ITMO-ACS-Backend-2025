@@ -87,7 +87,7 @@ export class TrainingPlanController {
   async getOne(@Param("id") id: string) {
     return await trainingPlanRepo.findOne({
       where: { id },
-      relations: ["user", "workout"]
+      relations: ["workout"]
     });
   }
 
