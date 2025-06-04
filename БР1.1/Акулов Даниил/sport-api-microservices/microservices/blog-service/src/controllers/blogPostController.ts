@@ -36,7 +36,7 @@ export class BlogPostController {
         let user = null
         try{
             const response = await axios.get(
-                `http://localhost:${SETTINGS.API_USER_PORT}/api/user/get-one/${post.authorId}`)
+                `http://user-service:${SETTINGS.API_USER_PORT}/api/user/get-one/${post.authorId}`)
             user = response.data.user;
         } catch(error) {
             console.log("Axios error: ", error)

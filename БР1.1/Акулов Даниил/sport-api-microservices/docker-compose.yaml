@@ -7,9 +7,7 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5436:5432"
-    networks:
-      - app-network
+      - "5432:5432"
 
   user-service:
     build: ./microservices/user-service
@@ -19,8 +17,6 @@ services:
       - postgres
     env_file:
       - .env
-    networks:
-      - app-network
 
   blog-service:
     build: ./microservices/blog-service
@@ -30,8 +26,6 @@ services:
       - postgres
     env_file:
       - .env
-    networks:
-      - app-network
 
   vacancy-service:
     build: ./microservices/workout-service
@@ -41,8 +35,6 @@ services:
       - postgres
     env_file:
       - .env
-    networks:
-      - app-network
 
   gateway:
     build: ./microservices/gateway
@@ -50,12 +42,6 @@ services:
       - "8080:8080"
     env_file:
       - .env
-    networks:
-      - app-network
 
 volumes:
   postgres:
-
-networks:
-  app-network:
-    driver: bridge
