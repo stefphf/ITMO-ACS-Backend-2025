@@ -4,7 +4,9 @@ import {Request, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {OpenAPI} from "routing-controllers-openapi";
-import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {UpdateWorkoutPlanDto} from "../dto/workoutPlanDto";
+import {CreateBlogPostDto, UpdateBlogPostDto} from "../dto/blogPostDto";
 
 const blogPostRepo = dataSource.getRepository(BlogPost);
 
@@ -38,9 +40,9 @@ class BlogPostController {
     async create(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: CreateBlogPostDto
     ) {
-        const { title, content, authorId } = req.body;
-        const newPost = blogPostRepo.create({ title, content, authorId });
+        const newPost = blogPostRepo.create(body);
         await blogPostRepo.save(newPost);
         return res.json({post: newPost});
     }
@@ -50,17 +52,16 @@ class BlogPostController {
     async update(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: UpdateBlogPostDto
     ) {
         const { id } = req.params;
-        const { title, content } = req.body;
         const post = await blogPostRepo.findOne({ where: { id: Number(id) } });
         if (!post) {
             throw ApiError.badRequest(errorMessages.userNotFound)
         }
-        post.title = title;
-        post.content = content;
-        await blogPostRepo.save(post);
-        return res.json({post});
+        const updated = blogPostRepo.merge(post, body)
+        await blogPostRepo.save(updated);
+        return res.json({post: updated});
     }
 
     @OpenAPI({})

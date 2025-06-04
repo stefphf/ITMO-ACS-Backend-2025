@@ -3,8 +3,10 @@ import {Request, RequestHandler, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {SessionExercise} from "../models/SessionExercise";
-import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
+import {CreateExerciseTypeDto} from "../dto/exerciseTypeDto";
+import {UpdateSessionExerciseDto} from "../dto/sessionExerciseDto";
 
 const sessionExerciseRepo = dataSource.getRepository(SessionExercise);
 
@@ -38,9 +40,9 @@ class SessionExerciseController {
     async create(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: CreateExerciseTypeDto
     ) {
-        const { userId, sessionId, exerciseTypeId, weight, count, time, description } = req.body;
-        const newExercise = sessionExerciseRepo.create({ userId, sessionId, exerciseTypeId, weight, count, time, description });
+        const newExercise = sessionExerciseRepo.create(body);
         await sessionExerciseRepo.save(newExercise);
         return res.json({exercise: newExercise});
     }
@@ -50,23 +52,16 @@ class SessionExerciseController {
     async update(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: UpdateSessionExerciseDto
     ) {
         const { id } = req.params;
-        const { userId, sessionId, exerciseTypeId, weight, count, time, description } = req.body;
         const exercise = await sessionExerciseRepo.findOne({ where: { id: Number(id) } });
         if (!exercise) {
             throw ApiError.badRequest(errorMessages.userNotFound)
         }
-        exercise.userId = userId;
-        exercise.sessionId = sessionId;
-        exercise.exerciseTypeId = exerciseTypeId;
-        exercise.weight = weight;
-        exercise.count = count;
-        exercise.time = time;
-        exercise.description = description;
-
-        await sessionExerciseRepo.save(exercise);
-        return res.json({exercise});
+        const updated = sessionExerciseRepo.merge(exercise, body)
+        await sessionExerciseRepo.save(updated);
+        return res.json({exercise: updated});
     }
 
     @OpenAPI({})

@@ -1,0 +1,61 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15
+    env_file:
+      - .env
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5436:5432"
+    networks:
+      - app-network
+
+  user-service:
+    build: ./microservices/user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  blog-service:
+    build: ./microservices/blog-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  vacancy-service:
+    build: ./microservices/workout-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  gateway:
+    build: ./microservices/gateway
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+volumes:
+  postgres:
+
+networks:
+  app-network:
+    driver: bridge

@@ -4,7 +4,8 @@ import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {ExerciseType} from "../models/ExerciseType";
 import {OpenAPI} from "routing-controllers-openapi";
-import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {CreateExerciseTypeDto, UpdateExerciseTypeDto} from "../dto/exerciseTypeDto";
 
 const exerciseTypeRepo = dataSource.getRepository(ExerciseType);
 
@@ -38,9 +39,9 @@ class ExerciseTypeController {
     async create(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: CreateExerciseTypeDto
     ) {
-        const { name, description, muscleGroup } = req.body;
-        const newExerciseType = exerciseTypeRepo.create({ name, description, muscleGroup });
+        const newExerciseType = exerciseTypeRepo.create(body);
         await exerciseTypeRepo.save(newExerciseType);
         return res.json({exerciseType: newExerciseType});
     }
@@ -50,18 +51,16 @@ class ExerciseTypeController {
     async update(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: UpdateExerciseTypeDto
     ) {
         const { id } = req.params;
-        const { name, description, muscleGroup } = req.body;
         const exerciseType = await exerciseTypeRepo.findOne({ where: { id: Number(id) } });
         if (!exerciseType) {
             throw ApiError.badRequest(errorMessages.userNotFound)
         }
-        exerciseType.name = name;
-        exerciseType.description = description;
-        exerciseType.muscleGroup = muscleGroup;
-        await exerciseTypeRepo.save(exerciseType);
-        return res.json({exerciseType});
+        const updated = exerciseTypeRepo.merge(exerciseType, body);
+        await exerciseTypeRepo.save(updated);
+        return res.json({exerciseType: updated});
     }
 
     @OpenAPI({})
