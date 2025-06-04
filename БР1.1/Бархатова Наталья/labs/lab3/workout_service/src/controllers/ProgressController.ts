@@ -85,8 +85,7 @@ export class ProgressController {
   })
   async getOne(@Param("id") id: string) {
     return await progressRepo.findOne({
-      where: { id },
-      relations: ["user"]
+      where: { id }
     });
   }
 
