@@ -11,7 +11,7 @@ import {UpdateSessionExerciseDto} from "../dto/sessionExerciseDto";
 const sessionExerciseRepo = dataSource.getRepository(SessionExercise);
 
 @JsonController('/session-exercise')
-class SessionExerciseController {
+export class SessionExerciseController {
     @OpenAPI({})
     @Get('/get-all')
     async getAll(

@@ -10,7 +10,7 @@ import {CreateWorkoutPlanDto, UpdateWorkoutPlanDto} from "../dto/workoutPlanDto"
 const workoutPlanRepo = dataSource.getRepository(WorkoutPlan);
 
 @JsonController('/workout-plan')
-class WorkoutPlanController {
+export class WorkoutPlanController {
     @OpenAPI({})
     @Get('/get-all')
     async getAll(

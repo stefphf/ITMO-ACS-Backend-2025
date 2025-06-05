@@ -11,7 +11,7 @@ import {CreateBlogPostDto, UpdateBlogPostDto} from "../dto/blogPostDto";
 const blogPostRepo = dataSource.getRepository(BlogPost);
 
 @JsonController('/blog-post')
-class BlogPostController {
+export class BlogPostController {
     @OpenAPI({})
     @Get('/get-all')
     async getAll(
