@@ -9,6 +9,7 @@ import {Authorized, Body, Get, JsonController, Post, Req, Res, UseBefore} from "
 import {OpenAPI} from "routing-controllers-openapi";
 import {Request, Response, NextFunction} from 'express';
 import {LoginDto, RegistrationDto} from "../dto/userDto";
+import {sendToQueue} from "../rabbitmq";
 
 const userRepo = dataSource.getRepository(User);
 
@@ -36,6 +37,7 @@ export class AuthController {
         const userEntity = userRepo.create({email, password: hashPassword, name});
         const user = await userRepo.save(userEntity);
         const token = generateAccessToken(user.id, email)
+        await sendToQueue('create-workout-plan', {userId: user.id})
         return res.json({token, user})
     }
 

@@ -43,5 +43,10 @@ services:
     env_file:
       - .env
 
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 5672:5672
+
 volumes:
   postgres:
