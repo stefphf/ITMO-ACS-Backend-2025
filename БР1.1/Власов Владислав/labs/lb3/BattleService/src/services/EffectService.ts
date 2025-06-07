@@ -10,7 +10,7 @@ export class EffectService implements IEffectService {
     API_URL: string;
     constructor()
     {
-        this.API_URL = 'http://localhost/characters/api/effects'
+        this.API_URL = 'http://characters:3003/characters/api/effects'
     }
 
     async getConditions(authToken: string, effectId: number): Promise<Condition[]>

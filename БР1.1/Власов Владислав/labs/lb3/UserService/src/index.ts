@@ -39,4 +39,4 @@ const swaggerDoc = require('./swagger.json')
 app.use('/users/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 
-app.listen(3003, () => console.log("Server started on http://localhost:3003"));
+app.listen(3001, () => console.log("Server started on http://localhost:3001"));

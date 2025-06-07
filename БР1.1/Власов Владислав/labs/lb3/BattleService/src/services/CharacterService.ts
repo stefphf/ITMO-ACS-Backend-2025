@@ -11,7 +11,7 @@ export class CharacterService implements ICharacterService
     API_URL: string;
     constructor()
     {
-        this.API_URL = 'http://localhost/characters/api/characters'
+        this.API_URL = 'http://characters:3003/characters/api/characters'
     }
 
     async getCharacter(authToken: string, id: number): Promise<ObjectLiteral> {
