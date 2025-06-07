@@ -43,7 +43,8 @@ export class MessageHandler {
     async getUserSentMessages(@Param('userId') userId: number) {
         try {
             const options: FindManyOptions<Message> = {
-                where: { sender : { id: Number(userId) } } 
+                where: { sender : { id: Number(userId) } },
+                relations: ["sender", "receiver"]
             }
             return await this.service.findAll(options)
         } catch (error: any) {
@@ -76,7 +77,8 @@ export class MessageHandler {
     async getUserReceivedMessages(@Param('userId') userId: number) {
         try {
             const options: FindManyOptions<Message> = {
-                where: { receiver : { id: Number(userId) } } 
+                where: { receiver : { id: Number(userId) } },
+                relations: ["sender", "receiver"],
             }
             return await this.service.findAll(options)
         } catch (error: any) {

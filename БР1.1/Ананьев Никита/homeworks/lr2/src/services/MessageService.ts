@@ -30,6 +30,7 @@ export class MessageService extends BaseService<Message, MessageDto> implements 
     async send(messageData: MessageDto): Promise<MessageDto> {
         let message: Message = MessageMapper.toModel(messageData)
         try {
+            message.sentAt = new Date();
             message = await this.repository.save(message)
             return this.toDto(message)
             // TODO: implement notifier

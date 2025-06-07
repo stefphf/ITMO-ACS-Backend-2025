@@ -6,8 +6,12 @@ export class MessageMapper {
     static toDto(model: Message): MessageDto {
         const { sender, receiver, ...rest } = model
         const dto = new MessageDto(rest)
-        dto.senderId = model.sender.id
-        dto.receiverId = model.receiver.id
+        // if (typeof(sender) != undefined ){
+        //      dto.senderId = sender.id
+        // }
+        // if (typeof(receiver) != undefined ){
+        //     dto.receiverId = receiver.id
+        // }
         return dto
     }
 

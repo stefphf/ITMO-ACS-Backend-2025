@@ -8,12 +8,15 @@ export class MessageDto {
     @IsString()
     inner!: string
 
+    @IsOptional()
     @IsNumber()
     senderId!: number
 
+    @IsOptional()
     @IsNumber()
     receiverId!: number
 
+    @IsOptional()
     @IsDateString()
     sentAt!: Date
 

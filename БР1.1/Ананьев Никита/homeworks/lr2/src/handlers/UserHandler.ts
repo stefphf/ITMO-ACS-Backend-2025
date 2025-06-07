@@ -71,7 +71,7 @@ export class UserHandler {
     @UseBefore(AuthMiddleware)
     async getUserById(@Param('id') id: number) {
         try {
-            return await this.service.findById(id, ["rents", "properties"])
+            return await this.service.findById(id, ["rents", "properties", "sentMessages", "receivedMessages"])
         } catch (error: any) {
             if (error instanceof NotFoundError)
                 throw new HttpNotFound('User not found');

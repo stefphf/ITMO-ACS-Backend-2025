@@ -16,16 +16,15 @@ export class UserMapper {
         return user
     }
 
-    static toDto(model: User, withMessages: boolean = false): ResponseUserDto {
-        const { rents, properties, sentMessages, receivedMessages, ...rest } = model;
+    static toDto(model: User): ResponseUserDto {
+        const { rents, properties, sentMessages, receivedMessages, password, ...rest } = model;
         const dto = new ResponseUserDto(rest);
+
         dto.properties = properties?.map((prop: Property) => PropertyMapper.toDto(prop)) ?? []
         dto.rents = rents?.map((rent: Rent) => RentMapper.toDto(rent)) ?? []
 
-        if (withMessages) {
-            dto.sentMessages = model.sentMessages?.map((msg: Message) => MessageMapper.toDto(msg)) ?? []
-            dto.receivedMessages = model.receivedMessages?.map((msg: Message) => MessageMapper.toDto(msg)) ?? []
-        }
+        dto.sentMessages = model.sentMessages?.map((msg: Message) => MessageMapper.toDto(msg)) ?? []
+        dto.receivedMessages = model.receivedMessages?.map((msg: Message) => MessageMapper.toDto(msg)) ?? []
         return dto;
     }
 }

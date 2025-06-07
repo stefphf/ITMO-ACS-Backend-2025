@@ -63,7 +63,7 @@ export class PropertyHandler {
     })
     async getProperty(@Param('id') id: number) {
         try {
-            return await this.service.findById(id, ["user"])
+            return await this.service.findById(id, ["owner"])
         } catch (error: any) {
             if (error instanceof NotFoundError)
                 throw new HttpNotFound("Can't find property with this id")

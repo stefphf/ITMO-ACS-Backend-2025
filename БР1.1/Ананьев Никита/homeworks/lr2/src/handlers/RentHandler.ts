@@ -47,7 +47,7 @@ export class RentHandler {
             }
             return await this.service.findAll(options)
         } catch (error: any) {
-            console.log(error)
+            // console.log(error)
             throw new InternalServerError("User rents search failed")
         }
     }
