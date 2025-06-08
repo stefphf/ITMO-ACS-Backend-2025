@@ -1,74 +1,80 @@
 import {dataSource} from "../config/dataSource";
-import {RequestHandler} from "express";
+import {Request, RequestHandler, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {WorkoutSession} from "../models/WorkoutSession";
+import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {OpenAPI} from "routing-controllers-openapi";
 
 const workoutSessionRepo = dataSource.getRepository(WorkoutSession);
 
+@JsonController('/workout-session')
 class WorkoutSessionController {
-    getAll: RequestHandler = async (req, res, next) => {
-        try {
-            const sessions = await workoutSessionRepo.find();
-            return res.json({sessions});
-        } catch (e) {
-            next(ApiError.internal());
-        }
+    @OpenAPI({})
+    @Get('/get-all')
+    async getAll(
+        @Res() res: Response,
+    ) {
+        const sessions = await workoutSessionRepo.find();
+        return res.json({sessions});
     }
 
-    getOne: RequestHandler = async (req, res, next) => {
+
+    @OpenAPI({})
+    @Get('/get-one/:id')
+    async getOne(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { id } = req.params;
-        try {
-            const session = await workoutSessionRepo.findOne({ where: { id: +id } });
-            if (!session) {
-                return next(ApiError.badRequest(errorMessages.sessionNotFound));
-            }
-            return res.json({session});
-        } catch (e) {
-            next(ApiError.internal());
+        const session = await workoutSessionRepo.findOne({ where: { id: +id } });
+        if (!session) {
+            throw ApiError.badRequest(errorMessages.exerciseTypeNotFound)
         }
+        return res.json({session});
     }
 
-    create: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Post('/')
+    async create(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { title, description, type, startedAt, endedAt, userId } = req.body;
-        try {
-            const newSession = workoutSessionRepo.create({ title, description, type, startedAt, endedAt, userId });
-            await workoutSessionRepo.save(newSession);
-            return res.json({session: newSession});
-        } catch (e) {
-            next(ApiError.internal());
-        }
+        const newSession = workoutSessionRepo.create({ title, description, type, startedAt, endedAt, userId });
+        await workoutSessionRepo.save(newSession);
+        return res.json({session: newSession});
     }
 
-    update: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Put('/:id')
+    async update(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { id } = req.params;
         const { title, description, type, startedAt, endedAt, userId } = req.body;
-        try {
-            const session = await workoutSessionRepo.findOne({ where: { id: +id } });
-            if (!session) {
-                return next(ApiError.badRequest(errorMessages.sessionNotFound));
-            }
-            workoutSessionRepo.merge(session, { title, description, type, startedAt, endedAt, userId });
-            await workoutSessionRepo.save(session);
-            return res.json({session});
-        } catch (e) {
-            next(ApiError.internal());
+        const session = await workoutSessionRepo.findOne({ where: { id: +id } });
+        if (!session) {
+            throw ApiError.badRequest(errorMessages.userNotFound)
         }
+        workoutSessionRepo.merge(session, { title, description, type, startedAt, endedAt, userId });
+        await workoutSessionRepo.save(session);
+        return res.json({session});
     }
 
-    delete: RequestHandler = async (req, res, next) => {
+    @OpenAPI({})
+    @Delete('/:id')
+    async delete(
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
         const { id } = req.params;
-        try {
-            const session = await workoutSessionRepo.findOne({ where: { id: +id } });
-            if (!session) {
-                return next(ApiError.badRequest(errorMessages.sessionNotFound));
-            }
-            await workoutSessionRepo.remove(session);
-            return res.json({ message: 'Deleted successfully' });
-        } catch (e) {
-            next(ApiError.internal());
+        const session = await workoutSessionRepo.findOne({ where: { id: +id } });
+        if (!session) {
+            throw ApiError.badRequest(errorMessages.userNotFound)
         }
+        await workoutSessionRepo.remove(session);
+        return res.json({ message: 'Deleted successfully' });
     }
 }
-
-export default new WorkoutSessionController();
