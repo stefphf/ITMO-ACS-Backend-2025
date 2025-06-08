@@ -10,7 +10,7 @@ const userRepo = AppDataSource.getRepository(User);
 export class AuthService {
     static async register(email: string, password: string, name: string): Promise<User> {
         const existing = await userRepo.findOneBy({ email });
-            if (existing) {
+        if (existing) {
             const err: any = new Error('User already registered');
             err.status = 400;
             throw err;
@@ -23,7 +23,7 @@ export class AuthService {
 
     static async login(email: string, password: string): Promise<string> {
         const user = await userRepo.findOneBy({ email });
-        if (!user || !(checkPassword(user.password, password))) {
+        if (!user || !(checkPassword(password, user.password))) {
             const err: any = new Error('Invalid credentials');
             err.status = 401;
             throw err;
