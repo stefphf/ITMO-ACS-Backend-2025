@@ -80,15 +80,18 @@
 
 ## 1.1. Знакомство со средой Node.JS, пакетным менеджером npm
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/TSfYVqi3wardhw)
 
-## 1.2. Знакомство с микрофреймворком Express
+**Можно почитать:**
 
-*Материалы находятся в разработке.*
+- Документация по командам npm: https://docs.npmjs.com/cli/v11/commands
+- Установка nvm на Linux/MacOS: https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
+- Установка nvm на Windows: https://github.com/coreybutler/nvm-windows?tab=readme-ov-file#installation--upgrades
+- Скачать node.js без nvm: https://nodejs.org/en
 
-## 1.3. Typescript: основы языка
+## 1.2. Typescript: основы языка
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/ZAwmFRq2blfXDA)
 
 **Можно почитать:**
 
@@ -96,20 +99,28 @@
 - Карманная книжка по TypeScript: https://www.typescriptlang.org/docs/handbook/intro.html
 - Статья по основам синтаксиса: https://nuancesprog.ru/p/14210/
 
+## 1.3. Знакомство с микрофреймворком Express
+
+[Презентация](https://disk.yandex.ru/i/NLR1xyl_c-zh8w)
+
+**Можно почитать:**
+
+- Официальная документация: https://expressjs.com/en/starter/installing.html
+- Пример с эндпоинтами: https://github.com/kantegory/mentoring/tree/master/28_express_endpoints
+
 ## 1.4. Знакомство с TypeORM
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/Exa487aUBTdsIQ)
 
 **Можно почитать:**
 
 - Документация typeorm: https://typeorm.io/
-- Документация expressjs: https://expressjs.com/en/starter/installing.html
+- Пример реализации приложения на Express + TypeORM: https://orkhan.gitbook.io/typeorm/docs/example-with-express
 - Документация jsonwebtoken: https://github.com/auth0/node-jsonwebtoken#readme
-- Пример реализации приложения на express + typeorm: https://orkhan.gitbook.io/typeorm/docs/example-with-express
 
 ### ДЗ2: Работа с TypeORM
 
-**Срок:** *в данный момент не определён*
+**Срок:** 21.04.2025
 
 **Задание:**
 
@@ -121,7 +132,7 @@
 
 ### ЛР1: Реализация boilerplate
 
-**Срок:** *в данный момент не определён*
+**Срок:** 28.04.2025
 
 **Задание:**
 
@@ -135,17 +146,21 @@
 
 Необходимо сделать отчёт по [шаблону](https://docs.google.com/document/d/1aAUawxv6_5k_Na7bLqrfUFANodyl89uPHXY4IKXS8WE/edit?usp=sharing)
 
-Пример: *в данный момент дорабатывается*
+Пример: [express-typeorm-boilerplate](https://github.com/kantegory/express-typeorm-boilerplate)
 
 # 2. Тестирование, разработка и документирование RESTful API
 
-## 2.1 REST, RESTful, SOAP, GraphQL
+## 2.1 REST, RESTful
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/MuL7VmFKmXSM9A)
+
+**Можно почитать:**
+
+- Сайт, посвящённый REST и RESTful: https://restfulapi.net/
 
 ### ЛР2: Реализация REST API на основе boilerplate
 
-**Срок:** *в данный момент не определён*
+**Срок:** 12.05.2025
 
 **Задание:**
 
@@ -153,13 +168,23 @@
 
 Необходимо сделать отчёт по [шаблону](https://docs.google.com/document/d/1aAUawxv6_5k_Na7bLqrfUFANodyl89uPHXY4IKXS8WE/edit?usp=sharing)
 
-## 2.2 Тестирование, документация
+## 2.2 Документирование API
 
-*Материалы находятся в разработке.*
+[Презентация](https://disk.yandex.ru/i/-lpIh8uTMn7BPw)
+
+**Можно почитать:**
+
+- Документация tsoa: https://tsoa-community.github.io/docs/getting-started.html
+- Документация routing-controllers-openapi: https://github.com/epiphone/routing-controllers-openapi
+- Документация swagger-jsdoc: https://github.com/Surnet/swagger-jsdoc
+- Пример автодокументирования с tsoa: https://github.com/kantegory/mentoring/tree/master/30_express_swagger_tsoa_example
+- Пример автодокументирования с routing-controllers: https://github.com/kantegory/mentoring/tree/master/29_express_swagger_routing_controllers_example
+- Пример автодокументирования с swagger-jsdoc: https://github.com/kantegory/mentoring/tree/master/16_express_swagger_example
+- Пример документирования в Postman: https://github.com/kantegory/mentoring/tree/master/24_postman_example
 
 ### ДЗ3: Документирование API средствами swagger и Postman
 
-**Срок:** *в данный момент не определён*
+**Срок:** 12.05.2025
 
 **Задание:**
 
@@ -168,9 +193,13 @@
 
 Необходимо сделать отчёт по [шаблону](https://docs.google.com/document/d/1aAUawxv6_5k_Na7bLqrfUFANodyl89uPHXY4IKXS8WE/edit?usp=sharing)
 
+## 2.3 Тестирование API
+
+[Презентация](https://disk.yandex.ru/i/_tePhl6pu_ZFFA)
+
 ### ДЗ4: Тестирование API средствами Postman
 
-**Срок:** *в данный момент не определён*
+**Срок:** 26.05.2025
 
 **Задание:**
 
@@ -183,15 +212,15 @@
 
 ## 3.1 DI, IoC
 
-*Материал находится в разработке.*
+[Презентация](https://disk.yandex.ru/i/YAyY5ci5-Ent4Q)
 
 ## 3.2 Микросервисы
 
-*Материал находится в разработке.*
+[Презентация](https://disk.yandex.ru/i/HP1Txh-OuYwpqw)
 
 ### ЛР3: Миграция написанного API на микросервисную архитектуру
 
-**Срок:** *в данный момент не определён*
+**Срок:** 02.06.2025
 
 **Задание:**
 
@@ -203,11 +232,11 @@
 
 ## 3.3 Docker, docker compose
 
-*Материал находится в разработке.*
+[Презентация](https://disk.yandex.ru/i/00yuT5kOA60KoQ)
 
 ### ЛР4: Контейнеризация написанного приложения средствами docker
 
-**Срок:** *в данный момент не определён*
+**Срок:** 02.06.2025
 
 **Задание:**
 
@@ -219,11 +248,11 @@
 
 ## 3.4 Очереди сообщений
 
-*Материал находится в разработке.*
+[Презентация](https://disk.yandex.ru/i/cbkQ91xzCjh-yA)
 
 ### ДЗ5: Реализация межсервисного взаимодействия посредством очередей сообщений
 
-**Срок:** *в данный момент не определён*
+**Срок:** 18.06.2025
 
 **Задание:**
 
@@ -247,7 +276,7 @@
 
 ### ДЗ6: Настройка Gitlab CI/Github actions для автоматического развёртывания Node.JS-приложения
 
-**Срок:** *в данный момент не определён*
+**Срок:** 18.06.2025
 
 **Задание:**
 
