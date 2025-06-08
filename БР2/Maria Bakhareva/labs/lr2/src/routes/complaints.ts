@@ -65,13 +65,15 @@ router.get('/:id', checkJwt, ComplaintController.getById);
  *           schema:
  *             type: object
  *             required:
- *               - subject
+ *               - propertyId
  *               - message
  *             properties:
- *               subject:
- *                 type: string
+ *               propertyId:
+ *                 type: integer
+ *                 minimum: 1
  *               message:
  *                 type: string
+ *                 minLength: 5
  *     responses:
  *       201:
  *         description: Complaint created
@@ -110,10 +112,9 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               subject:
- *                 type: string
  *               message:
  *                 type: string
+ *                 minLength: 5
  *     responses:
  *       200:
  *         description: Complaint updated

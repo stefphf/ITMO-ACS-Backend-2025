@@ -64,17 +64,26 @@ router.get('/:id', checkJwt, PropertyController.getById);
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - title
+ *               - description
  *               - address
  *               - price
+ *               - type
+ *               - ownerId
  *             properties:
- *               name:
+ *               title:
+ *                 type: string
+ *               description:
  *                 type: string
  *               address:
  *                 type: string
  *               price:
  *                 type: number
  *                 format: float
+ *               type:
+ *                 type: string
+ *               ownerId:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Property created
@@ -112,13 +121,17 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               title:
+ *                 type: string
+ *               description:
  *                 type: string
  *               address:
  *                 type: string
  *               price:
  *                 type: number
  *                 format: float
+ *               type:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Property updated

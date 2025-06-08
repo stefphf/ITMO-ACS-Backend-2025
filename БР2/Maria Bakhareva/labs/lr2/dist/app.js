@@ -78,6 +78,10 @@ const swaggerOptions = {
         './src/entities/**/*.ts',
     ],
 };
+app.get('/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
 const swaggerSpec = (0, swagger_jsdoc_1.default)(swaggerOptions);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(errorHandler_1.default);

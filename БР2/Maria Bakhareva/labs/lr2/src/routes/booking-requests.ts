@@ -63,18 +63,28 @@ router.get('/:id', checkJwt, BookingRequestController.getById);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - propertyId
+ *               - requestedStartDate
+ *               - requestedEndDate
  *             properties:
  *               propertyId:
- *                 type: string
- *               startDate:
- *                 type: string
- *                 format: date
- *               endDate:
+ *                 type: integer
+ *                 minimum: 1
+ *               requestedStartDate:
  *                 type: string
  *                 format: date
+ *               requestedEndDate:
+ *                 type: string
+ *                 format: date
+ *               status:
+ *                 type: string
+ *                 description: Optional status (e.g., 'pending', 'approved')
  *     responses:
  *       201:
  *         description: Booking request created
+ *       400:
+ *         description: Validation error
  */
 router.post(
   '/',
@@ -105,15 +115,19 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               startDate:
+ *               requestedStartDate:
  *                 type: string
  *                 format: date
- *               endDate:
+ *               requestedEndDate:
  *                 type: string
  *                 format: date
+ *               status:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Booking request updated
+ *       400:
+ *         description: Validation error
  *       403:
  *         description: Forbidden
  *       404:

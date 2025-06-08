@@ -1,11 +1,11 @@
-import { validatorLogin } from "./../middleware/validator/validatorLogin";
-import { validatorRegister } from "./../middleware/validator/validatorRegister";
 import { Router } from 'express';
 import { UserController } from '../controllers/UserController';
 import { checkJwt, checkOwnership, checkRole } from '../middleware/checkJwt';
 import { UserRole } from '../entities/User';
 import { validatorChangePassword } from "../middleware/validator/validatorChangePassword";
 import { validatorUpdateUser } from "../middleware/validator/validatorUpdateUser";
+import { validatorLogin } from "../middleware/validator/validatorLogin";
+import { validatorRegister } from "../middleware/validator/validatorRegister";
 
 const router = Router();
 
@@ -83,6 +83,14 @@ router.get('/:id', checkJwt, UserController.getById);
  *                 type: string
  *               lastName:
  *                 type: string
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *               phone:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [tenant, landlord, admin]
  *     responses:
  *       200:
  *         description: User updated
@@ -213,6 +221,8 @@ router.post('/login', validatorLogin, UserController.login);
  *               - password
  *               - firstName
  *               - lastName
+ *               - birthDate
+ *               - phone
  *             properties:
  *               email:
  *                 type: string
@@ -222,6 +232,14 @@ router.post('/login', validatorLogin, UserController.login);
  *                 type: string
  *               lastName:
  *                 type: string
+ *               birthDate:
+ *                 type: string
+ *                 format: date
+ *               phone:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 enum: [tenant, landlord, admin]
  *     responses:
  *       201:
  *         description: User registered

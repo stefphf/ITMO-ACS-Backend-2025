@@ -61,17 +61,26 @@ router.get('/:id', checkJwt_1.checkJwt, PropertyController_1.PropertyController.
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - title
+ *               - description
  *               - address
  *               - price
+ *               - type
+ *               - ownerId
  *             properties:
- *               name:
+ *               title:
+ *                 type: string
+ *               description:
  *                 type: string
  *               address:
  *                 type: string
  *               price:
  *                 type: number
  *                 format: float
+ *               type:
+ *                 type: string
+ *               ownerId:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Property created
@@ -103,13 +112,17 @@ router.post('/', checkJwt_1.checkJwt, (0, checkJwt_1.checkRole)(User_1.UserRole.
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               title:
+ *                 type: string
+ *               description:
  *                 type: string
  *               address:
  *                 type: string
  *               price:
  *                 type: number
  *                 format: float
+ *               type:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Property updated

@@ -48,13 +48,11 @@ router.get('/:id', checkJwt_1.checkJwt, ChatController_1.ChatController.getById)
  *           schema:
  *             type: object
  *             required:
- *               - propertyId
- *               - recipientId
+ *               - rentalId
  *             properties:
- *               propertyId:
- *                 type: string
- *               recipientId:
- *                 type: string
+ *               rentalId:
+ *                 type: integer
+ *                 minimum: 1
  *     responses:
  *       201:
  *         description: Chat created
@@ -84,10 +82,11 @@ router.post('/', checkJwt_1.checkJwt, validatorChat_1.validatorCreateChat, ChatC
  *           schema:
  *             type: object
  *             required:
- *               - content
+ *               - message
  *             properties:
- *               content:
+ *               message:
  *                 type: string
+ *                 minLength: 10
  *     responses:
  *       201:
  *         description: Message sent
