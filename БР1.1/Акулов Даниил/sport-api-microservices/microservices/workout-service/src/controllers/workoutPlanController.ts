@@ -7,9 +7,17 @@ import {Authorized, Body, Delete, Get, JsonController, Post, Put, Req, Res} from
 import {OpenAPI} from "routing-controllers-openapi";
 import {CreateWorkoutPlanDto, CreateWorkoutPlanUserLinkDto, UpdateWorkoutPlanDto} from "../dto/workoutPlanDto";
 import {WorkoutPlanUserLink} from "../models/WorkoutPlanUserLink";
+import {listenToQueue} from "../rabbitmq";
 
 const workoutPlanRepo = dataSource.getRepository(WorkoutPlan);
 const workoutPlanUserLinkRepo = dataSource.getRepository(WorkoutPlanUserLink);
+
+const createNewWorkoutPlan = async (userId: number) => {
+    const newWorkoutPlan = workoutPlanRepo.create({title: "My first Workout", type: 'cardio', level: 5, userId});
+    await workoutPlanRepo.save(newWorkoutPlan);
+}
+
+listenToQueue('create-workout-plan', data => createNewWorkoutPlan(data.userId));
 
 @JsonController('/workout-plan')
 export class WorkoutPlanController {
