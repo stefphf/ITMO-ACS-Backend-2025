@@ -91,20 +91,20 @@
 
 import { Router } from "express";
 import * as controller from "../controllers/motivation_letterController";
-
+import { verifyToken } from "../libs/auth";
 const router = Router();
 
-router.get("/", controller.getAllLetters);
+router.get("/", verifyToken, controller.getAllLetters);
 
 
-router.get("/:id", controller.getLetterById);
+router.get("/:id", verifyToken, controller.getLetterById);
 
 
-router.post("/", controller.createLetter);
+router.post("/", verifyToken, controller.createLetter);
 
 
-router.put("/:id", controller.updateLetter);
+router.put("/:id", verifyToken, controller.updateLetter);
 
-router.delete("/:id", controller.deleteLetter);
+router.delete("/:id", verifyToken, controller.deleteLetter);
 
 export default router;

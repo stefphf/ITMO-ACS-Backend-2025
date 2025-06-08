@@ -91,17 +91,18 @@
 
 import { Router } from "express";
 import * as controller from "../controllers/resume_skillsController";
+import { verifyToken } from "../libs/auth";
 
 const router = Router();
 
-router.get("/", controller.getAllResumeSkills);
+router.get("/", verifyToken, controller.getAllResumeSkills);
 
-router.get("/:id", controller.getResumeSkillById);
+router.get("/:id", verifyToken, controller.getResumeSkillById);
 
-router.post("/", controller.createResumeSkill);
+router.post("/", verifyToken, controller.createResumeSkill);
 
-router.put("/:id", controller.updateResumeSkill);
+router.put("/:id", verifyToken, controller.updateResumeSkill);
 
-router.delete("/:id", controller.deleteResumeSkill);
+router.delete("/:id", verifyToken, controller.deleteResumeSkill);
 
 export default router;

@@ -121,6 +121,7 @@
  */
 import { Router } from "express";
 import * as controller from "../controllers/educationController";
+import { verifyToken } from "../libs/auth";
 
 const router = Router();
 
@@ -128,10 +129,10 @@ const router = Router();
 router.get("/", controller.getAllEducations);
 router.get("/:id", controller.getEducationById);
 
-router.post("/", controller.createEducation);
+router.post("/", verifyToken, controller.createEducation);
 
-router.put("/:id", controller.updateEducation);
+router.put("/:id", verifyToken, controller.updateEducation);
 
-router.delete("/:id", controller.deleteEducation);
+router.delete("/:id", verifyToken, controller.deleteEducation);
 
 export default router;

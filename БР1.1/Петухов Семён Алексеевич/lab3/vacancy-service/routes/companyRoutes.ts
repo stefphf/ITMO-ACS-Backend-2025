@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as controller from "../controllers/companyController";
-
+import {verifyToken} from "../libs/auth";
 const router = Router();
 
 /**
@@ -26,7 +26,7 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/Company'
  */
-router.get("/", controller.getAllCompanies);
+router.get("/", verifyToken, controller.getAllCompanies);
 
 /**
  * @swagger
@@ -51,7 +51,7 @@ router.get("/", controller.getAllCompanies);
  *       404:
  *         description: Компания не найдена
  */
-router.get("/:id", controller.getCompanyById);
+router.get("/:id", verifyToken, controller.getCompanyById);
 
 /**
  * @swagger
@@ -73,7 +73,7 @@ router.get("/:id", controller.getCompanyById);
  *             schema:
  *               $ref: '#/components/schemas/Company'
  */
-router.post("/", controller.createCompany);
+router.post("/", verifyToken, controller.createCompany);
 
 /**
  * @swagger
@@ -104,7 +104,7 @@ router.post("/", controller.createCompany);
  *       404:
  *         description: Компания не найдена
  */
-router.put("/:id", controller.updateCompany);
+router.put("/:id", verifyToken, controller.updateCompany);
 
 /**
  * @swagger
@@ -125,6 +125,6 @@ router.put("/:id", controller.updateCompany);
  *       404:
  *         description: Компания не найдена
  */
-router.delete("/:id", controller.deleteCompany);
+router.delete("/:id", verifyToken, controller.deleteCompany);
 
 export default router;

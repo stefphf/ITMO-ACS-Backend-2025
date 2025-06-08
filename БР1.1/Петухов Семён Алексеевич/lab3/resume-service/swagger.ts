@@ -12,69 +12,48 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:3002/resume-service/', // URL вашего сервера
+                url: 'http://localhost:3002/resume-service/',
             },
         ],
         components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
             schemas: {
                 Education: {
                     type: 'object',
                     properties: {
-                        id: {
-                            type: 'integer',
-                            example: 1,
-                        },
-                        education_level: {
-                            type: 'string',
-                            example: 'Высшее',
-                        },
+                        id: { type: 'integer', example: 1 },
+                        education_level: { type: 'string', example: 'Высшее' },
                     },
                 },
-
                 EducationInput: {
                     type: 'object',
                     required: ['education_level'],
                     properties: {
-                        education_level: {
-                            type: 'string',
-                            example: 'Среднее специальное',
-                        },
+                        education_level: { type: 'string', example: 'Среднее специальное' },
                     },
                 },
-
                 ResumeSkills: {
                     type: 'object',
                     properties: {
-                        id: {
-                            type: 'integer',
-                            example: 1,
-                        },
-                        resume: {
-                            type: 'integer',
-                            example: 3,
-                        },
-                        skillId: {
-                            type: 'integer',
-                            example: 7,
-                        },
+                        id: { type: 'integer', example: 1 },
+                        resume: { type: 'integer', example: 3 },
+                        skillId: { type: 'integer', example: 7 },
                     },
                 },
-
                 ResumeSkillsInput: {
                     type: 'object',
                     required: ['resume', 'skill'],
                     properties: {
-                        resume: {
-                            type: 'integer',
-                            example: 3,
-                        },
-                        skillId: {
-                            type: 'integer',
-                            example: 7,
-                        },
+                        resume: { type: 'integer', example: 3 },
+                        skillId: { type: 'integer', example: 7 },
                     },
                 },
-
                 Resume: {
                     type: 'object',
                     properties: {
@@ -87,12 +66,10 @@ const options = {
                         salary: { type: 'integer', nullable: true, example: 70000 },
                         education: { type: 'integer', nullable: true, example: 1 },
                         additional_information: { type: 'string', nullable: true, example: 'Готов к переезду' },
-                        // Связанные сущности (опционально, можно убрать или расширить)
                         experiences: { type: 'array', items: { type: 'integer' }, example: [1, 2] },
                         resumeSkills: { type: 'array', items: { type: 'integer' }, example: [5, 7] },
                     },
                 },
-
                 ResumeInput: {
                     type: 'object',
                     required: ['user', 'full_name', 'date_of_birth', 'work_experience'],
@@ -107,20 +84,18 @@ const options = {
                         additional_information: { type: 'string', nullable: true, example: 'Готов к переезду' },
                     },
                 },
-
                 WorkExperience: {
                     type: "object",
                     properties: {
                         id: { type: "integer", example: 1 },
-                        resume: { type: "integer", example: 5 }, // id резюме
+                        resume: { type: "integer", example: 5 },
                         company: { type: "string", example: "ООО Рога и Копыта", nullable: true },
                         role: { type: "string", example: "Инженер-программист", nullable: true },
                         description: { type: "string", example: "Разработка и сопровождение ПО", nullable: true },
-                        duration: { type: "string", example: "2 года" }
+                        duration: { type: "string", example: "2 года" },
                     },
-                    required: ["id", "resume", "duration"]
+                    required: ["id", "resume", "duration"],
                 },
-
                 WorkExperienceInput: {
                     type: "object",
                     required: ["resume", "duration"],
@@ -129,13 +104,18 @@ const options = {
                         company: { type: "string", example: "ООО Рога и Копыта", nullable: true },
                         role: { type: "string", example: "Инженер-программист", nullable: true },
                         description: { type: "string", example: "Разработка и сопровождение ПО", nullable: true },
-                        duration: { type: "string", example: "2 года" }
-                    }
+                        duration: { type: "string", example: "2 года" },
+                    },
                 },
             },
         },
+        security: [
+            {
+                bearerAuth: [],
+            },
+        ],
     },
-    apis: ['./routes/*.ts'], // путь к вашим файлам с аннотациями swagger
+    apis: ['./routes/*.ts'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

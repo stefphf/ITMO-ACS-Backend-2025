@@ -96,13 +96,13 @@
 
 import { Router } from "express";
 import * as controller from "../controllers/applicationController";
-
+import { verifyToken } from "../libs/auth";
 const router = Router();
 
-router.get("/", controller.getAllApplications);
-router.get("/:id", controller.getApplicationById);
-router.post("/", controller.createApplication);
-router.put("/:id", controller.updateApplication);
-router.delete("/:id", controller.deleteApplication);
+router.get("/", verifyToken, controller.getAllApplications);
+router.get("/:id", verifyToken, controller.getApplicationById);
+router.post("/", verifyToken, controller.createApplication);
+router.put("/:id", verifyToken, controller.updateApplication);
+router.delete("/:id", verifyToken, controller.deleteApplication);
 
 export default router;

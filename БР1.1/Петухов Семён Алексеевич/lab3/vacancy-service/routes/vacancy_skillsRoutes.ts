@@ -90,18 +90,18 @@
  */
 import { Router } from "express";
 import * as controller from "../controllers/vacancy_skillsController";
-
+import { verifyToken } from "../libs/auth";
 const router = Router();
 
 
-router.get("/", controller.getAllVacancySkills);
+router.get("/", verifyToken, controller.getAllVacancySkills);
 
-router.get("/:id", controller.getVacancySkillById);
+router.get("/:id", verifyToken, controller.getVacancySkillById);
 
-router.post("/", controller.createVacancySkill);
+router.post("/", verifyToken, controller.createVacancySkill);
 
-router.put("/:id", controller.updateVacancySkill);
+router.put("/:id", verifyToken, controller.updateVacancySkill);
 
-router.delete("/:id", controller.deleteVacancySkill);
+router.delete("/:id", verifyToken, controller.deleteVacancySkill);
 
 export default router;

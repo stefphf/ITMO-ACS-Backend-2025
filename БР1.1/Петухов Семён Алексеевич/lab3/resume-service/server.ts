@@ -6,10 +6,12 @@ import educationRoutes from "./routes/educationRoutes";
 import resume_skillsRoutes from "./routes/resume_skillsRoutes";
 import resumeRoutes from "./routes/resumeRoutes";
 import work_experienceRoutes from "./routes/work_experienceRoutes";
+import dotenv from "dotenv";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+dotenv.config();
 
 app.use('/resume-service/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/resume-service/education", educationRoutes);

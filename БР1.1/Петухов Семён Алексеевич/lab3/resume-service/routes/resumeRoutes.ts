@@ -90,21 +90,20 @@
  */
 import { Router } from "express";
 import * as controller from "../controllers/resumeController";
-
+import { verifyToken } from "../libs/auth";
 const router = Router();
 
-router.get("/", controller.getAllResumes);
+router.get("/", verifyToken, controller.getAllResumes);
 
 
-router.get("/:id", controller.getResumeById);
+router.get("/:id", verifyToken, controller.getResumeById);
 
 
+router.post("/", verifyToken, controller.createResume);
 
-router.post("/", controller.createResume);
-
-router.put("/:id", controller.updateResume);
+router.put("/:id", verifyToken, controller.updateResume);
 
 
-router.delete("/:id", controller.deleteResume);
+router.delete("/:id", verifyToken, controller.deleteResume);
 
 export default router;

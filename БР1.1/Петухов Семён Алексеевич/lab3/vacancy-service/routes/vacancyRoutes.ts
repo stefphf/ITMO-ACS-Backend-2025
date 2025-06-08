@@ -91,17 +91,17 @@
 
 import { Router } from "express";
 import * as controller from "../controllers/vacancyController";
-
+import { verifyToken } from "../libs/auth";
 const router = Router();
 
 router.get("/", controller.getAllVacancies);
 
-router.get("/:id", controller.getVacancyById);
+router.get("/:id", verifyToken, controller.getVacancyById);
 
-router.post("/", controller.createVacancy);
+router.post("/", verifyToken, controller.createVacancy);
 
-router.put("/:id", controller.updateVacancy);
+router.put("/:id", verifyToken, controller.updateVacancy);
 
-router.delete("/:id", controller.deleteVacancy);
+router.delete("/:id", verifyToken, controller.deleteVacancy);
 
 export default router;
