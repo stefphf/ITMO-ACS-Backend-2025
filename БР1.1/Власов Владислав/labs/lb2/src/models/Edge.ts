@@ -9,13 +9,6 @@ export enum EdgeType {
     RaceHindrances = 'raceHindrances',
 }
 
-
-export enum EdgeArea {
-    Attact = "attack",
-    Defence = "defence",
-    Universal = "universal"
-}
-
 @Entity()
 export class Edge
 {
