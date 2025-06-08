@@ -10,7 +10,7 @@ import {CreateExerciseTypeDto, UpdateExerciseTypeDto} from "../dto/exerciseTypeD
 const exerciseTypeRepo = dataSource.getRepository(ExerciseType);
 
 @JsonController('/exercise-type')
-class ExerciseTypeController {
+export class ExerciseTypeController {
     @OpenAPI({})
     @Get('/get-all')
     async getAll(

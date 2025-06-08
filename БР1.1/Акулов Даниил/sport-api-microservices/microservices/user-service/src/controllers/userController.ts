@@ -80,7 +80,7 @@ export class UserController {
         let workoutPlans = []
         try{
             const response = await axios.get(
-                `http://localhost:${SETTINGS.API_WORKOUT_PORT}/api/workout-plan/get-workout-plans/${userId}`)
+                `http://workout-service:${SETTINGS.API_WORKOUT_PORT}/api/workout-plan/get-workout-plans/${userId}`)
             workoutPlans = response.data.workoutPlans;
         } catch(error) {
             console.log("Axios error: ", error)
@@ -100,7 +100,7 @@ export class UserController {
         let savedLink = null
         try{
             const response = await axios.post(
-                `http://localhost:${SETTINGS.API_WORKOUT_PORT}/api/workout-plan/add-workout-plans`,
+                `http://workout-service:${SETTINGS.API_WORKOUT_PORT}/api/workout-plan/add-workout-plans`,
                 body,
                 {headers: {'Authorization': req.headers.authorization}})
             savedLink = response.data.savedLink;
@@ -119,7 +119,7 @@ export class UserController {
     ) {
         if(!req.user) throw ApiError.forbidden()
         await axios.delete(
-            `http://localhost:${SETTINGS.API_WORKOUT_PORT}/api/workout-plan/remove-workout-plans/${req.params.workoutPlanId}`,
+            `http://workout-service:${SETTINGS.API_WORKOUT_PORT}/api/workout-plan/remove-workout-plans/${req.params.workoutPlanId}`,
             {headers: {'Authorization': req.headers.authorization}})
         return res.json({ message: 'Deleted successfully' });
     }

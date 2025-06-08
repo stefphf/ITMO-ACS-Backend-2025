@@ -10,7 +10,7 @@ import {CreateWorkoutSessionDto, UpdateWorkoutSessionDto} from "../dto/workoutSe
 const workoutSessionRepo = dataSource.getRepository(WorkoutSession);
 
 @JsonController('/workout-session')
-class WorkoutSessionController {
+export class WorkoutSessionController {
     @OpenAPI({})
     @Get('/get-all')
     async getAll(
