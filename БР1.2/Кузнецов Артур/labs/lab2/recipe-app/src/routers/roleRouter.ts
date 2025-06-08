@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createRole, getRoles, getRole, updateRole, deleteRole } from '../controllers/roleController';
+import { createRole, deleteRole, getRole, getRoles, updateRole } from '../controllers/roleController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';
 

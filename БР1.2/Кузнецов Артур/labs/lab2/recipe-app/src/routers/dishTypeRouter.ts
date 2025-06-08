@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
     createDishType,
-    getDishTypes,
-    getDishType,
-    updateDishType,
     deleteDishType,
+    getDishType,
+    getDishTypes,
+    updateDishType,
 } from '../controllers/dishTypeController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';

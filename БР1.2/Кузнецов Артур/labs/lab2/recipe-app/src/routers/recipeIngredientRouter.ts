@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
     createRecipeIngredient,
-    getRecipeIngredients,
-    getRecipeIngredient,
-    updateRecipeIngredient,
     deleteRecipeIngredient,
+    getRecipeIngredient,
+    getRecipeIngredients,
+    updateRecipeIngredient,
 } from '../controllers/recipeIngredientController';
 import { authMiddleware } from '../middleware/authMiddleware';
 

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
     createRecipeDifficulty,
+    deleteRecipeDifficulty,
     getRecipeDifficulties,
     getRecipeDifficulty,
     updateRecipeDifficulty,
-    deleteRecipeDifficulty,
 } from '../controllers/recipeDifficultyController';
 import { authMiddleware } from '../middleware/authMiddleware';
 import { adminOnlyMiddleware } from '../middleware/adminOnlyMiddleware';

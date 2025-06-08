@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { AppDataSource } from '../config/database';
 import { SavedRecipe } from '../models/SavedRecipe';
 import { User } from '../models/User';

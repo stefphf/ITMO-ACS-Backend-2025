@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import {
     createRecipeStep,
-    getRecipeSteps,
-    getRecipeStep,
-    updateRecipeStep,
     deleteRecipeStep,
+    getRecipeStep,
+    getRecipeSteps,
+    updateRecipeStep,
 } from '../controllers/recipeStepController';
 import { authMiddleware } from '../middleware/authMiddleware';
 
