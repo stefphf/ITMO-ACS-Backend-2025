@@ -3,8 +3,9 @@ import {Request, RequestHandler, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {WorkoutSession} from "../models/WorkoutSession";
-import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
+import {CreateWorkoutSessionDto, UpdateWorkoutSessionDto} from "../dto/workoutSessionDto";
 
 const workoutSessionRepo = dataSource.getRepository(WorkoutSession);
 
@@ -39,9 +40,9 @@ class WorkoutSessionController {
     async create(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: CreateWorkoutSessionDto
     ) {
-        const { title, description, type, startedAt, endedAt, userId } = req.body;
-        const newSession = workoutSessionRepo.create({ title, description, type, startedAt, endedAt, userId });
+        const newSession = workoutSessionRepo.create(body);
         await workoutSessionRepo.save(newSession);
         return res.json({session: newSession});
     }
@@ -51,16 +52,16 @@ class WorkoutSessionController {
     async update(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: UpdateWorkoutSessionDto
     ) {
         const { id } = req.params;
-        const { title, description, type, startedAt, endedAt, userId } = req.body;
         const session = await workoutSessionRepo.findOne({ where: { id: +id } });
         if (!session) {
             throw ApiError.badRequest(errorMessages.userNotFound)
         }
-        workoutSessionRepo.merge(session, { title, description, type, startedAt, endedAt, userId });
-        await workoutSessionRepo.save(session);
-        return res.json({session});
+        const updated = workoutSessionRepo.merge(session, body);
+        await workoutSessionRepo.save(updated);
+        return res.json({session: updated});
     }
 
     @OpenAPI({})

@@ -3,8 +3,9 @@ import {Request, RequestHandler, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {WorkoutPlan} from "../models/WorkoutPlan";
-import {Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
+import {CreateWorkoutPlanDto, UpdateWorkoutPlanDto} from "../dto/workoutPlanDto";
 
 const workoutPlanRepo = dataSource.getRepository(WorkoutPlan);
 
@@ -38,9 +39,9 @@ class WorkoutPlanController {
     async create(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: CreateWorkoutPlanDto
     ) {
-        const { title, description, content, type, level, duration, videoUrl, userId } = req.body;
-        const newWorkoutPlan = workoutPlanRepo.create({ title, description, content, type, level, duration, videoUrl, userId });
+        const newWorkoutPlan = workoutPlanRepo.create(body);
         await workoutPlanRepo.save(newWorkoutPlan);
         return res.json({workoutPlan: newWorkoutPlan});
     }
@@ -50,13 +51,14 @@ class WorkoutPlanController {
     async update(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: UpdateWorkoutPlanDto
     ) {
         const { id } = req.params;
         const workoutPlan = await workoutPlanRepo.findOne({ where: { id: Number(id) } });
         if (!workoutPlan) {
             throw ApiError.badRequest(errorMessages.userNotFound)
         }
-        const updatedWorkoutPlan = workoutPlanRepo.merge(workoutPlan, req.body);
+        const updatedWorkoutPlan = workoutPlanRepo.merge(workoutPlan, body);
         await workoutPlanRepo.save(updatedWorkoutPlan);
         return res.json({workoutPlan: updatedWorkoutPlan});
     }

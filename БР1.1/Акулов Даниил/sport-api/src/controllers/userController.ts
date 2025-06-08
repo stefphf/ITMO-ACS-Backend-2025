@@ -1,13 +1,13 @@
 import {dataSource} from "../config/dataSource";
 import {User} from "../models/User";
-import {Request, RequestHandler, Response} from "express";
+import {Request, Response} from "express";
 import {ApiError} from "../error/ApiError";
 import {errorMessages} from "../error/errorMessages";
 import {WorkoutPlanUserLink} from "../models/WorkoutPlanUserLink";
-import {Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
+import {Authorized, Body, Delete, Get, JsonController, Post, Put, Req, Res} from "routing-controllers";
 import {OpenAPI} from "routing-controllers-openapi";
-import {RegistrationDto} from "../dto/userDto";
-import bcrypt from "bcrypt";
+import {UpdateUserDto} from "../dto/userDto";
+import {CreateWorkoutPlanUserLinkDto} from "../dto/workoutPlanDto";
 
 const userRepo = dataSource.getRepository(User);
 const workoutPlanUserLinkRepo = dataSource.getRepository(WorkoutPlanUserLink);
@@ -36,25 +36,27 @@ export class UserController {
         return res.json({user});
     }
 
-    @OpenAPI({})
+    @OpenAPI({security: [{ bearerAuth: [] }]})
     @Put('/')
+    @Authorized()
     async update(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: UpdateUserDto,
     ) {
-        const user = await userRepo.findOne({ where: { id: +req.params.id } });
+        if(!req.user) throw ApiError.forbidden()
+        const user = await userRepo.findOne({ where: { id: req.user.id } });
         if (!user) {
             throw ApiError.badRequest(errorMessages.userNotFound)
         }
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-        user.avatarUrl = req.body.avatarUrl || user.avatarUrl;
-        await userRepo.save(user);
-        return res.json({user});
+        const updated = userRepo.merge(user, body);
+        await userRepo.save(updated);
+        return res.json({user: updated});
     }
 
-    @OpenAPI({})
+    @OpenAPI({security: [{ bearerAuth: [] }]})
     @Delete('/')
+    @Authorized()
     async delete(
         @Req() req: Request,
         @Res() res: Response,
@@ -80,32 +82,30 @@ export class UserController {
         return res.json({workoutPlans});
     }
 
-    @OpenAPI({})
+    @OpenAPI({security: [{ bearerAuth: [] }]})
     @Post('/add-workout-plans')
+    @Authorized()
     async addWorkoutPlan(
         @Req() req: Request,
         @Res() res: Response,
+        @Body() body: CreateWorkoutPlanUserLinkDto,
     ) {
         if(!req.user) throw ApiError.forbidden()
-        const { workoutPlanId, planedAt } = req.body;
-        const userId = +req.user.id
-        const link = workoutPlanUserLinkRepo.create({userId, workoutPlanId, planedAt});
-        link.userId = userId;
-        link.workoutPlanId = workoutPlanId;
-        link.planedAt = new Date(planedAt);
+        const link = workoutPlanUserLinkRepo.create({userId: req.user.id, ...body});
         const savedLink = await workoutPlanUserLinkRepo.save(link);
         return res.json({savedLink});
     }
 
-    @OpenAPI({})
+    @OpenAPI({security: [{ bearerAuth: [] }]})
     @Delete('/remove-workout-plans/:workoutPlanId')
+    @Authorized()
     async removeWorkoutPlan(
         @Req() req: Request,
         @Res() res: Response,
     ) {
         if(!req.user) throw ApiError.forbidden()
         const workoutPlanId = parseInt(req.params.workoutPlanId);
-        const workoutPlanUserLink = await workoutPlanUserLinkRepo.find({where: {workoutPlanId, userId: +req.user.id}});
+        const workoutPlanUserLink = await workoutPlanUserLinkRepo.find({where: {workoutPlanId, userId: req.user.id}});
         if (!workoutPlanUserLink) {
             throw ApiError.badRequest(errorMessages.workoutPlanNotFound)
         }
