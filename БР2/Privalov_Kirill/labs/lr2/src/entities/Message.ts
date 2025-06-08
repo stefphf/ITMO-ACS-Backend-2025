@@ -3,36 +3,31 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  CreateDateColumn,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
-import { User } from './User';
-import { Rental } from './Rental';
 import { Chat } from './Chat';
+import { User } from './User';
 
 @Entity()
 export class Message {
   @PrimaryGeneratedColumn({ name: 'message_id' })
   id: number;
 
-  @ManyToOne(() => User, (user) => user.sentMessages)
+  @ManyToOne(() => Chat, (chat) => chat.messages, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'chat_id' })
+  chat: Chat;
+
+  @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'sender_id' })
   sender: User;
 
-  @ManyToOne(() => User, (user) => user.receivedMessages)
+  @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'receiver_id' })
   receiver: User;
 
-  @ManyToOne(() => Rental, (rental) => rental.messages)
-  @JoinColumn({ name: 'rental_id' })
-  rental: Rental;
-
-  @Column()
-  message: string;
-
-  @ManyToOne(() => Chat, (chat) => chat.messages)
-  @JoinColumn({ name: 'chat_id' })
-  chat: Chat;
+  @Column({ name: 'message' })
+  content: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

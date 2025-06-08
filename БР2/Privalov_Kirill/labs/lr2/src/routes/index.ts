@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import userRoutes from './users';
 import propertyRoutes from './properties';
-import rentalRoutes from './rentals';
 import chatRoutes from './chats';
 import favoriteRoutes from './favorites';
 import bookingRequestRoutes from './booking-requests';
@@ -13,7 +12,6 @@ const router = Router();
 
 router.use('/users', userRoutes);
 router.use('/properties', propertyRoutes);
-router.use('/rentals', rentalRoutes);
 router.use('/chats', chatRoutes);
 router.use('/favorites', favoriteRoutes);
 router.use('/booking-requests', bookingRequestRoutes);

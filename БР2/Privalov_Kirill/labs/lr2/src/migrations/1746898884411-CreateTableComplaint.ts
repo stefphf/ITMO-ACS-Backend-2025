@@ -8,7 +8,7 @@ export class CreateTableComplaint1746898884411 implements MigrationInterface {
         user_id INT REFERENCES "user"(user_id),
         property_id INT REFERENCES property(property_id),
         message VARCHAR(255),
-        status ComplaintStatus,
+        status ComplaintStatus DEFAULT 'created',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);

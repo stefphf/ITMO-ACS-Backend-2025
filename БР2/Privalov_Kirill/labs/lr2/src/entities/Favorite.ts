@@ -7,11 +7,11 @@ export class Favorite {
   @PrimaryGeneratedColumn({ name: 'favorite_id' })
   id: number;
 
-  @ManyToOne(() => User, (user) => user.favorites)
+  @ManyToOne(() => User, (user) => user.favorites, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Property, (property) => property.favorites)
+  @ManyToOne(() => Property, (property) => property.favorites, { eager: true })
   @JoinColumn({ name: 'property_id' })
   property: Property;
 }
