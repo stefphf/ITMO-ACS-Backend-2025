@@ -7,7 +7,8 @@ export class RentMapper {
     static toDto(model: Rent): ResponseRentDto {
         const { property, ...rest} = model
         const dto = new ResponseRentDto(rest)
-        dto.propertyId = property.id
+        if (property)
+            dto.propertyId = property.id
         return dto
     }
 

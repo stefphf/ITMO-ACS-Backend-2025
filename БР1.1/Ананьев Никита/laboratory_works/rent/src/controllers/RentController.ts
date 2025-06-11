@@ -1,14 +1,15 @@
 import 'reflect-metadata';
-import { JsonController, Get, Post, Param, Body, 
-        NotFoundError as HttpNotFound, BadRequestError, HttpCode,
-        InternalServerError, UseBefore,
+import { JsonController, Get, Post, Param, Body, ForbiddenError,
+        NotFoundError as HttpNotFound, HttpCode,
+        InternalServerError, UseBefore, CurrentUser,
         Patch} from 'routing-controllers';
 import { OpenAPI } from 'routing-controllers-openapi'
 import { Inject, Service } from 'typedi';
 import { IRentService } from '../services/RentService';
-import { HttpCodes, CheckUserExistance } from './Helpers';
+import { HttpCodes } from './Helpers';
 import { ChangeRentDto, CreateRentDto } from '../dtos/RentDtos';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware'; 
+import { UserDto } from '../dtos/UserDtos';
 
 
 @JsonController('/rents')
@@ -42,8 +43,6 @@ export class RentController {
         }
     })
     async getUserRents(@Param('userId') userId: number) {
-        await CheckUserExistance(userId);
-
         try {
             return await this.service.findByRentingId(userId)
         } catch (error: any) {
@@ -76,8 +75,9 @@ export class RentController {
             },
         }
     })
-    async createRent(@Body() newRent: CreateRentDto) {
-        await CheckUserExistance(newRent.rentingId);
+    async createRent(@CurrentUser() user: UserDto, @Body() newRent: CreateRentDto) {
+        if (typeof(user) != undefined && user.id != newRent.rentingId)
+            throw new ForbiddenError("renting id must be equal to user id")
 
         try {
             return await this.service.startRent(newRent)

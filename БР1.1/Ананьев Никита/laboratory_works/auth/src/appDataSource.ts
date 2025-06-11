@@ -1,9 +1,13 @@
 import { DataSource } from "typeorm"
 import {createDatabase} from "typeorm-extension";
+import { User } from "./models/UserModel";
 
 const dotenv = require('dotenv')
+const path = require('path')
 
-dotenv.config()
+const envFile = path.resolve(__dirname, '../auth.env');
+dotenv.config({path: envFile})
+
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -12,15 +16,23 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: ["src/models/*.ts"],
+    entities: [User],
     synchronize: true,
     logging: true,
 })
 
+
 export async function InitializeDatabase() {
-  await createDatabase({ 
-    options: AppDataSource.options,
-    ifNotExist: true
-  });
-  console.log('Database connection established');
+    try {
+        await createDatabase({ 
+            options: AppDataSource.options,
+            ifNotExist: true
+        });
+        await AppDataSource.initialize();
+        console.log('Database connection established');
+        return AppDataSource;
+    } catch (error) {
+        console.error('Database initialization failed:', error);
+        throw error;
+    }
 }

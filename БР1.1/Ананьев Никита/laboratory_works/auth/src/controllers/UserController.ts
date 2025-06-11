@@ -18,9 +18,8 @@ import { NotFoundError } from '../errors/NotFoundError';
 export class UserController {
     constructor(
         @Inject('IUserService')
-        private service : IUserService
-    ) { }
-
+        private readonly service : IUserService
+    ){}
 
     @Get('/:id')
     @OpenAPI({

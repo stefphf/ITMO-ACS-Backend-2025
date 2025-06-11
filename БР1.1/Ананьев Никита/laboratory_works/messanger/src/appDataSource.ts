@@ -3,8 +3,10 @@ import {createDatabase} from "typeorm-extension";
 import { Message } from "./models/MessageModel";
 
 const dotenv = require('dotenv')
+const path = require('path')
 
-dotenv.config()
+const envFile = path.resolve(__dirname, '../messanger.env');
+dotenv.config({path: envFile})
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -18,6 +20,9 @@ export const AppDataSource = new DataSource({
     logging: true,
 })
 
+async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export async function InitializeDatabase() {
     try {
@@ -25,6 +30,7 @@ export async function InitializeDatabase() {
             options: AppDataSource.options,
             ifNotExist: true
         });
+        await sleep(7000);
         await AppDataSource.initialize();
         console.log('Database connection established');
         return AppDataSource;

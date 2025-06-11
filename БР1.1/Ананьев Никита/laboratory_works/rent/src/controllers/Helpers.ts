@@ -1,5 +1,6 @@
 import axios from "axios";
 import { NotFoundError as HttpNotFound, InternalServerError } from 'routing-controllers';
+import { UserDto } from "../dtos/UserDtos";
 
 export enum HttpCodes {
     OK = 200,
@@ -18,9 +19,10 @@ export enum HttpCodes {
 
 export const UserServiceUrl = process.env.USER_SERVICE_URL ?? 'http://localhost:8001';
 
-export async function CheckUserExistance(id: number): Promise<void> {
+export async function GetCurrentUser(id: number): Promise<UserDto> {
     try {
-        await axios.get(`${UserServiceUrl}/users/${id}`);
+        const response = await axios.get<UserDto>(`${UserServiceUrl}/users/${id}`);
+        return response.data;
     } catch(e: any)  {
         if (e.response && e.response.status == 404)
             throw new HttpNotFound(`No user with id=${id} found`);

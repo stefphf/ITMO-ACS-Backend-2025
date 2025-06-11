@@ -17,7 +17,7 @@ export function useSwagger(app: Express, options: RoutingControllersOptions): Ex
             },
             info: {
                 title: 'Authentification service',
-                description: 'API documentation for authentification service using in property rent system',
+                description: 'API documentation for authentification service of the rent system',
                 version: '1.0.0',
             },
         });

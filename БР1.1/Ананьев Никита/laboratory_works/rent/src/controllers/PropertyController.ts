@@ -1,14 +1,15 @@
 import 'reflect-metadata';
 import { JsonController, Get, Post, Param, Body,
-        NotFoundError as HttpNotFound, HttpCode,  
-        InternalServerError, UseBefore, QueryParams } from 'routing-controllers';
+        NotFoundError as HttpNotFound, HttpCode, CurrentUser, 
+        InternalServerError, QueryParams, ForbiddenError, UseBefore } from 'routing-controllers';
 import { OpenAPI } from 'routing-controllers-openapi'
 import { Inject, Service } from 'typedi';
 import { IPropertyService } from '../services/PropertyService';
-import { HttpCodes, CheckUserExistance } from './Helpers';
+import { HttpCodes } from './Helpers';
 import { NotFoundError } from '../errors/NotFoundError';
 import { CreatePropertyDto, PropertyFilterDto } from '../dtos/PropertyDtos';
 import { AuthMiddleware } from '../middlewares/AuthMiddleware'; 
+import { UserDto } from '../dtos/UserDtos';
 
 
 @JsonController('/properties')
@@ -98,8 +99,9 @@ export class PropertyController {
             },
         }
     })
-    async createProperty(@Body() newProperty: CreatePropertyDto) {
-        await CheckUserExistance(newProperty.ownerId)
+    async createProperty(@CurrentUser() user: UserDto, @Body() newProperty: CreatePropertyDto) {
+        if (typeof(user) != undefined && user.id != newProperty.ownerId)
+            throw new ForbiddenError("owner id must be equal to user id")
 
         try {
             return await this.service.register(newProperty)

@@ -5,8 +5,10 @@ import { Property } from './models/PropertyModel';
 import { PropertyType } from './models/PropertyTypeModel';
 
 const dotenv = require('dotenv')
+const path = require('path')
 
-dotenv.config()
+const envFile = path.resolve(__dirname, '../rent.env');
+dotenv.config({path: envFile})
 
 export const AppDataSource = new DataSource({
     type: "postgres",

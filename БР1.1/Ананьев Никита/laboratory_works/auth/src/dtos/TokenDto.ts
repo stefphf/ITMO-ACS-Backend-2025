@@ -1,7 +1,7 @@
-import { IsJWT } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class TokenDto {
-    @IsJWT()
+    @IsString()
     jwt: string
 
     constructor(token: string){

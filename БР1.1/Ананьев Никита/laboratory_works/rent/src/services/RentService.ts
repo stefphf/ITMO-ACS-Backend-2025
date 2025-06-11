@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import { RentMapper } from "../mappers/RentMapper"
 import { Rent, RentStatus } from "../models/RentModel"
 import { CreateRentDto, ChangeRentDto, ResponseRentDto } from "../dtos/RentDtos"
-import { Repository } from "typeorm"
+import { Repository, FindManyOptions } from "typeorm"
 import { NotFoundError } from "../errors/NotFoundError"
 import { CreationError } from "../errors/CreationError"
 
@@ -49,7 +49,9 @@ export class RentService implements IRentService {
     }
 
     async findByRentingId(id: number): Promise<ResponseRentDto[]> {
-        const results = await this.repository.findBy({ rentingId: id })
+        const options: FindManyOptions<Rent> = {where: {rentingId: id}, relations: ["property"]}
+        const results = await this.repository.find(options)
+        console.log(results)
         return results.map(r => RentMapper.toDto(r))
     }
 }

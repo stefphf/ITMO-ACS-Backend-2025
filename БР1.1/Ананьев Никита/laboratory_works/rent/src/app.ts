@@ -9,16 +9,24 @@ import { Rent } from './models/RentModel';
 import { Property } from './models/PropertyModel';
 import { PropertyController } from './controllers/PropertyController';
 import { RentController } from './controllers/RentController';
+import { UserChecker } from './middlewares/AuthMiddleware';
+import './services/PropertyService';
+import './services/RentService';
+
+async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export class App {
-    private app: express.Express
+    private app!: express.Express
 
-    constructor() {
+    async init () {
         routingUseContainer(Container);
-        this.setupDatabase();
+        await this.setupDatabase();
 
         const options = {
             controllers: [RentController, PropertyController],
+            currentUserChecker: UserChecker,
             validation: true,
             classTransformer: true,
             defaultErrorHandler: true,
@@ -31,13 +39,21 @@ export class App {
 
     private async setupDatabase() {
         try {
+            await sleep(2000);
             const AppDataSource = await InitializeDatabase();
+            await sleep(5000);
 
             const dbName = await AppDataSource.query("SELECT current_database()");
             console.log("1. Current DB:", dbName);
 
             console.log("2. Entities:", 
             AppDataSource.entityMetadatas.map(e => e.name));
+
+            const tables = await AppDataSource.query(`
+                SELECT table_name FROM information_schema.tables 
+                WHERE table_schema = 'public'
+            `);
+            console.log('3. DB Tables:', tables);
             
             Container.set('rent.repository', AppDataSource.getRepository(Rent));
             Container.set('property.repository', AppDataSource.getRepository(Property));

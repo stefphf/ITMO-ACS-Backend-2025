@@ -111,7 +111,7 @@ export class MessageController {
             return await this.service.send(newMessage)
         } catch (error: any) {
             console.log(error)
-            throw new InternalServerError("Can't create rent")
+            throw new InternalServerError("Can't send message")
         }
     }
 }

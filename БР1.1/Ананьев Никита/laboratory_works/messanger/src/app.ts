@@ -7,13 +7,20 @@ import { Container } from 'typedi';
 import { InitializeDatabase } from './appDataSource';
 import { Message } from './models/MessageModel';
 import { MessageController } from './controllers/MessageController';
+import './services/MessageService';
+
+async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export class App {
-    private app: express.Express
-
-    constructor() {
+    private app!: express.Express
+    async init () {
         routingUseContainer(Container);
-        this.setupDatabase();
+        
+        await this.setupDatabase();
+
+        console.log('Has IMessageService:', Container.has('IMessageService'));
 
         const options = {
             controllers: [MessageController],
@@ -29,15 +36,22 @@ export class App {
 
     private async setupDatabase() {
         try {
-            const AppDataSource = await InitializeDatabase();
+            const appDataSource = await InitializeDatabase();
+            await sleep(5000);
 
-            const dbName = await AppDataSource.query("SELECT current_database()");
+            const dbName = await appDataSource.query("SELECT current_database()");
             console.log("1. Current DB:", dbName);
 
             console.log("2. Entities:", 
-            AppDataSource.entityMetadatas.map(e => e.name));
+            appDataSource.entityMetadatas.map(e => e.name));
+
+            const tables = await appDataSource.query(`
+                SELECT table_name FROM information_schema.tables 
+                WHERE table_schema = 'public'
+            `);
+            console.log('3. DB Tables:', tables);
             
-            Container.set('message.repository', AppDataSource.getRepository(Message));
+            Container.set('message.repository', appDataSource.getRepository(Message));
             console.log("Data Source has been initialized!");
         } catch (error) {
             console.error("Error during initialization:", error);

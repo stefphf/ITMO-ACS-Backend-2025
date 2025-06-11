@@ -4,25 +4,24 @@ import { useSwagger } from './swagger';
 import { useContainer as routingUseContainer } from 'routing-controllers';
 import { createExpressServer } from 'routing-controllers';
 import { Container } from 'typedi';
-import { UserController } from './controllers/UserController';
-import { AppDataSource, InitializeDatabase } from './appDataSource';
+import { InitializeDatabase } from './appDataSource';
 import { User } from './models/UserModel';
+import { UserController } from './controllers/UserController';
+import './services/UserService';
 
+
+async function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export class App {
     private app: express.Express
-    constructor() {
+
+    async init () {
         routingUseContainer(Container);
-        InitializeDatabase();
-        AppDataSource
-            .initialize()
-            .then(() => {
-                Container.set('user.repository', AppDataSource.getRepository(User));
-                console.log("Data Source has been initialized!")
-            })
-            .catch((err) => {
-                console.error("Error during Data Source initialization:", err)
-            })
+        await this.setupDatabase();
+ 
+        console.log('Has IUserService:', Container.has('IUserService'));
 
         const options = {
             controllers: [UserController],
@@ -31,9 +30,36 @@ export class App {
             defaultErrorHandler: true,
         };
 
+        
         let exprServ = createExpressServer(options);
         exprServ.use(express.json());
         this.app = useSwagger(exprServ, options);
+    }
+
+    private async setupDatabase() {
+        try {
+            await sleep(2000);
+            const appDataSource = await InitializeDatabase();
+            await sleep(5000);
+
+            const dbName = await appDataSource.query("SELECT current_database()");
+            console.log("1. Current DB:", dbName);
+
+            console.log("2. Entities:", 
+            appDataSource.entityMetadatas.map(e => e.name));
+
+            const tables = await appDataSource.query(`
+                SELECT table_name FROM information_schema.tables 
+                WHERE table_schema = 'public'
+            `);
+            console.log('3. DB Tables:', tables);
+            
+            Container.set('user.repository', appDataSource.getRepository(User));
+            console.log("Data Source has been initialized!");
+        } catch (error) {
+            console.error("Error during initialization:", error);
+            process.exit(1); 
+        }
     }
 
     public listen(port: number) {

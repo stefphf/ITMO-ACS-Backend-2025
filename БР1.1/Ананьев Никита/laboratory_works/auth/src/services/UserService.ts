@@ -17,7 +17,6 @@ export interface IUserService {
     getUser(id: number): Promise<ResponseUserDto>;
 }
 
-
 @Service('IUserService')
 export class UserService implements IUserService {
     constructor(
