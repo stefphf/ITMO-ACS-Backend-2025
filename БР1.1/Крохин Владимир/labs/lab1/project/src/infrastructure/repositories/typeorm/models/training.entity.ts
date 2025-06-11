@@ -7,7 +7,6 @@ import {
   OneToOne,
   JoinColumn,
 } from "typeorm";
-import { User } from "./user.entity";
 import { AthleteEntity } from "./athlete.entity";
 import { WeaponTypeEntity } from "./weapon-type.entity";
 import { TargetEntity } from "./target.entity";
