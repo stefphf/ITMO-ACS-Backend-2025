@@ -18,10 +18,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploy via SSH and Docker Compose
+      - name: Deploy on remote server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@89.169.182.4 << 'EOF'
-            cd homeworks/hw6/deploy
+            cd ~
+            rm -rf ITMO-ACS-Backend-2025
+            git clone -b hw6 https://github.com/mariabakhareva/ITMO-ACS-Backend-2025.git
+            cd ITMO-ACS-Backend-2025/БР2/Maria\ Bakhareva/homeworks/hw6/deploy
             docker compose down || true
             docker compose up -d --build
           EOF
