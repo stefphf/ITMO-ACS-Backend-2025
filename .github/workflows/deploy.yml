@@ -1,4 +1,4 @@
-name: Deploy to Yandex.Cloud VM
+name: Deploy to YandexCloud
 
 on:
   push:
@@ -10,25 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Start ssh-agent and add key
-        uses: webfactory/ssh-agent@v0
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy via SSH
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@89.169.182.4 << 'EOF'
-            mkdir -p ~/backend-deploy
-            cd ~/backend-deploy
-            if [ -d ITMO-ACS-Backend-2025 ]; then
-              cd ITMO-ACS-Backend-2025 && git pull origin hw6
-            else
-              git clone --branch hw6 git@github.com:mariabakhareva/ITMO-ACS-Backend-2025.git
-              cd ITMO-ACS-Backend-2025
-            fi
-            docker-compose down
-            docker-compose up -d --build
+            cd ITMO-ACS-Backend-2025
+            git pull origin hw6
+            docker compose down --remove-orphans
+            docker compose up --build -d
           EOF
