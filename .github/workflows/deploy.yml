@@ -1,10 +1,9 @@
-name: Deploy to YandexCloud
+name: Deploy
 
 on:
   push:
     branches:
       - hw6
-
 
 jobs:
   deploy:
@@ -14,16 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploy via SSH
+      - name: Deploy via SSH and Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@89.169.182.4 << 'EOF'
-            cd ITMO-ACS-Backend-2025
-            git pull origin hw6
-            docker compose down --remove-orphans
-            docker compose up --build -d
+            cd homeworks/hw6/deploy
+            docker compose down || true
+            docker compose up -d --build
           EOF
