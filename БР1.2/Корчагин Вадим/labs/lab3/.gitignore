@@ -7,7 +7,6 @@ temp/
 
 # dependencies
 node_modules/
-pnpm-lock.yaml
 
 # build artifacts
 dist/
@@ -44,7 +43,6 @@ coverage/
 # misc
 *.bak
 *.tmp
-nodemon.json
 
 postman.json
 swagger.json
