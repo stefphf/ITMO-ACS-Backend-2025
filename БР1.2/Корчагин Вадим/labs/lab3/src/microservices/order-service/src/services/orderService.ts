@@ -1,7 +1,12 @@
 import { BaseService } from "../common/baseService";
 import { Order } from "../entities/Order";
 import axios from "axios";
+import { config } from "dotenv";
 
+config();
+
+const host = process.env.AUTH_HOST;
+const port = parseInt(process.env.AUTH_PORT);
 export class OrderService extends BaseService<Order> {
   constructor() {
     super(Order);
@@ -26,7 +31,7 @@ export class OrderService extends BaseService<Order> {
   }
 
   private async getUser(userId: number) {
-    const { data } = await axios.get(`http://auth-service:3000/users/id/${userId}`);
+    const { data } = await axios.get(`http://${host}:${port}/users/id/${userId}`);
     return data;
   }
 }

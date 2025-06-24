@@ -6,9 +6,13 @@ import { useSwagger } from "./swagger";
 import { AuthController } from "./controllers/authController";
 import { UserController } from "./controllers/userController";
 import { RoleController } from "./controllers/roleController";
+import { config } from "dotenv";
+
+config();
 
 const app = express();
-const port = 3000;
+const host = process.env.HOST;
+const port = parseInt(process.env.PORT);
 
 AuthDataSource.initialize().then(() => {
   console.log("Auth DB connected");
@@ -27,6 +31,6 @@ AuthDataSource.initialize().then(() => {
   });
 
   app.listen(port, () => {
-    console.log(`🚀 Auth service running at http://localhost:${port}`);
+    console.log(`🚀 Auth service running at http://${host}:${port}`);
   });
 });

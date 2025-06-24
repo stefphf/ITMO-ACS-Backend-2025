@@ -2,6 +2,13 @@ import { BaseService } from "../common/baseService";
 import { BlogComment } from "../entities/BlogComment";
 import axios from "axios";
 
+import { config } from "dotenv";
+
+config();
+
+const host = process.env.AUTH_HOST;
+const port = parseInt(process.env.AUTH_PORT);
+
 export class BlogCommentService extends BaseService<BlogComment> {
   constructor() {
     super(BlogComment);
@@ -31,7 +38,7 @@ export class BlogCommentService extends BaseService<BlogComment> {
 
   private async fetchUser(userId: number) {
     try {
-      const response = await axios.get(`http://localhost:3000/users/id/${userId}`);
+      const response = await axios.get(`http://${host}:${port}/users/id/${userId}`);
       return response.data;
     } catch {
       return null;
