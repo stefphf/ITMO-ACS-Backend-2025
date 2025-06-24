@@ -30,11 +30,7 @@ import { User } from "../entities/User";
  *         password:
  *           type: string
  *           description: The password of the user
- *         registration_date:
- *           type: string
- *           format: date-time
- *           description: The date of registration
- *         age:
+           age:
  *           type: integer
  *           description: The age of the user
  *         gender:
