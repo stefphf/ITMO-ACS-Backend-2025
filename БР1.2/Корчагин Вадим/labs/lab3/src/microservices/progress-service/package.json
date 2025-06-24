@@ -11,6 +11,7 @@
     "migration:revert": "TS_NODE_PROJECT=tsconfig.json  ts-node --transpile-only node_modules/typeorm/cli.js migration:revert -d src/data-source.ts"
   },
   "dependencies": {
+    "amqplib": "^0.10.8",
     "axios": "^1.9.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
