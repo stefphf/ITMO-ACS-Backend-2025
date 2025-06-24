@@ -1,0 +1,491 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functionscategoriesry Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserAliasType {
+  EMAIL
+  TELEGRAM
+}
+
+enum PaymentMethod {
+  CARD
+  CRYPTO
+}
+
+enum PaymentStatus {
+  CREATED
+  EXPIRED
+  COMPLETED
+  CANCELLED
+}
+
+enum AuctionState {
+  KYC
+  DELIVERY
+  OBTAINING
+  REVIEW
+}
+
+enum AuctionStatus {
+  NOT_STARTED
+  ACTIVE
+  COMPLETED
+}
+
+enum AuctionType {
+  OPENED
+  CLOSED
+}
+
+enum NotificationType {
+  AUCTION_REMINDER
+  AUCTION_STARTED
+  AUCTION_WON
+  AUCTION_LOST
+  AUCTION_STATUS_CHANGE
+  BALANCE_UPDATE
+  REFERRAL_BALANCE_UPDATE
+}
+
+model News {
+  news_id    Int      @id @default(autoincrement())
+  image_url  String?
+  title      String
+  text       String
+  created_at DateTime @default(now())
+
+  @@map("news")
+}
+
+model Faq {
+  faq_id   Int    @id @default(autoincrement())
+  question String
+  answer   String
+
+  @@map("faqs")
+}
+
+model Promocode {
+  promocode_id     Int      @id @default(autoincrement())
+  code             String
+  replinish_bonus  Int
+  activation_count Int?
+  current_count    Int      @default(0)
+  created_at       DateTime @default(now())
+
+  @@map("promocodes")
+}
+
+model IpDetail {
+  ip_address  String   @id
+  created_at  DateTime @default(now())
+  users       User[]
+  city        String
+  countryCode String
+  hosting     Boolean
+  isp         String
+  lat         Float
+  lon         Float
+  mobile      Boolean
+  proxy       Boolean
+  regionName  String
+  status      String
+  zip         String
+
+  @@map("ip_details")
+}
+
+model Bonus {
+  bonus_id   Int      @id @default(autoincrement())
+  amount     Float
+  percent    Int
+  created_at DateTime @default(now())
+
+  @@map("bonuses")
+}
+
+model Settings {
+  settings_id         Int @id @default(autoincrement())
+  cost_per_spin       Int @default(0)
+  first_deposit_bonus Int @default(100)
+
+  @@map("settings")
+}
+
+enum RatoTaskType {
+  INVITE_FRIEND
+  MAKE_BID
+  SHARE_PLATFORM
+}
+
+enum RewardType {
+  RATO
+  FREE_SPIN
+}
+
+model RatoTask {
+  rato_task_id  Int          @id @default(autoincrement())
+  data          String?
+  type          RatoTaskType
+  reward_type   RewardType
+  reward_amount Float
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  user_tasks    UserTask[]
+
+  @@map("rato_tasks")
+}
+
+model UserTask {
+  user_task_id Int       @id @default(autoincrement())
+  user_id      Int
+  task_id      Int
+  completed_at DateTime?
+  user         User      @relation(fields: [user_id], references: [user_id])
+  task         RatoTask  @relation(fields: [task_id], references: [rato_task_id])
+
+  @@unique([user_id, task_id])
+  @@map("user_tasks")
+}
+
+enum SpinItemType {
+  RATO
+  OTHER
+}
+
+model SpinItem {
+  spin_item_id Int           @id @default(autoincrement())
+  title        String?
+  description  String?
+  image_url    String?
+  amount       Int?
+  probability  Float
+  is_active    Boolean       @default(false)
+  type         SpinItemType
+  fortune_wins FortuneWins[]
+
+  @@map("spin_items")
+}
+
+model FortuneWins {
+  fortune_win_id Int      @id @default(autoincrement())
+  spin_item_id   Int
+  user_id        Int
+  created_at     DateTime @default(now())
+  is_received    Boolean  @default(false)
+  user           User     @relation(fields: [user_id], references: [user_id])
+  spin_item      SpinItem @relation(fields: [spin_item_id], references: [spin_item_id])
+
+  @@map("fortune_wins")
+}
+
+model Transaction {
+  transaction_id Int           @id @default(autoincrement())
+  payment_id     String?
+  user_id        Int
+  method         PaymentMethod
+  status         PaymentStatus
+  currency       String?       @db.VarChar(10)
+  amount         Float
+  bonus_amount   Float         @default(0)
+  exchange_rate  Float?
+  rato_amount    Float?
+  created_at     DateTime      @default(now())
+  expired_at     DateTime?
+  user           User          @relation(fields: [user_id], references: [user_id])
+
+  @@map("transactions")
+}
+
+enum BotStrategyType {
+  LOW
+  MIDDLE
+  HIGH
+  BOSS
+}
+
+model BotStrategy {
+  bot_strategy_id              Int             @id @default(autoincrement())
+  type                         BotStrategyType
+  max_participants_on_activate Int?
+  min_participants_on_activate Int?
+  min_bid_amount               Int?
+  max_bid_amount               Int?
+  time_from_start              Int?
+  time_to_end                  Int?
+  bots                         Bot[]
+
+  @@map("bot_strategies")
+}
+
+model UtmMarker {
+  utm_id       Int    @id @default(autoincrement())
+  utm_source   String
+  utm_medium   String
+  utm_campaign String
+  utm_term     String
+  utm_content  String
+  user_id      Int
+  user         User   @relation(fields: [user_id], references: [user_id])
+
+  @@map("utm_markers")
+}
+
+model Bot {
+  bot_id      Int         @id @default(autoincrement())
+  strategy_id Int
+  user_id     Int         @unique
+  is_active   Boolean     @default(true)
+  auction_id  Int?
+  strategy    BotStrategy @relation(fields: [strategy_id], references: [bot_strategy_id])
+  auction     Auction?    @relation(fields: [auction_id], references: [auction_id])
+  user        User        @relation(fields: [user_id], references: [user_id])
+
+  @@map("bots")
+}
+
+model User {
+  user_id              Int                  @id @default(autoincrement())
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
+  rato_balance         Float                @default(0.00)
+  bonus_balance        Float                @default(0.00)
+  user_aliases         UserAlias[]
+  ip_address           String?
+  ip_detail            IpDetail?            @relation(fields: [ip_address], references: [ip_address])
+  first_name           String?
+  last_name            String?
+  free_spin_amount     Int                  @default(0)
+  instagram            String?
+  phone_number         String?
+  username             String?
+  mail_promo           Boolean              @default(true)
+  mail_new_auctions    Boolean              @default(true)
+  mail_rate_result     Boolean              @default(true)
+  mail_confirmed       Boolean              @default(false)
+  language             String?
+  referral_code        String?              @unique
+  email                String?
+  avatar_url           String?
+  auction_participants AuctionParticipant[]
+  transactions         Transaction[]
+  won_auctions         Auction[]            @relation("AuctionWinner")
+  review               Review[]
+  referrals            Referral[]           @relation("UserReferrals")
+  invited_by           Referral?            @relation("UserInvitedBy")
+  notification         Notification[]
+  favorites            Favorite[]
+  address              Address?
+  user_tasks           UserTask[]
+  fortune_wins         FortuneWins[]
+  bot                  Bot?
+  UtmMarker            UtmMarker[]
+  is_bot               Boolean              @default(false)
+
+  @@map("users")
+}
+
+model Referral {
+  id          Int      @id @default(autoincrement())
+  user_id     Int      @unique
+  referred_by Int
+  created_at  DateTime
+  user        User     @relation("UserInvitedBy", fields: [user_id], references: [user_id])
+  referrer    User     @relation("UserReferrals", fields: [referred_by], references: [user_id])
+
+  @@index([referred_by])
+  @@map("referrals")
+}
+
+model Address {
+  address_id   Int     @id @default(autoincrement())
+  user_id      Int     @unique
+  user         User    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  country      String?
+  city         String?
+  street       String?
+  house_number String?
+  zip_code     String?
+
+  @@map("addresses")
+}
+
+model UserAlias {
+  user_alias_id Int           @id @default(autoincrement())
+  user_id       Int
+  alias_type    UserAliasType @default(EMAIL)
+  value         String        @db.VarChar(255)
+  proof         String        @db.VarChar(255)
+
+  user User @relation(fields: [user_id], references: [user_id])
+
+  @@map("user_aliases")
+}
+
+model AuctionBrand {
+  auction_brand_id Int       @id @default(autoincrement())
+  title            String
+  auction          Auction[]
+
+  @@map("auction_brands")
+}
+
+model AuctionCategory {
+  auction_category_id Int       @id @default(autoincrement())
+  title               String
+  auction             Auction[]
+
+  @@map("auction_categories")
+}
+
+model AuctionImage {
+  auction_image_id Int     @id @default(autoincrement())
+  url              String
+  auction_id       Int
+  auction          Auction @relation(fields: [auction_id], references: [auction_id], onDelete: Cascade)
+
+  @@map("auction_images")
+}
+
+model Auction {
+  auction_id           Int                  @id @default(autoincrement())
+  created_at           DateTime             @default(now())
+  updated_at           DateTime             @updatedAt
+  start_time           DateTime
+  start_price          Float
+  end_price            Float
+  reservation_price    Float?
+  rate_step            Float?
+  color                String               @db.VarChar(9)
+  title                String
+  auction_number       String?
+  rate_time            Int?
+  announce_time        DateTime
+  completed_at         DateTime?
+  description          String?
+  discount             String?
+  free_spin_amount     Int                  @default(0)
+  max_participants     Int?
+  end_time             DateTime?
+  state                AuctionState
+  is_draft             Boolean              @default(false)
+  brand_id             Int
+  category_id          Int?
+  winner_id            Int?
+  status               AuctionStatus
+  type                 AuctionType
+  auction_participants AuctionParticipant[]
+  category             AuctionCategory?     @relation(fields: [category_id], references: [auction_category_id])
+  winner               User?                @relation(fields: [winner_id], references: [user_id], name: "AuctionWinner")
+  brand                AuctionBrand         @relation(fields: [brand_id], references: [auction_brand_id])
+  review               Review?
+  currency             Currency             @default(RUB)
+  images               AuctionImage[]
+  favorites            Favorite[]
+  bots                 Bot[]
+
+  @@map("auctions")
+}
+
+model AuctionParticipant {
+  auction_participant_id Int       @id @default(autoincrement())
+  user_id                Int
+  auction_id             Int
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
+  rate                   Float     @default(0)
+  bonus_rate             Float     @default(0)
+  expired_rate           DateTime?
+  user                   User      @relation(fields: [user_id], references: [user_id])
+  auction                Auction   @relation(fields: [auction_id], references: [auction_id])
+
+  @@map("auction_participants")
+}
+
+model Review {
+  review_id  Int      @id @default(autoincrement())
+  auction_id Int      @unique
+  user_id    Int
+  comment    String
+  created_at DateTime @default(now())
+
+  media ReviewMedia[]
+
+  user    User    @relation(fields: [user_id], references: [user_id])
+  auction Auction @relation(fields: [auction_id], references: [auction_id])
+
+  @@map("reviews")
+}
+
+model ReviewMedia {
+  review_media_id Int       @id @default(autoincrement())
+  url             String
+  media_type      MediaType
+  review_id       Int
+  review          Review    @relation(fields: [review_id], references: [review_id], onDelete: Cascade)
+
+  @@map("review_media")
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+}
+
+model Notification {
+  notification_id Int              @id @default(autoincrement())
+  user_id         Int
+  type            NotificationType
+  message         String
+  created_at      DateTime         @default(now())
+  value           Float?
+
+  user User @relation(fields: [user_id], references: [user_id])
+
+  @@map("notifications")
+}
+
+model Favorite {
+  user_id    Int
+  auction_id Int
+  user       User    @relation(fields: [user_id], references: [user_id])
+  auction    Auction @relation(fields: [auction_id], references: [auction_id])
+
+  @@id([user_id, auction_id])
+  @@map("favorites")
+}
+
+enum LocalizationType {
+  BRAND_TITLE
+  CATEGORY_TITLE
+  NEWS_TITLE
+  NEWS_TEXT
+  FAQ_QUESTION
+  FAQ_ANSWER
+}
+
+model Localization {
+  locale_id    Int    @id @default(autoincrement())
+  language     String
+  text         String
+  type         String
+  reference_id Int
+
+  @@unique([locale_id, type])
+  @@map("localizations")
+}
+
+enum Currency {
+  RUB
+  KZT
+}
